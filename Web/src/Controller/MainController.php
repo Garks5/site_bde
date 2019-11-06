@@ -16,4 +16,20 @@ class MainController extends AbstractController
             'controller_name' => 'MainController',
         ]);
     }
+
+    /**
+    * @Route("/connect", name="connect")
+    */
+    public function connect()
+    {
+        return $this->render('main/connect.html.twig');
+    }
+
+    /**
+    * @Route("/inscription", name="inscription")
+    */
+    public function inscription()
+    {
+        return $this->render('main/inscription.html.twig');
+    }
 }
