@@ -1,3 +1,8 @@
 #formulaire{
-    background-color: black;
+    background-color:#434343;
+    max-width: 70%;
+    color:white;
+    border-radius: 1em 1em 1em;
+    margin:0 auto;
+
 }
