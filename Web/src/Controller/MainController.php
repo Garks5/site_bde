@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class MainController extends AbstractController
 {
@@ -28,8 +29,9 @@ class MainController extends AbstractController
     /**
     * @Route("/inscription", name="inscription")
     */
-    public function inscription()
+    public function inscription(Request $request)
     {
+        dump($request);
         return $this->render('main/inscription.html.twig');
     }
 }
