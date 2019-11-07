@@ -6,14 +6,16 @@
     border-radius: 1em 1em 1em;
     margin:0 auto;
 }
-
+h3, p {
+    text-align:center; 
+    padding-top:2%;
+}
 .form-group{
     width:400px;
     max-width: 70%;
     margin:0 auto;
     margin-top:2%;
 }
-
 .btn {
     display:block;
     margin:0 auto;
