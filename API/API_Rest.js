@@ -1,10 +1,10 @@
-var bdd = require('./BDDConnect');
+var bdd = require('./BDDConnect2');
+
 var express = require('express');
 
 // Nous définissons ici les paramètres du serveur.
 var hostname = 'localhost';
 var port = 3000;
-
 // Nous créons un objet de type Express.
 var app = express();
 
@@ -12,10 +12,18 @@ var app = express();
 //C'est à partir de cet objet myRouter, que nous allons implémenter les méthodes.
 var myRouter = express.Router();
 
-myRouter.route('')
+
+myRouter.route('/users/d?')
 // GET
 .get(function(req,res){
-            res.json(bdd.queryGET._results[0]); 
+      var array = []
+      var result = bdd.selectAll()
+      result.then(response => {
+            for(let i = 0; i < response.length; i++){
+                  array.push(response[i].dataValues)
+            }
+            res.json(array)
+      })
 })
 //POST
 .post(function(req,res){
@@ -32,7 +40,6 @@ myRouter.route('')
        
 // Nous demandons à l'application d'utiliser notre routeur
 app.use(myRouter);  
-       
 // Démarrer le serveur 
 app.listen(port, hostname, function(){
       console.log("Mon serveur fonctionne sur http://"+ hostname +":"+port); 
