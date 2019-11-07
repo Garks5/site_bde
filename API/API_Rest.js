@@ -1,23 +1,25 @@
-var bdd = require('./BDDConnect2');
-
-var express = require('express');
+const tables = require('./enumTable');
+const bdd = require('./BDDConnect2')
+const express = require('express');
+const bodyparser = require('body-parser')
 
 // Nous définissons ici les paramètres du serveur.
-var hostname = 'localhost';
-var port = 3000;
+const hostname = 'localhost';
+const port = 3000;
 // Nous créons un objet de type Express.
 var app = express();
-
+app.use(bodyparser.json({extended: true})) 
 //Afin de faciliter le routage (les URL que nous souhaitons prendre en charge dans notre API), nous créons un objet Router.
 //C'est à partir de cet objet myRouter, que nous allons implémenter les méthodes.
 var myRouter = express.Router();
 
 
-myRouter.route('/users/d?')
+myRouter.route(['/users', '/inscriptions'])
 // GET
 .get(function(req,res){
+      console.log(tables.table(req.path.split('/')[1]))
       var array = []
-      var result = bdd.selectAll()
+      var result = bdd.selectAll(tables.table(req.path.split('/')[1]))
       result.then(response => {
             for(let i = 0; i < response.length; i++){
                   array.push(response[i].dataValues)
@@ -27,7 +29,9 @@ myRouter.route('/users/d?')
 })
 //POST
 .post(function(req,res){
-      res.json({message : "Ajoute une nouvelle piscine à la liste", methode : req.method});
+      bdd.add(tables.table(req.path.split('/')[1]), req.body)
+      res.json({"on sen bat les couilles": "pute", methode: req.method})
+
 })
 //PUT
 .put(function(req,res){
@@ -39,8 +43,8 @@ myRouter.route('/users/d?')
       }); 
        
 // Nous demandons à l'application d'utiliser notre routeur
-app.use(myRouter);  
+app.use(myRouter); 
 // Démarrer le serveur 
 app.listen(port, hostname, function(){
-      console.log("Mon serveur fonctionne sur http://"+ hostname +":"+port); 
+      console.log("Mon serveur fonctionne sur http://" + hostname +":"+port); 
 });

@@ -1,5 +1,6 @@
 <?php
 
-$str = "bonjour";
-
-echo (bool)$str;
+for($i = 0; $i <5; $i++){
+    $pass = crypt("bite");
+    echo $pass . '</br>';
+}
