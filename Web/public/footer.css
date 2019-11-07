@@ -9,3 +9,8 @@
 #footer a {
     color: white;
 }
+
+#social-button img{
+    height: 20px;
+    width: 20px;
+}
