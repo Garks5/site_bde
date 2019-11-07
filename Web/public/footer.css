@@ -4,6 +4,7 @@
     color: white;
     margin-bottom: 0px;
     border-top: solid 5px black;
+    padding: 0px;
 }
 
 #footer a {
@@ -13,4 +14,49 @@
 #social-button img{
     height: 20px;
     width: 20px;
+}
+
+#instagram-button{
+    transition-property: background-color;
+    transition-duration: 500ms;
+}
+
+#instagram-button:hover{
+    background-color: rgba(255, 0, 0, 0.678);
+}
+
+#twitter-button{
+    transition-property: background-color;
+    transition-duration: 500ms;
+}
+
+#twitter-button:hover{
+    background-color: rgba(0, 89, 255, 0.733);
+}
+
+#youtube-button{
+    transition-property: background-color;
+    transition-duration: 500ms;
+}
+
+#youtube-button:hover{
+    background-color: rgba(255, 0, 0, 0.815);
+}
+
+#linkedin-button{
+    transition-property: background-color;
+    transition-duration: 500ms;
+}
+
+#linkedin-button:hover{
+    background-color: rgba(0, 89, 255, 0.733);
+}
+
+#viadeo-button{
+    transition-property: background-color;
+    transition-duration: 500ms;
+}
+
+#viadeo-button:hover{
+    background-color: rgb(255, 176, 58);
 }
