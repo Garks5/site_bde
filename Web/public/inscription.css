@@ -1,8 +1,22 @@
 #formulaire{
     background-color:#434343;
-    max-width: 70%;
+    width:600px;
+    max-width: 60%;
     color:white;
     border-radius: 1em 1em 1em;
     margin:0 auto;
+}
 
+.form-group{
+    width:400px;
+    max-width: 70%;
+    margin:0 auto;
+    margin-top:2%;
+}
+
+.btn {
+    display:block;
+    margin:0 auto;
+    margin-bottom:2%;
+    margin-top:1%;
 }
