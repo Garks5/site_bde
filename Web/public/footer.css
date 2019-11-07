@@ -1,0 +1,11 @@
+#footer {
+    margin-top:4%;
+    background-color: #56ABE3;
+    color: white;
+    margin-bottom: 0px;
+    border-top: solid 5px black;
+}
+
+#footer a {
+    color: white;
+}

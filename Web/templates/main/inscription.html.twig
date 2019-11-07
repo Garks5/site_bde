@@ -2,9 +2,79 @@
 
 {% block title %}BDE CESI LILLE{% endblock %}
 
+{% block stylesheets %}
+<link href="inscription.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
 {% block body %}
 
 <div class="example-wrapper">
     <h1>Hello! Voici la page d'inscription</h1>
+</div>
+<div id="formulaire">
+    <form>
+        <fieldset>
+
+            <div class="form-group">
+                <label for="name">Nom</label>
+                <input type="text" class="form-control" id="inscip_name"  placeholder="Entrer votre nom">
+            </div>
+
+            <div class="form-group">
+                <label for="firstname">Prénom</label>
+                <input type="text" class="form-control" id="inscip_firstname"  placeholder="Entrer votre prénom">
+            </div>
+                 
+            <div class="form-group">
+                <label for="exampleInputEmail1">Adresse Email</label>
+                <input type="email" class="form-control" id="exampleInputEmail1"  placeholder="Entrer votre email">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <small id="password" class="form-text text-muted">6 caractères dont au moins 1 majuscule et un chiffre</small>
+            </div>
+
+            <div class="form-group">
+                <label>Campus Cesi</label>
+                <select class="form-control" id="campus">
+                    <option>Lille</option>
+                    <option>Arras</option>
+                    <option>Rouen</option>
+                    <option>Reims</option>
+                    <option>Caen</option>
+                    <option>Brest</option>
+                    <option>Nanterre</option>
+                    <option>Nancy</option>
+                    <option>Strasbourg</option>
+                    <option>Le Mans</option>
+                    <option>Orléans</option>
+                    <option>Saint-Nazaire</option>
+                    <option>Nantes</option>
+                    <option>Dijon</option>
+                    <option>Chateauroux</option>
+                    <option>La Rochelle</option>
+                    <option>Angouleme</option>
+                    <option>Bordeaux</option>
+                    <option>Lyon</option>
+                    <option>Grenoble</option>
+                    <option>Pau</option>
+                    <option>Toulouse</option>
+                    <option>Montpellier</option>
+                    <option>Aix-en-provence</option>
+                    <option>Nice</option>
+                </select>
+            </div>
+                 
+            <div class="form-group">
+                <label for="exampleInputFile">File input</label>
+                <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+                <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Valider</button>
+        </fieldset>
+    </form>
 </div>
 {% endblock %}
