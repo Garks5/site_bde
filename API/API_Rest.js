@@ -14,7 +14,7 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 
-myRouter.route(['/users', '/inscriptions'])
+myRouter.route(['/users', '/inscriptions', '/roles'])
       // GET
       .get(function (req, res) {
             console.log(tables.table(req.path.split('/')[1]))
@@ -30,7 +30,7 @@ myRouter.route(['/users', '/inscriptions'])
       //POST
       .post(function (req, res) {
             bdd.add(tables.table(req.path.split('/')[1]), req.body)
-            res.json({ "on sen bat les couilles": "pute", methode: req.method })
+            res.json({ methode: req.method })
       })
       //PUT
       .put(function (req, res) {
