@@ -24,7 +24,7 @@ class Inscription
     private $date;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Activity", inversedBy="inscriptions")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Activity", inversedBy="inscriptions")
      */
     private $IdActivity;
 
