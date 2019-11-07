@@ -6,6 +6,10 @@
     border-radius: 1em 1em 1em;
     margin:0 auto;
 }
+h3{
+    text-align:center; 
+    padding-top:2%;
+}
 
 .form-group{
     width:400px;
