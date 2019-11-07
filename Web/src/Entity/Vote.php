@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,47 +17,40 @@ class Vote
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="vote")
+     * @ORM\Column(type="datetime")
      */
-    private $idUser;
+    private $date;
 
-    public function __construct()
-    {
-        $this->idUser = new ArrayCollection();
-    }
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="votes")
+     */
+    private $IdUser;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getIdUser(): Collection
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->idUser;
+        return $this->date;
     }
 
-    public function addIdUser(User $idUser): self
+    public function setDate(\DateTimeInterface $date): self
     {
-        if (!$this->idUser->contains($idUser)) {
-            $this->idUser[] = $idUser;
-            $idUser->setVote($this);
-        }
+        $this->date = $date;
 
         return $this;
     }
 
-    public function removeIdUser(User $idUser): self
+    public function getIdUser(): ?User
     {
-        if ($this->idUser->contains($idUser)) {
-            $this->idUser->removeElement($idUser);
-            // set the owning side to null (unless already changed)
-            if ($idUser->getVote() === $this) {
-                $idUser->setVote(null);
-            }
-        }
+        return $this->IdUser;
+    }
+
+    public function setIdUser(?User $IdUser): self
+    {
+        $this->IdUser = $IdUser;
 
         return $this;
     }

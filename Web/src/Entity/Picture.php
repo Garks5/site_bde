@@ -17,24 +17,24 @@ class Picture
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
      */
     private $url;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Description;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Activity", inversedBy="pictures")
-     */
-    private $IdActivite;
+    private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="pictures")
      */
     private $IdUser;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Activity", inversedBy="pictures")
+     */
+    private $IdActivity;
 
     public function getId(): ?int
     {
@@ -55,24 +55,12 @@ class Picture
 
     public function getDescription(): ?string
     {
-        return $this->Description;
+        return $this->description;
     }
 
-    public function setDescription(string $Description): self
+    public function setDescription(string $description): self
     {
-        $this->Description = $Description;
-
-        return $this;
-    }
-
-    public function getIdActivite(): ?Activity
-    {
-        return $this->IdActivite;
-    }
-
-    public function setIdActivite(?Activity $IdActivite): self
-    {
-        $this->IdActivite = $IdActivite;
+        $this->description = $description;
 
         return $this;
     }
@@ -85,6 +73,18 @@ class Picture
     public function setIdUser(?User $IdUser): self
     {
         $this->IdUser = $IdUser;
+
+        return $this;
+    }
+
+    public function getIdActivity(): ?Activity
+    {
+        return $this->IdActivity;
+    }
+
+    public function setIdActivity(?Activity $IdActivity): self
+    {
+        $this->IdActivity = $IdActivity;
 
         return $this;
     }

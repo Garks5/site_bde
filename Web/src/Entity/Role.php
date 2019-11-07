@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,9 +24,14 @@ class Role
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="IdRole", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="IdRole")
      */
-    private $user;
+    private $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -43,18 +50,32 @@ class Role
         return $this;
     }
 
-    public function getUser(): ?User
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
     {
-        return $this->user;
+        return $this->users;
     }
 
-    public function setUser(User $user): self
+    public function addUser(User $user): self
     {
-        $this->user = $user;
-
-        // set the owning side of the relation if necessary
-        if ($user->getIdRole() !== $this) {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
             $user->setIdRole($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getIdRole() === $this) {
+                $user->setIdRole(null);
+            }
         }
 
         return $this;

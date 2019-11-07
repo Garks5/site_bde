@@ -44,7 +44,7 @@ class Activity
     private $inscriptions;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="IdActivite")
+     * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="IdActivity")
      */
     private $pictures;
 
@@ -147,7 +147,7 @@ class Activity
     {
         if (!$this->pictures->contains($picture)) {
             $this->pictures[] = $picture;
-            $picture->setIdActivite($this);
+            $picture->setIdActivity($this);
         }
 
         return $this;
@@ -158,8 +158,8 @@ class Activity
         if ($this->pictures->contains($picture)) {
             $this->pictures->removeElement($picture);
             // set the owning side to null (unless already changed)
-            if ($picture->getIdActivite() === $this) {
-                $picture->setIdActivite(null);
+            if ($picture->getIdActivity() === $this) {
+                $picture->setIdActivity(null);
             }
         }
 

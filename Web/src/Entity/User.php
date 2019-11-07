@@ -44,20 +44,19 @@ class User
     private $localisation;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\role", inversedBy="user", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Role", inversedBy="users")
      */
     private $IdRole;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Commentary", mappedBy="IdUser", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Commentary", mappedBy="IdUser")
      */
     private $commentaries;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vote", inversedBy="idUser")
+     * @ORM\OneToMany(targetEntity="App\Entity\Vote", mappedBy="IdUser")
      */
-    private $vote;
+    private $votes;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Activity", mappedBy="IdUser")
@@ -69,17 +68,12 @@ class User
      */
     private $pictures;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="IdUser")
-     */
-    private $orders;
-
     public function __construct()
     {
         $this->commentaries = new ArrayCollection();
+        $this->votes = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->pictures = new ArrayCollection();
-        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,12 +141,12 @@ class User
         return $this;
     }
 
-    public function getIdRole(): ?role
+    public function getIdRole(): ?Role
     {
         return $this->IdRole;
     }
 
-    public function setIdRole(role $IdRole): self
+    public function setIdRole(?Role $IdRole): self
     {
         $this->IdRole = $IdRole;
 
@@ -190,14 +184,33 @@ class User
         return $this;
     }
 
-    public function getVote(): ?Vote
+    /**
+     * @return Collection|Vote[]
+     */
+    public function getVotes(): Collection
     {
-        return $this->vote;
+        return $this->votes;
     }
 
-    public function setVote(?Vote $vote): self
+    public function addVote(Vote $vote): self
     {
-        $this->vote = $vote;
+        if (!$this->votes->contains($vote)) {
+            $this->votes[] = $vote;
+            $vote->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Vote $vote): self
+    {
+        if ($this->votes->contains($vote)) {
+            $this->votes->removeElement($vote);
+            // set the owning side to null (unless already changed)
+            if ($vote->getIdUser() === $this) {
+                $vote->setIdUser(null);
+            }
+        }
 
         return $this;
     }
@@ -258,37 +271,6 @@ class User
             // set the owning side to null (unless already changed)
             if ($picture->getIdUser() === $this) {
                 $picture->setIdUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Order[]
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function addOrder(Order $order): self
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders[] = $order;
-            $order->setIdUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): self
-    {
-        if ($this->orders->contains($order)) {
-            $this->orders->removeElement($order);
-            // set the owning side to null (unless already changed)
-            if ($order->getIdUser() === $this) {
-                $order->setIdUser(null);
             }
         }
 

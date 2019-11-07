@@ -19,6 +19,11 @@ class Inscription
     private $id;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date;
+
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Activity", inversedBy="inscriptions")
      */
     private $IdActivity;
@@ -31,6 +36,18 @@ class Inscription
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
     }
 
     /**

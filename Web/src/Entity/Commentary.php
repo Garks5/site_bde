@@ -19,11 +19,10 @@ class Commentary
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $text;
+    private $commentary;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="commentaries")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $IdUser;
 
@@ -32,14 +31,14 @@ class Commentary
         return $this->id;
     }
 
-    public function getText(): ?string
+    public function getCommentary(): ?string
     {
-        return $this->text;
+        return $this->commentary;
     }
 
-    public function setText(string $text): self
+    public function setCommentary(string $commentary): self
     {
-        $this->text = $text;
+        $this->commentary = $commentary;
 
         return $this;
     }
