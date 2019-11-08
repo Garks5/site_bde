@@ -15,9 +15,14 @@ class UsersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, array('label'=> 'Nom', 'required' => true))
-            ->add('firstname', TextType::class)
-            ->add('mail', EmailType::class)
+            ->add('name', TextType::class, array('label'=> 'Nom', 'required' => true, 'attr' => array('class'=>'form-group')))
+            ->add('firstname', TextType::class, array('label'=> 'Prénom', 'required' => true, 'attr' => array('class'=>'form-group')))
+            ->add('mail', EmailType::class, array('label'=> 'Adresse Email', 'required' => true, 'attr' => array('class'=>'form-group')))
+            ->add('mdp', TextType::class, array('label'=> 'Mot de passe', 'required' => true, 'attr' => array('class'=>'form-group')))
+            ->add('localisation', ChoiceType::class, array('label'=> 'Centre Cesi', 'required' => true,'choices' => ['Lille' => 'Lille', 'Arras' => 'Arras', 'Rouen' => 'Rouen', 'Reims' => 'Reims', 'Caen' => 'Caen'
+            , 'Brest' => 'Brest', 'Nanterre' => 'Nanterre', 'Nancy' => 'Nancy', 'Strasbourg' => 'Strasbourg'
+            , 'Le Mans' => 'Le Mans', 'Orléans' => 'Orléans', 'St-Nazaire' => 'St-Nazaire', 'Nantes' => 'Nantes', 'Dijon' => 'Dijon'
+            , 'Chateauroux' => 'Chateauroux'], 'attr' => array('class'=>'form-group')))
         ;
     }
 }

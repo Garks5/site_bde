@@ -7,9 +7,34 @@
 {% endblock %}
 
 {% block body %}
-{{ form(form) }}
-<!--
+
+
 <div id="formulaire">
+    <h3>Créer un compte</h3>
+    {{ form_start(form) }}
+    <div class="form-group">
+    {{ form_label(form.name)}} <br>
+    {{ form_widget(form.name)}}<br>
+    </div>
+    <div class="form-group">
+    {{ form_label(form.firstname)}}<br>
+    {{ form_widget(form.firstname)}}<br>
+    </div>
+    <div class="form-group">
+    {{ form_label(form.mail)}}<br>
+    {{ form_widget(form.mail)}}<br>
+    </div>
+    <div class="form-group">
+    {{ form_label(form.mdp)}}<br>
+    {{ form_widget(form.mdp)}}<br>
+    </div>
+    <div class="form-group">
+    {{ form_label(form.localisation)}}<br>
+    {{ form_widget(form.localisation)}}
+    </div>
+    {{ form_end(form) }}
+</div>
+    <!--
     <form action="" method="post">
         <h3>Créer un compte</h3>
         <fieldset>
