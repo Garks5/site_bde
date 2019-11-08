@@ -53,9 +53,21 @@ class Users
      */
     private $commentaries;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Votes", mappedBy="Users")
+     */
+    private $votes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Activities", mappedBy="Users")
+     */
+    private $activities;
+
     public function __construct()
     {
         $this->commentaries = new ArrayCollection();
+        $this->votes = new ArrayCollection();
+        $this->activities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,6 +172,68 @@ class Users
             // set the owning side to null (unless already changed)
             if ($commentary->getUsers() === $this) {
                 $commentary->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Votes[]
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(Votes $vote): self
+    {
+        if (!$this->votes->contains($vote)) {
+            $this->votes[] = $vote;
+            $vote->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Votes $vote): self
+    {
+        if ($this->votes->contains($vote)) {
+            $this->votes->removeElement($vote);
+            // set the owning side to null (unless already changed)
+            if ($vote->getUsers() === $this) {
+                $vote->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Activities[]
+     */
+    public function getActivities(): Collection
+    {
+        return $this->activities;
+    }
+
+    public function addActivity(Activities $activity): self
+    {
+        if (!$this->activities->contains($activity)) {
+            $this->activities[] = $activity;
+            $activity->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActivity(Activities $activity): self
+    {
+        if ($this->activities->contains($activity)) {
+            $this->activities->removeElement($activity);
+            // set the owning side to null (unless already changed)
+            if ($activity->getUsers() === $this) {
+                $activity->setUsers(null);
             }
         }
 
