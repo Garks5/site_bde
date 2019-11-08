@@ -26,7 +26,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+'])
                   if (!uri[2]) {
                         for (let i = 0; i < response.length; i++) {
                               array.push(response[i].dataValues)
-                              console.log("bite")
+                              console.log("grossebite")
                         }
                         console.log(array)
                         res.json(array)
