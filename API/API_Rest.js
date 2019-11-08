@@ -20,13 +20,29 @@ var myRouter = express.Router();
 myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique'])
       // GET
       .get(function (req, res) {
-            if (req.path.split('/')[1] == "boutique") {
+            var uri = req.path.split('/')
+            var table = uri[1]
+            var id = uri[2]
+            if (table == "boutique") {
                   bdd.select(tables.table(req.path.split('/')[1]))
                         .then(response => {
                               console.log(response)
                               res.send("tamere")
                         })
             } else {
+                  if (req.body.token) {
+                        if (!id) {
+                              for (let i = 0; i < response.lenght; i++) {
+                                    array.push(response[i].dataValues)
+                              }
+                              console.log(array)
+                              res.json(array)
+                        } else {
+                              res.json(response.dataValues)
+                        }
+
+                  }
+
 
             }
       })
