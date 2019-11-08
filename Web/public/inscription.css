@@ -12,14 +12,20 @@ h3, p {
     padding-top:2%;
 }
 .form-group{
-    width:400px;
-    max-width: 70%;
     margin:0 auto;
+    width:600px;
+    max-width: 80%;
+   display:block;
     margin-top:2%;
+    
 }
 .btn {
     display:block;
     margin:0 auto;
     margin-bottom:2%;
     margin-top:1%;
+    background-color:#56ABE3;
+}
+label, #password{
+    margin-left:10%; 
 }

@@ -21,6 +21,11 @@ class Inscriptions
      */
     private $Activities;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="inscriptions")
+     */
+    private $Users;
+
     public function getId(): ?int
     {
         return $this->id;

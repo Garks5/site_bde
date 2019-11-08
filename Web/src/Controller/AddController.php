@@ -34,6 +34,11 @@ class AddController extends AbstractController
             if($form->isSubmitted() && $form->isValid()) {
                 $users = new Users;
                 $data = $form->getData();
+                $dname=$data['name'];
+                $dfirstname=$data['firstname'];
+                $dmail=$data['mail'];
+                $dmdp=$data['mdp'];
+                $dlocalisation=$data['localisation'];
                 echo ($data['name']);
                 $manager->flush();
                 return $this->redirectToRoute('connect');
