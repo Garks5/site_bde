@@ -19,10 +19,7 @@ class AddController extends AbstractController
     public function new()
     {
         // creates a task object and initializes some data for this example
-        //$users = new Users();
-        //$users->setUsers('Write a blog post');
-        //$task->setDueDate(new \DateTime('tomorrow'));
-      
+  
 
         $form = $this->createForm(UsersType::class);
         return $this->render('main/inscription.html.twig', [

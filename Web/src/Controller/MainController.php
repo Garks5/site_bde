@@ -29,7 +29,7 @@ class MainController extends AbstractController
     /**
     * @Route("/inscription", name="inscription")
     */
-    public function inscription(Request $request)
+    public function inscriptions(Request $request)
     {
         dump($request);
         return $this->render('main/inscription.html.twig');

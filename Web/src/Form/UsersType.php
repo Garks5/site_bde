@@ -25,6 +25,7 @@ class UsersType extends AbstractType
             , 'Chateauroux' => 'Chateauroux', 'La Rochelle' => 'La Rochelle', 'Angouleme' => 'Angouleme', 'Bordeaux' => 'Bordeaux'
             , 'Lyon' => 'Lyon', 'Grenoble' => 'Grenoble', 'Pau' => 'Pau', 'Toulouse' => 'Toulouse', 'Montpellier' => 'Monpellier'
             , 'Nice' => 'Nice', 'Aix-en-provence' => 'Aix-en-provence'], 'attr' => array('class'=>'form-group')))
+            ->add('submit', SubmitType::class, array('label'=>"S'inscrire"))
         ;
     }
 }
