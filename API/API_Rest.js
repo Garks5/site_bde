@@ -1,5 +1,5 @@
 const tables = require('./enumTable');
-const bdd = require('./BDDConnect2')
+const bdd = require('./BDDConnect')
 const express = require('express');
 const bodyparser = require('body-parser')
 
@@ -27,17 +27,15 @@ myRouter.route(['/users', '/inscriptions', '/roles'])
                   console.log(array)
                   res.json(array)
             })
-            res.json({ message: "Suppression d'une piscine dans la liste", methode: req.method });
       })
       //POST
       .post(function (req, res) {
-            console.log(req.query.connect)
             if (req.query.connect == "true") {
                   bdd.connect(tables.table(req.path.split('/')[1]), req.body)
                         .then(function (response) {
                               if (response) {
                                     console.log('c bon ')
-                                    console.log(res.json({ connect: true, methode: req.method}));
+                                    res.json({ connect: true, methode: req.method});
                               } else {
                                     res.json({ connect: false})
                               }

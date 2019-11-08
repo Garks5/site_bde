@@ -1,4 +1,4 @@
-const tables = require('./BDDConnect2')
+const tables = require('./BDDConnect')
 module.exports.table = function (table) {
     switch (table) {
         case "users":
