@@ -7,5 +7,7 @@ module.exports.table = function (table) {
             return tables.Inscription
         case "roles":
             return tables.Role
+        case "boutique":
+            return tables.Products
     }
 }

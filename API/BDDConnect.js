@@ -68,6 +68,36 @@ module.exports.Role = sequelize.define('roles', {
     timestamps: false
 })
 
+module.exports.Products = sequelize.define('products', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    types_id: {
+        type: Sequelize.STRING,
+        foreignKey: true
+    },
+    name: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    price: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+    },
+    description: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    nb_vendu: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    }
+}, {
+    timestamps: false
+})
+
 sequelize.authenticate()
     .then(() => {
         console.log('Connection has been established successfully   ')
@@ -80,8 +110,8 @@ module.exports.select = function (table, id) {
     if (!id) {
         return table.findAll({
         })
-    }else{
-        return table.findOne({ where : { id: id }})
+    } else {
+        return table.findOne({ where: { id: id } })
     }
 
 }
