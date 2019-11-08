@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
  */
-class User
+class Users
 {
     /**
      * @ORM\Id()
@@ -44,42 +44,30 @@ class User
     private $localisation;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Role", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Roles", inversedBy="users")
      */
-    private $IdRole;
+    private $Roles;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Commentary", mappedBy="IdUser")
+     * @ORM\OneToMany(targetEntity="App\Entity\Commentaries", mappedBy="Users")
      */
     private $commentaries;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vote", mappedBy="IdUser")
+     * @ORM\OneToMany(targetEntity="App\Entity\Votes", mappedBy="Users")
      */
     private $votes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Activity", mappedBy="IdUser")
+     * @ORM\OneToMany(targetEntity="App\Entity\Activities", mappedBy="Users")
      */
     private $activities;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="IdUser")
-     */
-    private $pictures;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="IdUser")
-     */
-    private $orders;
 
     public function __construct()
     {
         $this->commentaries = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->activities = new ArrayCollection();
-        $this->pictures = new ArrayCollection();
-        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -135,55 +123,55 @@ class User
         return $this;
     }
 
-    public function getLocalisation(): ?string
+    public function getLacalisation(): ?string
     {
-        return $this->localisation;
+        return $this->lacalisation;
     }
 
-    public function setLocalisation(string $localisation): self
+    public function setLacalisation(string $lacalisation): self
     {
-        $this->localisation = $localisation;
+        $this->lacalisation = $lacalisation;
 
         return $this;
     }
 
-    public function getIdRole(): ?Role
+    public function getRoles(): ?Roles
     {
-        return $this->IdRole;
+        return $this->Roles;
     }
 
-    public function setIdRole(?Role $IdRole): self
+    public function setRoles(?Roles $Roles): self
     {
-        $this->IdRole = $IdRole;
+        $this->Roles = $Roles;
 
         return $this;
     }
 
     /**
-     * @return Collection|Commentary[]
+     * @return Collection|Commentaries[]
      */
     public function getCommentaries(): Collection
     {
         return $this->commentaries;
     }
 
-    public function addCommentary(Commentary $commentary): self
+    public function addCommentary(Commentaries $commentary): self
     {
         if (!$this->commentaries->contains($commentary)) {
             $this->commentaries[] = $commentary;
-            $commentary->setIdUser($this);
+            $commentary->setUsers($this);
         }
 
         return $this;
     }
 
-    public function removeCommentary(Commentary $commentary): self
+    public function removeCommentary(Commentaries $commentary): self
     {
         if ($this->commentaries->contains($commentary)) {
             $this->commentaries->removeElement($commentary);
             // set the owning side to null (unless already changed)
-            if ($commentary->getIdUser() === $this) {
-                $commentary->setIdUser(null);
+            if ($commentary->getUsers() === $this) {
+                $commentary->setUsers(null);
             }
         }
 
@@ -191,30 +179,30 @@ class User
     }
 
     /**
-     * @return Collection|Vote[]
+     * @return Collection|Votes[]
      */
     public function getVotes(): Collection
     {
         return $this->votes;
     }
 
-    public function addVote(Vote $vote): self
+    public function addVote(Votes $vote): self
     {
         if (!$this->votes->contains($vote)) {
             $this->votes[] = $vote;
-            $vote->setIdUser($this);
+            $vote->setUsers($this);
         }
 
         return $this;
     }
 
-    public function removeVote(Vote $vote): self
+    public function removeVote(Votes $vote): self
     {
         if ($this->votes->contains($vote)) {
             $this->votes->removeElement($vote);
             // set the owning side to null (unless already changed)
-            if ($vote->getIdUser() === $this) {
-                $vote->setIdUser(null);
+            if ($vote->getUsers() === $this) {
+                $vote->setUsers(null);
             }
         }
 
@@ -222,92 +210,30 @@ class User
     }
 
     /**
-     * @return Collection|Activity[]
+     * @return Collection|Activities[]
      */
     public function getActivities(): Collection
     {
         return $this->activities;
     }
 
-    public function addActivity(Activity $activity): self
+    public function addActivity(Activities $activity): self
     {
         if (!$this->activities->contains($activity)) {
             $this->activities[] = $activity;
-            $activity->setIdUser($this);
+            $activity->setUsers($this);
         }
 
         return $this;
     }
 
-    public function removeActivity(Activity $activity): self
+    public function removeActivity(Activities $activity): self
     {
         if ($this->activities->contains($activity)) {
             $this->activities->removeElement($activity);
             // set the owning side to null (unless already changed)
-            if ($activity->getIdUser() === $this) {
-                $activity->setIdUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Picture[]
-     */
-    public function getPictures(): Collection
-    {
-        return $this->pictures;
-    }
-
-    public function addPicture(Picture $picture): self
-    {
-        if (!$this->pictures->contains($picture)) {
-            $this->pictures[] = $picture;
-            $picture->setIdUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePicture(Picture $picture): self
-    {
-        if ($this->pictures->contains($picture)) {
-            $this->pictures->removeElement($picture);
-            // set the owning side to null (unless already changed)
-            if ($picture->getIdUser() === $this) {
-                $picture->setIdUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Order[]
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function addOrder(Order $order): self
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders[] = $order;
-            $order->setIdUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): self
-    {
-        if ($this->orders->contains($order)) {
-            $this->orders->removeElement($order);
-            // set the owning side to null (unless already changed)
-            if ($order->getIdUser() === $this) {
-                $order->setIdUser(null);
+            if ($activity->getUsers() === $this) {
+                $activity->setUsers(null);
             }
         }
 

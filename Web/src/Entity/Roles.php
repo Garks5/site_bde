@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TypeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\RolesRepository")
  */
-class Type
+class Roles
 {
     /**
      * @ORM\Id()
@@ -24,13 +24,13 @@ class Type
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Products", mappedBy="IdType")
+     * @ORM\OneToMany(targetEntity="App\Entity\Users", mappedBy="Roles")
      */
-    private $products;
+    private $users;
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,30 +51,30 @@ class Type
     }
 
     /**
-     * @return Collection|Products[]
+     * @return Collection|Users[]
      */
-    public function getProducts(): Collection
+    public function getUsers(): Collection
     {
-        return $this->products;
+        return $this->users;
     }
 
-    public function addProduct(Products $product): self
+    public function addUser(Users $user): self
     {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->setIdType($this);
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setRoles($this);
         }
 
         return $this;
     }
 
-    public function removeProduct(Products $product): self
+    public function removeUser(Users $user): self
     {
-        if ($this->products->contains($product)) {
-            $this->products->removeElement($product);
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
             // set the owning side to null (unless already changed)
-            if ($product->getIdType() === $this) {
-                $product->setIdType(null);
+            if ($user->getRoles() === $this) {
+                $user->setRoles(null);
             }
         }
 

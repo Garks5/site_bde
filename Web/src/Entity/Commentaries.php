@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CommentaryRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CommentariesRepository")
  */
-class Commentary
+class Commentaries
 {
     /**
      * @ORM\Id()
@@ -22,9 +22,9 @@ class Commentary
     private $commentary;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="commentaries")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="commentaries")
      */
-    private $IdUser;
+    private $Users;
 
     public function getId(): ?int
     {
@@ -43,14 +43,14 @@ class Commentary
         return $this;
     }
 
-    public function getIdUser(): ?User
+    public function getUsers(): ?Users
     {
-        return $this->IdUser;
+        return $this->Users;
     }
 
-    public function setIdUser(?User $IdUser): self
+    public function setUsers(?Users $Users): self
     {
-        $this->IdUser = $IdUser;
+        $this->Users = $Users;
 
         return $this;
     }
