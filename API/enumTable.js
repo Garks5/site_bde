@@ -1,4 +1,4 @@
-const tables = require('./BDDConnect')
+const tables = require('./tables')
 
 
 module.exports.table = function (table) {
@@ -6,19 +6,7 @@ module.exports.table = function (table) {
         case "users":
             return tables.User
         case "inscriptions":
-            return Inscription = tables.sequelize.define('inscriptions', {
-                id: {
-                    type: Sequelize.INTEGER,
-                    primaryKey: true,
-                    autoIncrement: true
-                },
-                date: {
-                    type: Sequelize.DATE,
-                }
-            }, {
-                timestamps: false
-            })
-
+            return tables.Inscription
         case "roles":
             return tables.Role
         case "boutique":

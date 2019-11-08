@@ -1,6 +1,7 @@
 const connection = require('./config')
+const Sequelize = require('sequelize')
 
-module.exports.User = connection.define('users', {
+module.exports.User = connection.sequelize.define('users', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -34,7 +35,7 @@ module.exports.User = connection.define('users', {
     timestamps: false
 })
 
-module.exports.Inscription = connection.define('inscriptions', {
+module.exports.Inscription = connection.sequelize.define('inscriptions', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -47,7 +48,7 @@ module.exports.Inscription = connection.define('inscriptions', {
     timestamps: false
 })
 
-module.exports.Role = connection.define('roles', {
+module.exports.Role = connection.sequelize.define('roles', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -61,7 +62,7 @@ module.exports.Role = connection.define('roles', {
     timestamps: false
 })
 
-module.exports.Products = sequelize.define('products', {
+module.exports.Products = connection.sequelize.define('products', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -91,7 +92,7 @@ module.exports.Products = sequelize.define('products', {
     timestamps: false
 })
 
-module.exports.Activities = sequelize.define('activities', {
+module.exports.Activities = connection.sequelize.define('activities', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -112,7 +113,7 @@ module.exports.Activities = sequelize.define('activities', {
     timestamps: false
 })
 
-module.exports.Commentaries = sequelize.define('commentaries', {
+module.exports.Commentaries = connection.sequelize.define('commentaries', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -130,7 +131,7 @@ module.exports.Commentaries = sequelize.define('commentaries', {
     timestamps: false
 })
 
-module.exports.Components = sequelize.define('components', {
+module.exports.Components = connection.sequelize.define('components', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -148,7 +149,7 @@ module.exports.Components = sequelize.define('components', {
     timestamps: false
 })
 
-module.exports.Components_orders = sequelize.define('components_orders', {
+module.exports.Components_orders = connection.sequelize.define('components_orders', {
     components_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -163,7 +164,7 @@ module.exports.Components_orders = sequelize.define('components_orders', {
     timestamps: false
 })
 
-module.exports.Orders = sequelize.define('orders', {
+module.exports.Orders = connection.sequelize.define('orders', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -178,7 +179,7 @@ module.exports.Orders = sequelize.define('orders', {
     timestamps: false
 })
 
-modul.exports.Pictures = sequelize.define('pictures', {
+module.exports.Pictures = connection.sequelize.define('pictures', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -189,7 +190,7 @@ modul.exports.Pictures = sequelize.define('pictures', {
         allowNull: true,
     },
     activties_id:{
-        type: sequelize.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: true,
     },
     url: {
@@ -200,7 +201,7 @@ modul.exports.Pictures = sequelize.define('pictures', {
     }
 })
 
-module.exports.Types = sequelize.define('types', {
+module.exports.Types = connection.sequelize.define('types', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -212,15 +213,14 @@ module.exports.Types = sequelize.define('types', {
 })
 
 
-module.exports.Votes = sequelize.define('votes', {
+module.exports.Votes = connection.sequelize.define('votes', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true,
+        autoIncrement: true
     },
     users_id: {
         type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: true,
+        allowNull: true
     }
 })

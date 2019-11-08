@@ -23,27 +23,29 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var uri = req.path.split('/')
             var table = uri[1]
             var id = uri[2]
-            if (table == "boutique") {
-                  bdd.select(tables.table(req.path.split('/')[1]))
+            if (table == "boutique" || table == "activities") {
+                  bdd.select(tables.table(table))
                         .then(response => {
                               console.log(response)
-                              res.send("tamere")
+                              res.json(response.dataValues)
                         })
             } else {
                   if (req.body.token) {
-                        if (!id) {
-                              for (let i = 0; i < response.lenght; i++) {
-                                    array.push(response[i].dataValues)
-                              }
-                              console.log(array)
-                              res.json(array)
-                        } else {
-                              res.json(response.dataValues)
-                        }
-
+                        bdd.select(tables.table(table))
+                              .then(response => {
+                                    if (response.lenght) {
+                                          for (let i = 0; i < response.lenght; i++) {
+                                                array.push(response[i].dataValues)
+                                          }
+                                    } else {
+                                          array.push(response.dataValues)
+                                    }
+                                    console.log(array)
+                                    res.json(array)
+                              })
+                  } else {
+                        res.json({ message: false })
                   }
-
-
             }
       })
       //POST
@@ -51,7 +53,10 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             if (req.query.connect == "true") {
                   connect(req, res)
             } else {
-                  bdd.add(tables.table(req.path.split('/')[1]), req.body)
+                  if (req.body.token) {
+                        var mail = decodeToken(req.body.token)
+                        bdd
+                  }
             }
       })
       //PUT

@@ -1,13 +1,6 @@
-const Sequelize = require('sequelize');
+const connection = require('./config.js')
 
-// Option 1: Passing parameters separately
-module.exports.sequelize = new Sequelize('users', 'root', '', {
-    host: 'localhost',
-    dialect: 'mysql'
-});
-
-
-sequelize.authenticate()
+connection.sequelize.authenticate()
     .then(() => {
         console.log('Connection has been established successfully   ')
     })
