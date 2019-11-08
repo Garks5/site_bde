@@ -68,12 +68,18 @@ class Users
      */
     private $pictures;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Orders", mappedBy="Users")
+     */
+    private $orders;
+
     public function __construct()
     {
         $this->commentaries = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->pictures = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -271,6 +277,37 @@ class Users
             // set the owning side to null (unless already changed)
             if ($picture->getUsers() === $this) {
                 $picture->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Orders[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Orders $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Orders $order): self
+    {
+        if ($this->orders->contains($order)) {
+            $this->orders->removeElement($order);
+            // set the owning side to null (unless already changed)
+            if ($order->getUsers() === $this) {
+                $order->setUsers(null);
             }
         }
 
