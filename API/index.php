@@ -16,14 +16,9 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 );
 
 $result = curl_exec($ch);
-sleep(1);
-echo "c bon ";
-if($_POST == array()){
-    echo "bite";
-}
-echo $_SERVER['REQUEST_METHOD'];
-foreach($_POST as $clef => $value){
-    echo $clef;
-    echo "bonjour";
+$result = json_decode($result, true);
+
+foreach($result as $clef => $value){
+    echo $clef . ' = ' . $value;
 }
 ?>
