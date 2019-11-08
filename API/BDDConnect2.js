@@ -80,19 +80,17 @@ module.exports.selectAll = function (table) {
     return table.findAll({
     })
 }
-
+module.exports.connect = function (table, jsonData) {
+    return table.findOne({ where: { mail: jsonData.mail, mdp: jsonData.mdp } })
+}
 module.exports.add = function (table, jsonData) {
     switch (table.name) {
         case "users":
             console.log("bonjour")
             table.findOne({ where: { mail: jsonData.mail } })
                 .then(function (user) {
-                    if (user) {
-                        console.log(user)
-                        return user
-                    } else {
+                    if (!user) {
                         table.create({ id_role_id: jsonData.id_role_id, name: jsonData.name, firstname: jsonData.firstname, mail: jsonData.mail, mdp: jsonData.mdp, localisation: jsonData.localisation })
-                        return true
                     }
                 })
             break

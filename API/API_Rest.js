@@ -24,17 +24,31 @@ myRouter.route(['/users', '/inscriptions', '/roles'])
                   for (let i = 0; i < response.length; i++) {
                         array.push(response[i].dataValues)
                   }
+                  console.log(array)
                   res.json(array)
             })
+            res.json({ message: "Suppression d'une piscine dans la liste", methode: req.method });
       })
       //POST
       .post(function (req, res) {
-            bdd.add(tables.table(req.path.split('/')[1]), req.body)
-            res.json({ methode: req.method })
+            console.log(req.query.connect)
+            if (req.query.connect == "true") {
+                  bdd.connect(tables.table(req.path.split('/')[1]), req.body)
+                        .then(function (response) {
+                              if (response) {
+                                    console.log('c bon ')
+                                    console.log(res.json({ connect: true, methode: req.method}));
+                              } else {
+                                    res.json({ connect: false})
+                              }
+                        })
+            } else {
+                  bdd.add(tables.table(req.path.split('/')[1]), req.body)
+            }
       })
       //PUT
       .put(function (req, res) {
-            bdd.modify(tables.table(req.path.split('/')[1]), req.body)
+            //bdd.modify(tables.table(req.path.split('/')[1]), req.body)
             res.json({ message: "Mise à jour des informations d'une piscine dans la liste", methode: req.method });
       })
       //DELETE
