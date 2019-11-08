@@ -46,7 +46,7 @@ myRouter.route(['/users', '/inscriptions', '/roles'])
       })
       //PUT
       .put(function (req, res) {
-            //bdd.modify(tables.table(req.path.split('/')[1]), req.body)
+            bdd.modify(tables.table(req.path.split('/')[1]), req.body)
             res.json({ message: "Mise à jour des informations d'une piscine dans la liste", methode: req.method });
       })
       //DELETE

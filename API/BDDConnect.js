@@ -26,7 +26,7 @@ module.exports.User = sequelize.define('users', {
         primaryKey: true,
         autoIncrement: true
     },
-    id_role_id: {
+    roles_id: {
         type: Sequelize.STRING,
         foreignKey: true
     },
@@ -90,7 +90,7 @@ module.exports.add = function (table, jsonData) {
             table.findOne({ where: { mail: jsonData.mail } })
                 .then(function (user) {
                     if (!user) {
-                        table.create({ id_role_id: jsonData.id_role_id, name: jsonData.name, firstname: jsonData.firstname, mail: jsonData.mail, mdp: jsonData.mdp, localisation: jsonData.localisation })
+                        table.create({ roles_id: jsonData.roles_id, name: jsonData.name, firstname: jsonData.firstname, mail: jsonData.mail, mdp: jsonData.mdp, localisation: jsonData.localisation })
                     }
                 })
             break
