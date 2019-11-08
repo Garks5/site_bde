@@ -14,32 +14,32 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 
-myRouter.route(['/users', '/inscriptions', '/roles'])
+myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+'])
       // GET
       .get(function (req, res) {
-            console.log(tables.table(req.path.split('/')[1]))
             var array = []
-            var result = bdd.selectAll(tables.table(req.path.split('/')[1]))
+            var uri = req.path.split('/')
+            var result = bdd.select(tables.table(uri[1]), uri[2])
             result.then(response => {
-                  for (let i = 0; i < response.length; i++) {
-                        array.push(response[i].dataValues)
+                  console.log(response)
+                  console.log(response.lenght)
+                  if (!uri[2]) {
+                        for (let i = 0; i < response.length; i++) {
+                              array.push(response[i].dataValues)
+                              console.log("bite")
+                        }
+                        console.log(array)
+                        res.json(array)
+                  } else {
+                        res.json(response.dataValues)
                   }
-                  console.log(array)
-                  res.json(array)
             })
       })
+
       //POST
       .post(function (req, res) {
             if (req.query.connect == "true") {
-                  bdd.connect(tables.table(req.path.split('/')[1]), req.body)
-                        .then(function (response) {
-                              if (response) {
-                                    console.log('c bon ')
-                                    res.json({ connect: true, methode: req.method});
-                              } else {
-                                    res.json({ connect: false})
-                              }
-                        })
+                  connect(req, res)
             } else {
                   bdd.add(tables.table(req.path.split('/')[1]), req.body)
             }
@@ -61,3 +61,16 @@ app.use(myRouter);
 app.listen(port, hostname, function () {
       console.log("Mon serveur fonctionne sur http://" + hostname + ":" + port);
 });
+
+
+function connect(req, res) {
+      bdd.connect(tables.table(req.path.split('/')[1]), req.body)
+            .then(function (response) {
+                  if (response) {
+                        console.log('c bon ')
+                        res.json({ connect: true, methode: req.method });
+                  } else {
+                        res.json({ connect: false })
+                  }
+            })
+}

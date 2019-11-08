@@ -76,10 +76,16 @@ sequelize.authenticate()
         console.error('Unable to connect to the database', err)
     })
 
-module.exports.selectAll = function (table) {
-    return table.findAll({
-    })
+module.exports.select = function (table, id) {
+    if (!id) {
+        return table.findAll({
+        })
+    }else{
+        return table.findOne({ where : { id: id }})
+    }
+
 }
+
 module.exports.connect = function (table, jsonData) {
     return table.findOne({ where: { mail: jsonData.mail, mdp: jsonData.mdp } })
 }
