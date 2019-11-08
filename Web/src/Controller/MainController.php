@@ -34,4 +34,13 @@ class MainController extends AbstractController
         dump($request);
         return $this->render('main/inscription.html.twig');
     }
+
+    /**
+    * @Route("/mention_legale", name="mention_legale")
+    */
+    public function mention_legale(Request $request)
+    {
+        dump($request);
+        return $this->render('main/mention_legale.html.twig');
+    }
 }

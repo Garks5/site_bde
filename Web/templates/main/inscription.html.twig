@@ -8,7 +8,6 @@
 
 {% block body %}
 
-
 <div id="formulaire">
     <form action="" method="post">
         <h3>Créer un compte</h3>
@@ -27,12 +26,11 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Adresse Email</label>
                 <input type="email" class="form-control" id="exampleInputEmail1"  placeholder="Entrer votre email">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
 
             <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <label for="exampleInputPassword1">Mot de passe</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Mot de passe">
                 <small id="password" class="form-text text-muted">6 caractères dont au moins 1 majuscule et un chiffre</small>
             </div>
 
@@ -72,7 +70,9 @@
                 <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
                 <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
             </div>-->
-            <p>En créant un compte, vous acceptez les conditions générales du site. </p>
+            <p>En créant un compte, vous acceptez les conditions générales du site.<br>
+            <small><a href="{{ path('mention_legale') }}">mentions légales</a></small>
+            </p>
             <button type="submit" class="btn btn-primary">Valider</button>
         </fieldset>
     </form>
