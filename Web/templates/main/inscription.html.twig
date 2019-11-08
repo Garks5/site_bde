@@ -11,28 +11,34 @@
 
 <div id="formulaire">
     <h3>Créer un compte</h3>
-    {{ form_start(form) }}
-    <div class="form-group">
-    {{ form_label(form.name)}} <br>
-    {{ form_widget(form.name)}}<br>
-    </div>
-    <div class="form-group">
-    {{ form_label(form.firstname)}}<br>
-    {{ form_widget(form.firstname)}}<br>
-    </div>
-    <div class="form-group">
-    {{ form_label(form.mail)}}<br>
-    {{ form_widget(form.mail)}}<br>
-    </div>
-    <div class="form-group">
-    {{ form_label(form.mdp)}}<br>
-    {{ form_widget(form.mdp)}}<br>
-    </div>
-    <div class="form-group">
-    {{ form_label(form.localisation)}}<br>
-    {{ form_widget(form.localisation)}}
-    </div>
-    {{ form_end(form) }}
+    <fieldset>
+        {{ form_start(form) }}
+        <div class="form-group">
+        {{ form_label(form.name)}} <br>
+        {{ form_widget(form.name)}}<br>
+        </div>
+        <div class="form-group">
+        {{ form_label(form.firstname)}}<br>
+        {{ form_widget(form.firstname)}}<br>
+        </div>
+        <div class="form-group">
+        {{ form_label(form.mail)}}<br>
+        {{ form_widget(form.mail)}}<br>
+        </div>
+        <div class="form-group">
+        {{ form_label(form.mdp)}}<br>
+        {{ form_widget(form.mdp)}}<br>
+        <small id="password" class="form-text text-muted">6 caractères dont au moins 1 majuscule et un chiffre</small>
+        </div>
+        <div class="form-group">
+        {{ form_label(form.localisation)}}<br>
+        {{ form_widget(form.localisation)}}
+        </div>
+
+        <p>En créant un compte, vous acceptez les conditions générales du site.<br>
+            <small><a href="{{ path('mention_legale') }}">mentions légales</a></small>
+        {{ form_end(form) }}
+    </fieldset>
 </div>
     <!--
     <form action="" method="post">
