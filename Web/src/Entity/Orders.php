@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,6 +27,16 @@ class Orders
      * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="orders")
      */
     private $Users;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Components", mappedBy="Orders")
+     */
+    private $components;
+
+    public function __construct()
+    {
+        $this->components = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -51,6 +63,34 @@ class Orders
     public function setUsers(?Users $Users): self
     {
         $this->Users = $Users;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Components[]
+     */
+    public function getComponents(): Collection
+    {
+        return $this->components;
+    }
+
+    public function addComponent(Components $component): self
+    {
+        if (!$this->components->contains($component)) {
+            $this->components[] = $component;
+            $component->addOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComponent(Components $component): self
+    {
+        if ($this->components->contains($component)) {
+            $this->components->removeElement($component);
+            $component->removeOrder($this);
+        }
 
         return $this;
     }

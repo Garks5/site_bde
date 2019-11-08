@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +37,16 @@ class Products
      * @ORM\ManyToOne(targetEntity="App\Entity\Types", inversedBy="products")
      */
     private $Types;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Components", mappedBy="Products")
+     */
+    private $components;
+
+    public function __construct()
+    {
+        $this->components = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -85,6 +97,37 @@ class Products
     public function setTypes(?Types $Types): self
     {
         $this->Types = $Types;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Components[]
+     */
+    public function getComponents(): Collection
+    {
+        return $this->components;
+    }
+
+    public function addComponent(Components $component): self
+    {
+        if (!$this->components->contains($component)) {
+            $this->components[] = $component;
+            $component->setProducts($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComponent(Components $component): self
+    {
+        if ($this->components->contains($component)) {
+            $this->components->removeElement($component);
+            // set the owning side to null (unless already changed)
+            if ($component->getProducts() === $this) {
+                $component->setProducts(null);
+            }
+        }
 
         return $this;
     }
