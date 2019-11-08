@@ -1,23 +1,10 @@
 const Sequelize = require('sequelize');
 
 // Option 1: Passing parameters separately
-const sequelize = new Sequelize('users', 'root', '', {
+module.exports.sequelize = new Sequelize('users', 'root', '', {
     host: 'localhost',
     dialect: 'mysql'
 });
-
-module.exports.Inscription = sequelize.define('inscriptions', {
-    id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    date: {
-        type: Sequelize.DATE,
-    }
-}, {
-    timestamps: false
-})
 
 module.exports.User = sequelize.define('users', {
     // attributes
