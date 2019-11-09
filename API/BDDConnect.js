@@ -1,4 +1,7 @@
 const connection = require('./config.js')
+const table = require('./enumTable')
+const Sequelize = require('sequelize')
+
 
 connection.sequelize.authenticate()
     .then(() => {
@@ -19,6 +22,7 @@ module.exports.select = function (table, id) {
 }
 
 module.exports.connect = function (table, jsonData) {
+    console.log(jsonData.mail)
     return table.findOne({ where: { mail: jsonData.mail, mdp: jsonData.mdp } })
 }
 module.exports.add = function (table, jsonData) {
@@ -65,4 +69,17 @@ module.exports.modify = function (table, jsonData) {
 
 module.exports.delete = function (table, jsonData) {
     table.destroy({ where: { id: jsonData.id } })
+}
+
+module.exports.verifRole = function (mail) {
+    return connection.sequelize.query('SELECT `users`.`id`, `users`.`roles_id`, `users`.`name`, `users`.`firstname`, `users`.`mail`, `users`.`mdp`, `users`.`localisation`, `users`.`roles_Id`, `role`.`id` AS `role.id`, `role`.`name` AS `role.name` FROM `users` AS `users` LEFT OUTER JOIN `roles` AS `role` ON `users`.`roles_id` = `role`.`id` WHERE `users`.`mail` = "'+ mail +'" LIMIT 1')
+    /*return table.table('users').findOne({
+        where: {mail : mail},
+        include: [{
+            model: table.table('roles'),
+        }]
+    })
+    .then( response => {
+        console.log(response)
+    })*/
 }

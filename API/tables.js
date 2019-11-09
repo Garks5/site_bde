@@ -32,6 +32,7 @@ module.exports.User = connection.sequelize.define('users', {
         allowNull: false
     }
 }, {
+    underscored: true,
     timestamps: false
 })
 
@@ -52,7 +53,8 @@ module.exports.Role = connection.sequelize.define('roles', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+
     },
     name: {
         type: Sequelize.STRING,
@@ -173,7 +175,7 @@ module.exports.Orders = connection.sequelize.define('orders', {
     users_id: {
         type: Sequelize.INTEGER,
         foreignKey: true,
-        allowNull:true,
+        allowNull: true,
     },
 }, {
     timestamps: false
@@ -189,7 +191,7 @@ module.exports.Pictures = connection.sequelize.define('pictures', {
         type: Sequelize.INTEGER,
         allowNull: true,
     },
-    activties_id:{
+    activties_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
     },

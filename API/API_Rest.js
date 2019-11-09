@@ -8,7 +8,7 @@ const secret = "5[:8j£NQ4Vcj"
 
 // Nous définissons ici les paramètres du serveur.
 const hostname = 'localhost';
-const port = 3000;
+const port = 3001;
 // Nous créons un objet de type Express.
 var app = express();
 app.use(bodyparser.json({ extended: true }))
@@ -51,11 +51,16 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
       //POST
       .post(function (req, res) {
             if (req.query.connect == "true") {
+                  console.log(req.body.mail)
                   connect(req, res)
             } else {
                   if (req.body.token) {
+                        console.log(req.body.token)
                         var mail = decodeToken(req.body.token)
-                        bdd
+                        bdd.verifRole(mail)
+                              .then(response => {
+                                    res.json({role: response[0][0]['role.name']})
+                              })
                   }
             }
       })
@@ -83,6 +88,7 @@ function connect(req, res) {
             .then(function (response) {
                   if (response) {
                         status = 200
+                        console.log(response.dataValues.mail)
                         const payload = { "mail": response.dataValues.mail }
                         var token = jsToken.create(payload, secret, "HS256")
                         token = token.compact()
