@@ -2,9 +2,63 @@
 
 {% block title %}BDE CESI LILLE{% endblock %}
 
-{% block body %}
+{% block stylesheets %}
+<link href="legale.css" rel="stylesheet" />
+{% endblock %}
 
-<div class="example-wrapper">
-    <h1>Hello! Voici les mentions légales</h1>
+{% block body %}
+<div class="text">
+    <div id="cookies">
+        <h2>Cookies</h2>
+        <p>
+                Nous utilisons des cookies pour vous reconnaitre et pour en savoir davatage
+                sur vos centres d'intérêts. 
+                Ils permettent de :
+                <ul>
+                    <li>Conserver le suivi des éléments enregistrés dans votre panier de commande.</li>
+                    <li>Prévenir les activités frauduleuses.</li>
+                    <li>Améliorer la sécurité.</li>
+                </ul>
+                Vous pouvez gérer les cookies du navigateur grâce aux paramètres du navigateur. 
+                La rubrique Aide de la plupart des navigateurs vous indique comment refuser les nouveaux « cookies »,
+                comment obtenir un message qui vous signale leur réception, comme désactiver les cookies et le moment où ils expireront.
+                Si vous désactivez les cookies sur votre navigateur, nous ne transfèreront pas de cookies sur votre navigateur.
+                <br>
+                Pour en savoir plus sur les types d'informations que nous recueillons, consultez notre avis sur la Protection de vos informations personnelles.
+            </p>
+    </div>
+    <div id="info_perso">
+        <h2>Protection de vos informations personnelles</h2>
+        <p>
+            Nous collectons vos informations personnelles afin de vous proposer et d'améliorer continuellement nos produits et services.
+            Vous trouverez ci-après les types d'information que nous collectons.
+            <ul>
+                <li><strong>Informations que vous nous communiquez</strong>
+                    <p>Nous collectons et enregistrons toutes les informations que vous nous communiquez via l'inscription.</p>
+                </li>
+                <li><strong> Finalités pour lesquelles nous recueillons votre consentement.</strong>
+                    <p>Nous pouvons être amenés à requérir votre consentement pour le traitement de vos informations personnelles.
+                    </p>
+                </li>
+                <li><strong> Temps de conservation des informations personnelles</strong>
+                    <p>Vos informations personnelles sont conservées en continu pour vous permettre d'utiliser en continu nos services.   
+                    </p>
+                </li>
+                <li><strong> Utilisations des informations personnelles</strong>
+                    <p>Votre nom, prénim, adresse mail et campus pourront être remis à l'organisateur d'une des cativités 
+                        auquel vous êtes inscrit. 
+                    </p>
+                </li>
+                <li><strong> Identifier si un e-mails provient du site du BDE CESI</strong>
+                    <p>Les e-mails qui vous sont envoyés par notre site ne vous demanderont jamais de fournir des informations personnelles.
+                        Si un e-mail est suspects, n'ouvrez pas les pièces jointes et ne cliquez pas sur les liens inclus dans ces e-mails frauduleux.
+                        Ne communiquez jamais votre mot de passe, vos informations relatives à votre compte bancaires, numéro de sécurité sociale, ou toutes autres informations personnelles. 
+                    </p>
+                </li>
+                               
+            
+            </ul>
+        </p>
+    </div>
 </div>
 {% endblock %}

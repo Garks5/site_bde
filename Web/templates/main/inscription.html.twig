@@ -8,12 +8,14 @@
 
 {% block body %}
 
-
 <div id="formulaire">
     <h3>Créer un compte</h3>
     <fieldset>
         {{ form_start(form) }}
         <div class="form-group">
+            <!--
+                On affiche le label de la zone nom puis la zone nom
+            -->
             {{ form_label(form.name)}} 
             {{ form_widget(form.name)}}
         </div>
@@ -33,81 +35,23 @@
         <div class="form-group">
             {{ form_label(form.localisation)}}
             {{ form_widget(form.localisation)}}
-        </div>
-
-        <p>En créant un compte, vous acceptez les conditions générales du site.<br>
-            <small><a href="{{ path('mention_legale') }}">mentions légales</a></small>
+        </div><br>
+        <div class="form-group">
+            {{ form_label(form.submit)}}
+            {{ form_widget(form.submit)}}
+            <p>En créant un compte, vous acceptez les conditions générales du site.<br>
+            <small><a href="{{ path('mention_legale') }}">mentions légales</a></small>         
+        </div><br>
         {{ form_end(form) }}
     </fieldset>
 </div>
-    <!--
-    <form action="" method="post">
-        <h3>Créer un compte</h3>
-        <fieldset>
 
-            <div class="form-group">
-                <label for="name">Nom</label>
-                <input type="text" class="form-control" id="inscip_name"  placeholder="Entrer votre nom">
-            </div>
-
-            <div class="form-group">
-                <label for="firstname">Prénom</label>
-                <input type="text" class="form-control" id="inscip_firstname"  placeholder="Entrer votre prénom">
-            </div>
-                 
-            <div class="form-group">
-                <label for="exampleInputEmail1">Adresse Email</label>
-                <input type="email" class="form-control" id="exampleInputEmail1"  placeholder="Entrer votre email">
-            </div>
-
-            <div class="form-group">
-                <label for="exampleInputPassword1">Mot de passe</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Mot de passe">
-                <small id="password" class="form-text text-muted">6 caractères dont au moins 1 majuscule et un chiffre</small>
-            </div>
-
-            <div class="form-group">
-                <label>Campus Cesi</label>
-                <select class="form-control" id="campus">
-                    <option>Lille</option>
-                    <option>Arras</option>
-                    <option>Rouen</option>
-                    <option>Reims</option>
-                    <option>Caen</option>
-                    <option>Brest</option>
-                    <option>Nanterre</option>
-                    <option>Nancy</option>
-                    <option>Strasbourg</option>
-                    <option>Le Mans</option>
-                    <option>Orléans</option>
-                    <option>Saint-Nazaire</option>
-                    <option>Nantes</option>
-                    <option>Dijon</option>
-                    <option>Chateauroux</option>
-                    <option>La Rochelle</option>
-                    <option>Angouleme</option>
-                    <option>Bordeaux</option>
-                    <option>Lyon</option>
-                    <option>Grenoble</option>
-                    <option>Pau</option>
-                    <option>Toulouse</option>
-                    <option>Montpellier</option>
-                    <option>Aix-en-provence</option>
-                    <option>Nice</option>
-                </select>
-            </div>
-                 
+             <!--    
             <div class="form-group">
                 <label for="exampleInputFile">File input</label>
                 <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
                 <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
             </div>
-            <p>En créant un compte, vous acceptez les conditions générales du site.<br>
-            <small><a href="{{ path('mention_legale') }}">mentions légales</a></small>
-            </p>
-            <button type="submit" class="btn btn-primary">Valider</button>
-        </fieldset>
-    </form>
-</div>
--->
+        -->
+           
 {% endblock %}

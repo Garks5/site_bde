@@ -17,15 +17,6 @@ class MainController extends AbstractController
             'controller_name' => 'MainController',
         ]);
     }
-
-    /**
-    * @Route("/connect", name="connect")
-    */
-    public function connect()
-    {
-        return $this->render('main/connect.html.twig');
-    }
-
     /**
     * @Route("/mention_legale", name="mention_legale")
     */

@@ -10,21 +10,26 @@
 <div id="formulaire">
 <fieldset> 
     <h3>Connexion</h3>
-
-    <!--
+    {{ form_start(form2) }}
     <div class="form-group">
-        <label for="exampleInputEmail1">Adresse Email</label>
-        <input type="email" class="form-control" id="exampleInputEmail1"  placeholder="Entrer votre email">
-    </div>
-
+        {{ form_label(form2.mail)}}
+        {{ form_widget(form2.mail)}}
+    </div><br>
     <div class="form-group">
-        <label for="exampleInputPassword1">Mot de passe</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Mot de passe">
-    </div>
-
-    <br><button type="submit" class="btn btn-primary">Connexion</button>
-    -->
+        {{ form_label(form2.mdp)}}
+        {{ form_widget(form2.mdp)}}
+    </div><br><br>
+    <div class="form-group">
+        {{ form_label(form2.submit)}}
+        {{ form_widget(form2.submit)}}
+    </div><br>
+    {{ form_end(form2) }}
 </fieldset>
 
 </div>
+<div >
+    <br>
+    <a href="{{ path('inscriptions') }}"> <input type="button" value="Vous n'avez pas encore de compte" class="btn" aria-describedby="fileHelp"></a>
+ </div>
+<br><br><br>
 {% endblock %}

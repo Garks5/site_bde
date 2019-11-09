@@ -1,5 +1,5 @@
 <?php
-// src/Form/Type/TaskType.php
+
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -15,6 +15,8 @@ class UsersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+        //ajout d'une zone de text qui correspondra au nom : TextType
+        //elle ne peut pas être vide
             ->add('name', TextType::class, array('label'=> 'Nom', 'required' => true, 'attr' => array('class'=>'form-group', 'placeholder'=>'Entrez votre nom')))
             ->add('firstname', TextType::class, array('label'=> 'Prénom', 'required' => true, 'attr' => array('class'=>'form-group', 'placeholder'=>'Entrez votre prénom')))
             ->add('mail', EmailType::class, array('label'=> 'Adresse Email', 'required' => true, 'attr' => array('class'=>'form-group', 'placeholder'=>'Entrez votre adresse mail')))
