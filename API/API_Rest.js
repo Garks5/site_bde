@@ -16,7 +16,7 @@ app.use(bodyparser.json({ extended: true }))
 //C'est à partir de cet objet myRouter, que nous allons implémenter les méthodes.
 var myRouter = express.Router();
 
-
+// FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
 myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/activities'])
       // GET
       .get(function (req, res) {
@@ -71,8 +71,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
       })
       //PUT
       .put(function (req, res) {
-            bdd.modify(enumTable.table(req.path.split('/')[1]), req.body)
-            res.json({ message: "Mise à jour des informations d'une piscine dans la liste", methode: req.method });
+            bdd.modify(enumTable.table(req.path.split('/')[1]), req.body, res)
       })
       //DELETE
       .delete(function (req, res) {
