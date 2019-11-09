@@ -11,5 +11,7 @@ module.exports.table = function (table) {
             return tables.Role
         case "boutique":
             return tables.Products
+        case "activities":
+            return tables.Activities
     }
 }

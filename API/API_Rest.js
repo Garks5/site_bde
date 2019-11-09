@@ -1,5 +1,5 @@
 
-const tables = require('./enumTable');
+const enumTable = require('./enumTable');
 const bdd = require('./BDDConnect')
 const express = require('express');
 const bodyparser = require('body-parser')
@@ -8,7 +8,7 @@ const secret = "5[:8j£NQ4Vcj"
 
 // Nous définissons ici les paramètres du serveur.
 const hostname = 'localhost';
-const port = 3001;
+const port = 3000;
 // Nous créons un objet de type Express.
 var app = express();
 app.use(bodyparser.json({ extended: true }))
@@ -17,21 +17,22 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 
-myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique'])
+myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/activities'])
       // GET
       .get(function (req, res) {
             var uri = req.path.split('/')
             var table = uri[1]
+            var table = enumTable.table(table)
             var id = uri[2]
+            var array = []
             if (table == "boutique" || table == "activities") {
-                  bdd.select(tables.table(table))
+                  bdd.select(table)
                         .then(response => {
-                              console.log(response)
-                              res.json(response.dataValues)
+                              res.json(response[0].dataValues)
                         })
             } else {
                   if (req.body.token) {
-                        bdd.select(tables.table(table))
+                        bdd.select(table, id)
                               .then(response => {
                                     if (response.lenght) {
                                           for (let i = 0; i < response.lenght; i++) {
@@ -40,7 +41,6 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                     } else {
                                           array.push(response.dataValues)
                                     }
-                                    console.log(array)
                                     res.json(array)
                               })
                   } else {
@@ -50,28 +50,33 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
       })
       //POST
       .post(function (req, res) {
+            var uri = req.path.split('/')
+            var table = uri[1]
+            var table = enumTable.table(table)
             if (req.query.connect == "true") {
                   console.log(req.body.mail)
                   connect(req, res)
             } else {
                   if (req.body.token) {
-                        console.log(req.body.token)
                         var mail = decodeToken(req.body.token)
                         bdd.verifRole(mail)
                               .then(response => {
-                                    res.json({role: response[0][0]['role.name']})
+                                    res.json({ role: response[0][0]['role.name'] })
                               })
+                  } else if (req.body.inscription == "true") {
+                        console.log("bonjour "+ table)
+                        bdd.add(table, req.body, res)
                   }
             }
       })
       //PUT
       .put(function (req, res) {
-            bdd.modify(tables.table(req.path.split('/')[1]), req.body)
+            bdd.modify(enumTable.table(req.path.split('/')[1]), req.body)
             res.json({ message: "Mise à jour des informations d'une piscine dans la liste", methode: req.method });
       })
       //DELETE
       .delete(function (req, res) {
-            bdd.delete(tables.table(req.path.split('/')[1]), req.body)
+            bdd.delete(enumTable.table(req.path.split('/')[1]), req.body)
             res.json({ message: "Suppression d'une piscine dans la liste", methode: req.method });
       });
 // Nous demandons à l'application d'utiliser notre routeur
@@ -84,11 +89,11 @@ app.listen(port, hostname, function () {
 
 function connect(req, res) {
       var result = {}
-      bdd.connect(tables.table(req.path.split('/')[1]), req.body)
+      bdd.connect(enumTable.table(req.path.split('/')[1]), req.body)
             .then(function (response) {
                   if (response) {
                         status = 200
-                        console.log(response.dataValues.mail)
+
                         const payload = { "mail": response.dataValues.mail }
                         var token = jsToken.create(payload, secret, "HS256")
                         token = token.compact()
