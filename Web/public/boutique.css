@@ -1,16 +1,62 @@
 #boutique{
     text-align:center;
     margin:0 auto;
-    max-width: 900px;
+  
 }
 .row{
     margin:0 auto;
 }
 #carrousel{
-    max-width: 900px;
+   
     margin:0 auto;
 }
 .article{
-    max-width: 750px;
+   
     margin:0 auto;
 }
+
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+  @media (min-width: 576px) {
+    .container {
+      max-width: 540px;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .container {
+      max-width: 720px;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .container {
+      max-width: 960px;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .container {
+      max-width: 1140px;
+    }
+  }
+  .container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .row {
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+ .col-lg-9{
+    margin:0 auto;
+ }
