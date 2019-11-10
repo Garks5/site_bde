@@ -6,17 +6,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+//controlleur accueil et mentions légales
+
 class MainController extends AbstractController
 {
     /**
-     * @Route("/main", name="main")
+     *@Route("/", name="accueil")
      */
-    public function index()
+    public function accueil()
     {
-        return $this->render('main/index.html.twig', [
+        return $this->render('main/accueil.html.twig', [
             'controller_name' => 'MainController',
         ]);
     }
+    /**
+    *@Route("/accueil", name="accueil2")
+    */
+    public function accueil2()
+    {
+        return $this->render('main/accueil.html.twig', [
+            'controller_name' => 'MainController',
+        ]);
+    }
+
     /**
     * @Route("/mention_legale", name="mention_legale")
     */
@@ -24,5 +36,16 @@ class MainController extends AbstractController
     {
         dump($request);
         return $this->render('main/mention_legale.html.twig');
+    }
+
+
+    /**
+    *@Route("/boutique", name="boutique")
+    */
+    public function boutique()
+    {
+        return $this->render('main/boutique.html.twig', [
+            'controller_name' => 'MainController',
+        ]);
     }
 }

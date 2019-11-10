@@ -1,0 +1,16 @@
+#boutique{
+    text-align:center;
+    margin:0 auto;
+    max-width: 900px;
+}
+.row{
+    margin:0 auto;
+}
+#carrousel{
+    max-width: 900px;
+    margin:0 auto;
+}
+.article{
+    max-width: 750px;
+    margin:0 auto;
+}
