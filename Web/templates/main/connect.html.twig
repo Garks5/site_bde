@@ -8,24 +8,23 @@
 {% block body %}
 
 <div id="formulaire">
-<fieldset> 
-    <h3>Connexion</h3>
-    {{ form_start(form2) }}
-    <div class="form-group">
-        {{ form_label(form2.mail)}}
-        {{ form_widget(form2.mail)}}
-    </div><br>
-    <div class="form-group">
-        {{ form_label(form2.mdp)}}
-        {{ form_widget(form2.mdp)}}
-    </div><br><br>
-    <div class="form-group">
-        {{ form_label(form2.submit)}}
-        {{ form_widget(form2.submit)}}
-    </div><br>
-    {{ form_end(form2) }}
-</fieldset>
-
+    <fieldset> 
+        <h3>Connexion</h3>
+        {{ form_start(form2) }}
+        <div class="form-group">
+            {{ form_label(form2.mail)}}
+            {{ form_widget(form2.mail)}}
+        </div><br>
+        <div class="form-group">
+            {{ form_label(form2.mdp)}}
+            {{ form_widget(form2.mdp)}}
+        </div><br><br>
+        <div class="form-group">
+                {{ form_label(form2.submit)}}
+                {{ form_widget(form2.submit)}}
+            </div><br>
+        {{ form_end(form2) }}
+    </fieldset>
 </div>
 <div >
     <br>

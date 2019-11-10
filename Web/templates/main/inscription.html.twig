@@ -5,7 +5,10 @@
 {% block stylesheets %}
 <link href="inscription.css" rel="stylesheet" type="text/css" />
 {% endblock %}
+{% block script %}
 
+
+{% endblock %}
 {% block body %}
 
 <div id="formulaire">
@@ -36,14 +39,107 @@
             {{ form_label(form.localisation)}}
             {{ form_widget(form.localisation)}}
         </div><br>
-        <div class="form-group">
-            {{ form_label(form.submit)}}
-            {{ form_widget(form.submit)}}
-            <p>En créant un compte, vous acceptez les conditions générales du site.<br>
-            <small><a href="{{ path('mention_legale') }}">mentions légales</a></small>         
-        </div><br>
-        {{ form_end(form) }}
+        <div class="form-group" id="inscrit">
+            <small id="ok" class="form-text text-muted">Vous avez accepté les mentions légales, vous pouvez désormais vous inscrire.</small>
+                {{ form_label(form.submit)}}
+                {{ form_widget(form.submit)}}
+            </div><br>
+        <button id="popup1" class="btn" type="button" > Accepter les mentions légales pour pouvoir s'inscrire</button>
+        <br>
     </fieldset>
+</div>
+
+
+<div id="pop-up">
+    <h4 class="text"><strong>Pour vous inscrire vous devez accepter les conditions générales d'utilisations</strong></h4><br>
+    <div class="text">
+            <div id="cookies">
+               <h5> <strong>Cookies</strong></h5>
+                <p>
+                        Nous utilisons des cookies pour vous reconnaitre et pour en savoir davatage
+                        sur vos centres d'intérêts. 
+                        Ils permettent de :
+                        <ul>
+                            <li>Conserver le suivi des éléments enregistrés dans votre panier de commande.</li>
+                            <li>Prévenir les activités frauduleuses.</li>
+                            <li>Améliorer la sécurité.</li>
+                        </ul>
+                        Vous pouvez gérer les cookies du navigateur grâce aux paramètres du navigateur. 
+                        La rubrique Aide de la plupart des navigateurs vous indique comment refuser les nouveaux « cookies »,
+                        comment obtenir un message qui vous signale leur réception, comme désactiver les cookies et le moment où ils expireront.
+                        Si vous désactivez les cookies sur votre navigateur, nous ne transfèreront pas de cookies sur votre navigateur.
+                        <br>
+                        Pour en savoir plus sur les types d'informations que nous recueillons, consultez notre avis sur la Protection de vos informations personnelles.
+                    </p>
+            </div>
+            <div id="info_perso">
+                <h5><strong>Protection de vos informations personnelles</strong></h5>
+                <p>
+                    Nous collectons vos informations personnelles afin de vous proposer et d'améliorer continuellement nos produits et services.
+                    Vous trouverez ci-après les types d'information que nous collectons.
+                    <ul>
+                        <li><strong>Informations que vous nous communiquez</strong>
+                            <p>Nous collectons et enregistrons toutes les informations que vous nous communiquez via l'inscription.</p>
+                        </li>
+                        <li><strong> Finalités pour lesquelles nous recueillons votre consentement.</strong>
+                            <p>Nous pouvons être amenés à requérir votre consentement pour le traitement de vos informations personnelles.
+                            </p>
+                        </li>
+                        <li><strong> Temps de conservation des informations personnelles</strong>
+                            <p>Vos informations personnelles sont conservées en continu pour vous permettre d'utiliser en continu nos services.   
+                            </p>
+                        </li>
+                        <li><strong> Utilisations des informations personnelles</strong>
+                            <p>Votre nom, prénim, adresse mail et campus pourront être remis à l'organisateur d'une des cativités 
+                                auquel vous êtes inscrit. 
+                            </p>
+                        </li>
+                        <li><strong> Identifier si un e-mails provient du site du BDE CESI</strong>
+                            <p>Les e-mails qui vous sont envoyés par notre site ne vous demanderont jamais de fournir des informations personnelles.
+                                Si un e-mail est suspects, n'ouvrez pas les pièces jointes et ne cliquez pas sur les liens inclus dans ces e-mails frauduleux.
+                                Ne communiquez jamais votre mot de passe, vos informations relatives à votre compte bancaires, numéro de sécurité sociale, ou toutes autres informations personnelles. 
+                            </p>
+                        </li>
+                    </ul>
+                </p>
+            </div>
+            <div id="vente">
+                    <h5 ><strong>Conditions générales de vente</strong></h5>
+                    <p>Ces Conditions Générales de Vente régissent la vente de produits entre le site du BDE CESI et vous.
+                        En commandant avec nous, vous nous notifiez votre accord d'être soumis aux présentes conditions.
+                        <ul>
+                            <li><strong>Comment commander</strong>
+                                <p>
+                                    Si vous souhaitez acheter un ou plusieurs produit(s) figurant sur le Site Internet, 
+                                    vous devez sélectionner chaque produit que vous souhaitez acheter et l'ajouter à votre panier.
+                                    Lorsque vous avez sélectionné tous les produits que vous voulez acheter, vous pouvez confirmer le contenu 
+                                    de votre panier et passer la commande.<br>
+                                    Ensuite, vous serez redirigé vers une page récapitulant les détails des produits que vous avez sélectionnés,
+                                    et leur prix. Vous devrez alors choisir les options de livraison ainsi que les méthodes d'envoi et de paiement 
+                                    qui vous conviennent le mieux.<br>
+                                    Vous devez cliquer sur le bouton d'achat pour confirmer et passer la commande. <br>
+                                    Après avoir passé votre commande, nous vous adressons un message de confirmation. <br>
+                                </p>
+                            </li>
+                            <li><strong>Droit légale de rétractation</strong>
+                                <p>
+                                    Vous pouvez vous rétracter de votre commande sans donner de motif dans un délai de 14 jours courant à compter de
+                                     la date à laquelle vous avez pris physiquement possession des biens achetés. Vous devez nous notifier votre décision 
+                                     de vous rétracter de votre commande. Nous vous rembourserons tous les paiements que nous avons reçus de votre part. <br>
+                                     Ces droits ne s'appliquent pas aux produits qui ne peuvent pas être retournés pour des raisons d'hygiène ou de protection de la santé.
+                                </p>
+                            </li>
+                            <li><strong>Mineurs</strong>
+                                <p>
+                                    Nous ne vendons pas de produits aux mineurs. Nous vendons des produits pour enfants pour des achats par des adultes. 
+                                    Si vous avez moins de 18 ans, vous ne pouvez utiliser le Site Internet Amazon.fr que sous la surveillance d'un parent ou d'un tuteur.
+                                </p>
+                            </li>
+                        </ul>
+                    </p>
+            </div>
+        </div>
+        <button id="accepte" class="btn" type="button" > J'accepte les mentions légales</button>
 </div>
 
              <!--    
@@ -52,6 +148,16 @@
                 <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
                 <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
             </div>
-        -->
-           
+        
+
+        <div class="form-group">
+                {{ form_label(form.submit)}}
+                {{ form_widget(form.submit)}}
+                <p>En créant un compte, vous acceptez les conditions générales du site.<br>
+                <small><a href="{{ path('mention_legale') }}">mentions légales</a></small>         
+            </div><br>
+            {{ form_end(form) }}
+            -->
+           <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+ <script src="popup.js" type="text/javascript"></script>
 {% endblock %}

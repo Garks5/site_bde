@@ -42,9 +42,9 @@ class AddController extends AbstractController
                 $dlocalisation=$data['localisation'];
                 echo ($data['name']);
                 $manager->flush();
-                return $this->redirectToRoute('connect');
+               // return $this->redirectToRoute('connect');
             }
-        }
+        }return $this->redirectToRoute('connect');
     }
 
     /**
@@ -65,12 +65,12 @@ class AddController extends AbstractController
          $form2->handleRequest($request);
           if($form2->isSubmitted() && $form2->isValid()) {
                $users = new Users;
-               $data = $form->getData();
+               $data = $form2->getData();
                $dmail=$data['mail'];
                $dmdp=$data['mdp'];
                $manager->flush();
                return $this->redirectToRoute('inscriptions');
             }
-      }
+       }
     }
 }
