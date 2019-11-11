@@ -32,7 +32,7 @@ class AddController extends AbstractController
         //les données sont récupérées dans des variables
         if($request->isMethod('POST')){
             $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid()) {
+            if($form->isSubmitted()) {
                 $users = new Users;
                 $data = $form->getData();
                 $dname=$data['name'];
@@ -40,11 +40,16 @@ class AddController extends AbstractController
                 $dmail=$data['mail'];
                 $dmdp=$data['mdp'];
                 $dlocalisation=$data['localisation'];
-                echo ($data['name']);
-                $manager->flush();
-               // return $this->redirectToRoute('connect');
+                if (preg_match("/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,}$/", $dmdp)) {
+                    return $this->redirectToRoute('connect'); 
+                } else {
+                    $manager->flush();
+                    return $this->redirectToRoute('boutique');   
+                }    
+                //echo ($data['name']);
+                             
             }
-        }return $this->redirectToRoute('connect');
+        } 
     }
 
     /**
@@ -68,6 +73,9 @@ class AddController extends AbstractController
                $data = $form2->getData();
                $dmail=$data['mail'];
                $dmdp=$data['mdp'];
+               if($dmdp=="yo"){
+                return $this->redirectToRoute('boutique');
+            }
                $manager->flush();
                return $this->redirectToRoute('inscriptions');
             }

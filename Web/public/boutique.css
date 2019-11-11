@@ -7,11 +7,9 @@
     margin:0 auto;
 }
 #carrousel{
-   
     margin:0 auto;
 }
 .article{
-   
     margin:0 auto;
 }
 
@@ -59,4 +57,12 @@
   }
  .col-lg-9{
     margin:0 auto;
+ }
+
+ @media (min-width: 768px){
+.col-md-6 {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+}
  }

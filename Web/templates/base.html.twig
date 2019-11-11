@@ -22,10 +22,10 @@
         <div class="collapse navbar-collapse" id="navbarColor01">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Acceuil <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{{ path('accueil') }}">Acceuil <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Boutique</a>
+              <a class="nav-link" href="{{ path('boutique') }}">Boutique</a>
             </li>
           </ul>
           <div class="form-inline my-2 my-lg-0">
@@ -89,7 +89,7 @@
 
                 <!--Copyright-->
                 <p class="text-center text-md-left">© CESI 2019
-                  <a href="{{ path('main') }}"></a>
+                  <a href="{{ path('accueil') }}"></a>
                 </p>
 
               </div>
