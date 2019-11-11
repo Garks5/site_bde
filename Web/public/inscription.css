@@ -51,3 +51,7 @@ h4{
     overflow-y: scroll; 
     background-color:#F2F2F2;
 }
+
+#MAJ{
+    display:none;
+}

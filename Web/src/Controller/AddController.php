@@ -42,12 +42,19 @@ class AddController extends AbstractController
                 $dlocalisation=$data['localisation'];
                 if (preg_match("/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,}$/", $dmdp)) {
                     return $this->redirectToRoute('connect'); 
-                } else {
+                    //mettre les données dans la bdd
+                    $dmdp=hash('sha526',$data['mdp']);
                     $manager->flush();
-                    return $this->redirectToRoute('boutique');   
-                }    
-                //echo ($data['name']);
-                             
+                } else {
+                    echo "<script language='Javascript'>
+
+                    document.getElementById('MAJ').style.display='block';
+
+                   window.alert('tm');
+                    
+                    </script>";
+                    return $this->redirectToRoute('inscriptions');   
+                }                               
             }
         } 
     }
@@ -72,10 +79,8 @@ class AddController extends AbstractController
                $users = new Users;
                $data = $form2->getData();
                $dmail=$data['mail'];
-               $dmdp=$data['mdp'];
-               if($dmdp=="yo"){
-                return $this->redirectToRoute('boutique');
-            }
+               $dmdp=hash('sha526',$data['mdp']);
+              
                $manager->flush();
                return $this->redirectToRoute('inscriptions');
             }
