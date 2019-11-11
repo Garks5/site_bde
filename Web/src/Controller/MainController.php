@@ -48,4 +48,14 @@ class MainController extends AbstractController
             'controller_name' => 'MainController',
         ]);
     }
+
+    /**
+    *@Route("/event", name="event")
+    */
+    public function event()
+    {
+        return $this->render('main/event.html.twig', [
+            'controller_name' => 'MainController',
+        ]);
+    }
 }

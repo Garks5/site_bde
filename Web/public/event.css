@@ -1,0 +1,16 @@
+.card{
+    max-width: 20rem;
+    color:white;
+    margin:0 auto;
+}
+
+.card-header, .card-body{
+    vertical-align: inherit;
+}
+
+#event{
+   
+    text-align:center;
+}
+
+
