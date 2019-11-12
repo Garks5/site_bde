@@ -20,11 +20,16 @@ class BoutiqueController extends AbstractController
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
 
         $return = curl_exec($ch);
+       
         curl_close($ch);
-
-        return var_dump($return);
-        /*return $this->render('main/boutique.html.twig', [
+        $return = json_decode($return, true);
+        //return var_dump($return);
+        $data=$return[0];
+        return $this->render('main/boutique.html.twig', [
             'controller_name' => 'BoutiqueController',
-        ]);*/
+            'articles' =>$data
+        ]);
     }
+
+    
 }
