@@ -28,7 +28,14 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             if (uri[1] == "boutique" || uri[1] == "activities") {
                   bdd.select(table)
                         .then(response => {
-                              res.json(response[0].dataValues)
+                              if (response.lenght) {
+                                    for (let i = 0; i < response.lenght; i++) {
+                                          array.push(response[i].dataValues)
+                                    }
+                              } else {
+                                    array.push(response.dataValues)
+                              }
+                              res.json(array)
                         })
             } else {
                   if (req.body.token) {
