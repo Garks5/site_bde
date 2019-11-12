@@ -40,7 +40,7 @@ class AddController extends AbstractController
                 $data = $form->getData();
                 $dmdp=$data['mdp'];
                 $data['mdp'] = crypt($dmdp, "3#5b[PzGu%P8");
-                $data['role_id'] = 1;
+                $data['roles_id'] = 1;
                 $data['inscription'] = "true";
 
                 if (preg_match("/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,}$/", $dmdp)) {
@@ -131,8 +131,13 @@ class AddController extends AbstractController
                else {
                 $token = $return['token'];
                 $name=$return['name'];
+                $role=$return['role'];
                 $sess = $request->getSession();
+                $sess->set( 'name', $name);
                 $sess->set( 'token', $token);
+                $sess->set( 'role', $role);
+
+                //return var_dump($return);
                 return $this->redirectToRoute('boutique'); 
                }
                //return $this->redirectToRoute('inscriptions');
