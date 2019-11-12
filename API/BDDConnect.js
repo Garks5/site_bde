@@ -21,6 +21,7 @@ module.exports.select = function (table, id) {
 
 }
 
+
 module.exports.connect = function (table, jsonData) {
     console.log(jsonData.mail)
     return table.findOne({ where: { mail: jsonData.mail, mdp: jsonData.mdp } })
@@ -56,6 +57,13 @@ module.exports.add = function (table, jsonData, res) {
                     }
                 })
             break
+        case "activities":
+            table.create({ users_id: jsonData.id, date: jsonData.date, available: jsonData.available})
+            res.status(200).json({add : "succeed"})
+            break
+        case "products":
+            table.create({types_id: jsonData.types_id, name: jsonData.name, price: jsonData.price, description: jsonData.description, nb_vendu: jsonData.nb_vendu})
+            res.status(200).json({add : "succeed"})
     }
 }
 
@@ -81,7 +89,7 @@ module.exports.delete = function (table, jsonData) {
 }
 
 module.exports.verifRole = function (mail) {
-    return connection.sequelize.query('SELECT `users`.`id`, `users`.`roles_id`, `users`.`name`, `users`.`firstname`, `users`.`mail`, `users`.`mdp`, `users`.`localisation`, `users`.`roles_Id`, `role`.`id` AS `role.id`, `role`.`name` AS `role.name` FROM `users` AS `users` LEFT OUTER JOIN `roles` AS `role` ON `users`.`roles_id` = `role`.`id` WHERE `users`.`mail` = "' + mail + '" LIMIT 1')
+    return connection.sequelize.query('SELECT `role`.`name` AS `role.name`, `users`.`name` AS `users.name` FROM `users` AS `users` LEFT OUTER JOIN `roles` AS `role` ON `users`.`roles_id` = `role`.`id` WHERE `users`.`mail` = "' + mail + '" LIMIT 1')
     /*table.table('users').belongsTo(table.table('roles'))
     return table.table('roles').findOne({
         include: [{
@@ -92,4 +100,20 @@ module.exports.verifRole = function (mail) {
     .then( response => {
         console.log(response)
     })*/
+}
+
+module.exports.verifUser = function (mail, role) {
+    var roleID
+    switch (role){
+        case "Etudiant":
+            roleID = 1
+            break;
+        case "MembreBDE":
+            roleID = 2
+            break;
+        case "PeronnelCESI":
+            roleID = 3
+            break;
+    }
+    return table.table("users").findOne({where: {mail: mail, roles_id: roleID}})
 }
