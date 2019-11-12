@@ -17,7 +17,7 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 // FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
-myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/activities'])
+myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/activities', '/commentaries'])
       // GET
       .get(function (req, res) {
             var uri = req.path.split('/')
@@ -25,7 +25,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var table = enumTable.table(table)
             var id = uri[2]
             var array = []
-            if (table == "boutique" || table == "activities") {
+            if (table.name == "boutique" || table.name == "activities") {
                   bdd.select(table)
                         .then(response => {
                               res.json(response[0].dataValues)
@@ -68,7 +68,6 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                           res.json({ connect: refused })
                                     }
                               })
-
                   } else if (req.body.inscription == "true") { //inscription
                         console.log("bonjour " + table)
                         bdd.add(table, req.body, res)
@@ -77,13 +76,26 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
       })
       //PUT
       .put(function (req, res) {
-            bdd.modify(enumTable.table(req.path.split('/')[1]), req.body, res)
+            var uri = req.path.split('/')
+            var table = uri[1]
+            var table = enumTable.table(table)
+            if (req.body.token) {
+
+            }
+            //bdd.modify(enumTable.table(req.path.split('/')[1]), req.body, res)
       })
       //DELETE
       .delete(function (req, res) {
-            bdd.delete(enumTable.table(req.path.split('/')[1]), req.body)
-            res.json({ message: "Suppression d'une piscine dans la liste", methode: req.method });
+            var uri = req.path.split('/')
+            var table = uri[1]
+            var table = enumTable.table(table)
+            if(req.body.role == "BDE" && (table.name == "commentaries" || table.name == "pictures")){
+                  bdd.delete(table, req.body)
+            }
       });
+
+
+
 // Nous demandons à l'application d'utiliser notre routeur
 app.use(myRouter);
 // Démarrer le serveur 

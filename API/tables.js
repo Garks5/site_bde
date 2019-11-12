@@ -40,10 +40,15 @@ module.exports.Inscription = connection.sequelize.define('inscriptions', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
     },
-    date: {
-        type: Sequelize.DATE,
+    activities_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+    },
+    users_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
     }
 }, {
     timestamps: false
@@ -128,6 +133,10 @@ module.exports.Commentaries = connection.sequelize.define('commentaries', {
     },
     commentary: {
         type: Sequelize.STRING,
+    },
+    activities_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
     }
 }, {
     timestamps: false
