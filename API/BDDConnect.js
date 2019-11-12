@@ -29,41 +29,39 @@ module.exports.connect = function (table, jsonData) {
 module.exports.add = function (table, jsonData, res) {
     switch (table.name) {
         case "users":
-            console.log("c bon")
             table.findOne({ where: { mail: jsonData.mail } })
                 .then(function (user) {
                     if (!user) {
-                        console.log("pk sa bug")
                         table.create({ roles_id: jsonData.roles_id, name: jsonData.name, firstname: jsonData.firstname, mail: jsonData.mail, mdp: jsonData.mdp, localisation: jsonData.localisation })
-                        res.json({ inscription: "réussi" })
+                        res.status(200).json({ inscription: "réussi" })
                     } else {
-                        res.json({inscription : "false"})
-                    }
-                })
-            break
-        case "inscriptions":
-            console.log("bonjour2")
-            table.create({ date: jsonData.date })
-            break
-        case "roles":
-            table.findOne({ where: { name: jsonData.name } })
-                .then(function (role) {
-                    if (role) {
-                        console.log(role)
-                        return false
-                    } else {
-                        table.create({ name: jsonData.name })
-                        return true
+                        res.status(400).json({ inscription: "false" })
                     }
                 })
             break
         case "activities":
-            table.create({ users_id: jsonData.id, date: jsonData.date, available: jsonData.available})
-            res.status(200).json({add : "succeed"})
+            if (jsonData.role == "BDE") {
+                table.create({ users_id: jsonData.id, date: jsonData.date, available: jsonData.available })
+                res.status(200).json({ add: "succeed" })
+            } else {
+                res.status(400).json({ authorization: "Not authorized" })
+            }
             break
         case "products":
-            table.create({types_id: jsonData.types_id, name: jsonData.name, price: jsonData.price, description: jsonData.description, nb_vendu: jsonData.nb_vendu})
-            res.status(200).json({add : "succeed"})
+            if (jsonData.role == "BDE") {
+                table.create({ types_id: jsonData.types_id, name: jsonData.name, price: jsonData.price, description: jsonData.description, nb_vendu: jsonData.nb_vendu })
+                res.status(200).json({ add: "succeed" })
+            } else {
+                res.status(400).json({ authorization: "Not authorized" })
+            }
+            break
+        case "inscriptions":
+            table.create({ activities_id: jsonData.activities_id, users_id: jsonData.users_id })
+            res.status(200).json({ add: "succeed" })
+            break
+        case "commentaries":
+            table.create({ users_id: jsonData.users_id, commentary: jsonData.commentary, activities_id: jsonData.activities_id })
+            res.status(200).json({ add: "succeed" })
     }
 }
 
@@ -104,16 +102,16 @@ module.exports.verifRole = function (mail) {
 
 module.exports.verifUser = function (mail, role) {
     var roleID
-    switch (role){
+    switch (role) {
         case "Étudiant":
             roleID = 1
             break;
-        case "MembreBDE":
+        case "BDE":
             roleID = 2
             break;
         case "PeronnelCESI":
             roleID = 3
             break;
     }
-    return table.table("users").findOne({where: {mail: mail, roles_id: roleID}})
+    return table.table("users").findOne({ where: { mail: mail, roles_id: roleID } })
 }
