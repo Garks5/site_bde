@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20191112130107 extends AbstractMigration
+final class Version20191112141813 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,10 +22,10 @@ final class Version20191112130107 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE inscriptions ADD users_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE inscriptions ADD CONSTRAINT FK_74E0281C67B3B43D FOREIGN KEY (users_id) REFERENCES users (id)');
-        $this->addSql('CREATE INDEX IDX_74E0281C67B3B43D ON inscriptions (users_id)');
-        $this->addSql('ALTER TABLE products DROP nb_vendu');
+        $this->addSql('ALTER TABLE commentaries ADD activities_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE commentaries ADD CONSTRAINT FK_4ED55CCB2A4DB562 FOREIGN KEY (activities_id) REFERENCES activities (id)');
+        $this->addSql('CREATE INDEX IDX_4ED55CCB2A4DB562 ON commentaries (activities_id)');
+        $this->addSql('ALTER TABLE products ADD picture VARCHAR(255) NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -33,9 +33,9 @@ final class Version20191112130107 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE inscriptions DROP FOREIGN KEY FK_74E0281C67B3B43D');
-        $this->addSql('DROP INDEX IDX_74E0281C67B3B43D ON inscriptions');
-        $this->addSql('ALTER TABLE inscriptions DROP users_id');
-        $this->addSql('ALTER TABLE products ADD nb_vendu INT NOT NULL');
+        $this->addSql('ALTER TABLE commentaries DROP FOREIGN KEY FK_4ED55CCB2A4DB562');
+        $this->addSql('DROP INDEX IDX_4ED55CCB2A4DB562 ON commentaries');
+        $this->addSql('ALTER TABLE commentaries DROP activities_id');
+        $this->addSql('ALTER TABLE products DROP picture');
     }
 }

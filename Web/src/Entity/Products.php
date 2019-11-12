@@ -34,6 +34,11 @@ class Products
     private $description;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $picture;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Types", inversedBy="products")
      */
     private $Types;

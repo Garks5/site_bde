@@ -129,11 +129,10 @@ class AddController extends AbstractController
                 return $this->redirectToRoute('event'); 
                }
                else {
-                $test = $return['token'];
+                $token = $return['token'];
+                $name=$return['name'];
                 $sess = $request->getSession();
-                $sess->set( 'token', $test);
-
-
+                $sess->set( 'token', $token);
                 return $this->redirectToRoute('boutique'); 
                }
                //return $this->redirectToRoute('inscriptions');

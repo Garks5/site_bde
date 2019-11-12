@@ -26,6 +26,11 @@ class Commentaries
      */
     private $Users;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Activities", inversedBy="commentaries")
+     */
+    private $Activities;
+
     public function getId(): ?int
     {
         return $this->id;
