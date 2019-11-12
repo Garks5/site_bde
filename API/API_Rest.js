@@ -29,13 +29,17 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                   bdd.select(table)
                         .then(response => {
                               if (response.lenght) {
+                                    status = 200
                                     for (let i = 0; i < response.lenght; i++) {
                                           array.push(response[i].dataValues)
                                     }
-                              } else {
-                                    array.push(response.dataValues)
+                              } else if(response){
+                                    status = 200
+                                    array.push(response[0].dataValues)
+                              }else{
+                                    status = 400
                               }
-                              res.json(array)
+                              res.status(status).json(array)
                         })
             } else {
                   if (req.body.token) {
