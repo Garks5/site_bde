@@ -53,18 +53,24 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var uri = req.path.split('/')
             var table = uri[1]
             var table = enumTable.table(table)
-            if (req.query.connect == "true") {
+            if (req.query.connect == "true") { //connection
                   console.log(req.body.mail)
                   connect(req, res)
             } else {
-                  if (req.body.token) {
+                  if (req.body.token && req.body.role == "BDE") {
                         var mail = decodeToken(req.body.token)
-                        bdd.verifRole(mail)
-                              .then(response => {
-                                    res.json({ role: response[0][0]['role.name'] })
+                        bdd.verifUser(mail, req.body.role)
+                              .then(function (response) {
+                                    if (response) {
+                                          req.body.id = response.dataValues.id
+                                          bdd.add(table, req.body, res)
+                                    } else {
+                                          res.json({ connect: refused })
+                                    }
                               })
-                  } else if (req.body.inscription == "true") {
-                        console.log("bonjour "+ table)
+
+                  } else if (req.body.inscription == "true") { //inscription
+                        console.log("bonjour " + table)
                         bdd.add(table, req.body, res)
                   }
             }
@@ -95,11 +101,18 @@ function connect(req, res) {
 
                         const payload = { "mail": response.dataValues.mail }
                         var token = jsToken.create(payload, secret, "HS256")
-                        token = token.compact()
-                        result.token = token
-                        result.status = status
-                        res.status(status).json(result)
+                        bdd.verifRole(response.dataValues.mail)
+                              .then(response => {
+                                    token = token.compact()
+                                    result.token = token
+                                    result.role = response[0][0]['role.name']
+                                    result.name = response[0][0]['users.name']
+                                    result.status = status
+                                    res.status(status).json(result)
+                              })
                   } else {
+                        status = 400
+                        result.status = status
                         res.json({ connect: false })
                   }
             })

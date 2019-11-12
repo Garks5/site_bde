@@ -13,5 +13,7 @@ module.exports.table = function (table) {
             return tables.Products
         case "activities":
             return tables.Activities
+        case "commentaries":
+            return tables.Commentaries
     }
 }
