@@ -57,7 +57,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                   console.log(req.body.mail)
                   connect(req, res)
             } else {
-                  if (req.body.token && req.body.role) {
+                  if (req.body.token && req.body.role == "BDE") {
                         var mail = decodeToken(req.body.token)
                         bdd.verifUser(mail, req.body.role)
                               .then(function (response) {
@@ -111,6 +111,8 @@ function connect(req, res) {
                                     res.status(status).json(result)
                               })
                   } else {
+                        status = 400
+                        result.status = status
                         res.json({ connect: false })
                   }
             })

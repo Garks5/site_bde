@@ -105,7 +105,7 @@ module.exports.verifRole = function (mail) {
 module.exports.verifUser = function (mail, role) {
     var roleID
     switch (role){
-        case "Etudiant":
+        case "Étudiant":
             roleID = 1
             break;
         case "MembreBDE":
