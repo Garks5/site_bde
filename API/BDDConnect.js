@@ -36,7 +36,7 @@ module.exports.add = function (table, jsonData, res) {
                         table.create({ roles_id: jsonData.roles_id, name: jsonData.name, firstname: jsonData.firstname, mail: jsonData.mail, mdp: jsonData.mdp, localisation: jsonData.localisation })
                         res.json({ inscription: "réussi" })
                     } else {
-                        //return false
+                        res.json({inscription : "false"})
                     }
                 })
             break

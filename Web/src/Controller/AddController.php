@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AddController extends AbstractController
 {
@@ -35,16 +36,33 @@ class AddController extends AbstractController
             if($form->isSubmitted()) {
                 $users = new Users;
                 $data = $form->getData();
-                $dname=$data['name'];
-                $dfirstname=$data['firstname'];
-                $dmail=$data['mail'];
                 $dmdp=$data['mdp'];
-                $dlocalisation=$data['localisation'];
+                $data['mdp'] = crypt($dmdp, "3#5b[PzGu%P8");
+                $data['role_id'] = 1;
+                $data['inscription'] = "true";
+
                 if (preg_match("/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,}$/", $dmdp)) {
-                    return $this->redirectToRoute('connect'); 
+                    $dmdp = crypt($dmdp, "3#5b[PzGu%P8");
+                    $json_data = json_encode($data);
+                    //$json_data = new JsonResponse($data);
+                    //return $json_data;
                     //mettre les données dans la bdd
-                    $dmdp=hash('sha526',$data['mdp']);
-                    $manager->flush();
+
+                    $ch = curl_init();
+
+                    curl_setopt($ch, CURLOPT_URL, 'localhost:3000/users');
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+                        'Content-Type: application/json',                                                                                
+                        'Content-Length: ' . strlen($json_data))                                                              
+                    );
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+                    $return = curl_exec($ch);
+                    curl_close($ch);
+
+                    return $this->redirectToRoute('connect'); 
+                    //$manager->flush();
                 } else {
                     echo "<script language='Javascript'>
 
@@ -87,9 +105,9 @@ class AddController extends AbstractController
                $users = new Users;
                $data = $form2->getData();
                $dmail=$data['mail'];
-               $dmdp=hash('sha526',$data['mdp']);
+               $dmdp=hash('sha256',$data['mdp']);
               
-               $manager->flush();
+               //$manager->flush();
                return $this->redirectToRoute('inscriptions');
             }
        }
