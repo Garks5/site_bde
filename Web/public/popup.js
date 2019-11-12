@@ -5,14 +5,12 @@ $(document).ready(function() {
 
      function afficher(){
         valide=0; 
-       // window.alert(valide);
         $('#pop-up').css("display","block");
         $('#formulaire').css("display","none");
     }
 
     function accepte(){
         valide=1; 
-     //   window.alert(valide);
         $('#pop-up').css("display","none");
         $('#formulaire').css("display","block");
         if(valide==1){

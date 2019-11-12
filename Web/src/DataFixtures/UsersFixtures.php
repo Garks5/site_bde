@@ -15,7 +15,7 @@ class UsersFixtures extends Fixture
             $user->setNom("Yveh")
                  ->setPrenom("StLaureh")
                  ->setMail("jean.edouard@yahoo.be")
-                 ->setMdp("srgbnty89S")
+                 ->setMdp("srgbNty89S")
                  ->setLocalisation("croutte sur marne");
 
                  $manager->persist($user);

@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 
 class UsersType extends AbstractType
@@ -21,7 +22,7 @@ class UsersType extends AbstractType
             ->add('name', TextType::class, array('label'=> 'Nom', 'required' => true, 'attr' => array('class'=>'form-group', 'placeholder'=>'Entrez votre nom')))
             ->add('firstname', TextType::class, array('label'=> 'Prénom', 'required' => true, 'attr' => array('class'=>'form-group', 'placeholder'=>'Entrez votre prénom')))
             ->add('mail', EmailType::class, array('label'=> 'Adresse Email', 'required' => true, 'attr' => array('class'=>'form-group', 'placeholder'=>'Entrez votre adresse mail')))
-            ->add('mdp', TextType::class, array('label'=> 'Mot de passe', 'required' => true, 'attr' => array('class'=>'form-group', 'placeholder'=>'Entrez votre mot de passe')))
+            ->add('mdp', PasswordType::class, array('label'=> 'Mot de passe', 'required' => true, 'attr' => array('class'=>'form-group', 'placeholder'=>'Entrez votre mot de passe')))
             ->add('localisation', ChoiceType::class, array('label'=> 'Centre Cesi', 'required' => true,'choices' => ['Lille' => 'Lille', 'Arras' => 'Arras', 'Rouen' => 'Rouen', 'Reims' => 'Reims', 'Caen' => 'Caen'
             , 'Brest' => 'Brest', 'Nanterre' => 'Nanterre', 'Nancy' => 'Nancy', 'Strasbourg' => 'Strasbourg'
             , 'Le Mans' => 'Le Mans', 'Orléans' => 'Orléans', 'St-Nazaire' => 'St-Nazaire', 'Nantes' => 'Nantes', 'Dijon' => 'Dijon'
