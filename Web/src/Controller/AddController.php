@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 use App\Entity\Users;
 use App\Form\UsersType;
@@ -12,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class AddController extends AbstractController
 {
@@ -124,16 +125,19 @@ class AddController extends AbstractController
                curl_close($ch);
                $return = json_decode($return, true);
 
-               $validation = $return['connect'];
-
-               if ($validation == false){
+               if (isset($return['connect'])){
                 return $this->redirectToRoute('event'); 
                }
                else {
+                $test = $return['token'];
+                $sess = $request->getSession();
+                $sess->set( 'token', $test);
+
+
                 return $this->redirectToRoute('boutique'); 
                }
                //return $this->redirectToRoute('inscriptions');
             }
-       }
+        }
     }
 }
