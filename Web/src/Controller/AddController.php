@@ -54,6 +54,14 @@ class AddController extends AbstractController
                     
                     </script>";
                     return $this->redirectToRoute('inscriptions');   
+
+                    echo "<script language='Javascript'>
+
+                    document.getElementById('MAJ').style.display='block';
+
+                   window.alert('tm');
+                    
+                    </script>";
                 }                               
             }
         } 
