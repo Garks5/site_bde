@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AddController extends AbstractController
 {
@@ -19,32 +20,47 @@ class AddController extends AbstractController
     */
     public function new_inscription(Request $request, ObjectManager $manager)
     {
-        // création du formulaire présent dans la classe UsersType
+        //Création du formulaire présent dans la classe UsersType
         $form = $this->createForm(UsersType::class);
-        //La méthode get correspond au chargement de la page 
-        // elle permet de renvoyer le formulaire dans la vue 
+
+        //La méthode GET correspond au chargement de la page 
+        //Elle permet de renvoyer le formulaire dans la vue 
         if($request->isMethod('GET')){
             return $this->render('main/inscription.html.twig', [
                 'form' => $form->createView(),
             ]);
         }
-        //appeller lors de l'envoi des données
-        //les données sont récupérées dans des variables
+        //Appeller lors de l'envoi des données
+        //Les données sont récupérées dans des variables
         if($request->isMethod('POST')){
             $form->handleRequest($request);
             if($form->isSubmitted()) {
                 $users = new Users;
                 $data = $form->getData();
-                $dname=$data['name'];
-                $dfirstname=$data['firstname'];
-                $dmail=$data['mail'];
                 $dmdp=$data['mdp'];
-                $dlocalisation=$data['localisation'];
+                $data['mdp'] = crypt($dmdp, "3#5b[PzGu%P8");
+                $data['role_id'] = 1;
+                $data['inscription'] = "true";
+
                 if (preg_match("/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,}$/", $dmdp)) {
+                    $json_data = json_encode($data);
+                    //Intégrer les données dans la bdd via l'API
+
+                    $ch = curl_init();
+
+                    curl_setopt($ch, CURLOPT_URL, 'localhost:3000/users');
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+                        'Content-Type: application/json',                                                                                
+                        'Content-Length: ' . strlen($json_data))                                                              
+                    );
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+
+                    $return = curl_exec($ch);
+                    curl_close($ch);
+
                     return $this->redirectToRoute('connect'); 
-                    //mettre les données dans la bdd
-                    $dmdp=hash('sha526',$data['mdp']);
-                    $manager->flush();
                 } else {
                     echo "<script language='Javascript'>
 
@@ -72,25 +88,51 @@ class AddController extends AbstractController
     */
     public function new_connexion(Request $request, ObjectManager $manager)
     {
-        // création du formulaire présent dans la classe CoonectType
-        $form2 = $this->createForm(ConnectType::class);
+        //Création du formulaire présent dans la classe ConnectType
+        $form_connect = $this->createForm(ConnectType::class);
         
         if($request->isMethod('GET')){
             return $this->render('main/connect.html.twig', [
-                'form2' => $form2->createView(),
+                'form2' => $form_connect->createView(),
             ]);
         }
 
        if($request->isMethod('POST')){
-         $form2->handleRequest($request);
-          if($form2->isSubmitted() && $form2->isValid()) {
+         $form_connect->handleRequest($request);
+          if($form_connect->isSubmitted() && $form_connect->isValid()) {
                $users = new Users;
-               $data = $form2->getData();
-               $dmail=$data['mail'];
-               $dmdp=hash('sha526',$data['mdp']);
-              
-               $manager->flush();
-               return $this->redirectToRoute('inscriptions');
+               $data_connect = $form_connect->getData();
+
+               $dmdp=$data_connect['mdp'];
+               $data_connect['mdp'] = crypt($dmdp, "3#5b[PzGu%P8");
+
+               $json_data = json_encode($data_connect);
+               //Intégrer les données dans la bdd via l'API
+
+               $ch = curl_init();
+
+               curl_setopt($ch, CURLOPT_URL, 'localhost:3000/users?connect=true');
+               curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+               curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+               curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+                   'Content-Type: application/json',                                                                                
+                   'Content-Length: ' . strlen($json_data))                                                              
+               );
+               curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+
+               $return = curl_exec($ch);
+               curl_close($ch);
+               $return = json_decode($return, true);
+
+               $validation = $return['connect'];
+
+               if ($validation == false){
+                return $this->redirectToRoute('event'); 
+               }
+               else {
+                return $this->redirectToRoute('boutique'); 
+               }
+               //return $this->redirectToRoute('inscriptions');
             }
        }
     }
