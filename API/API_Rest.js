@@ -25,7 +25,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var table = enumTable.table(table)
             var id = uri[2]
             var array = []
-            if (table.name == "boutique" || table.name == "activities") {
+            if (uri[1] == "boutique" || uri[1] == "activities") {
                   bdd.select(table)
                         .then(response => {
                               res.json(response[0].dataValues)
