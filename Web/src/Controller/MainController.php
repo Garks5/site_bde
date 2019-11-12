@@ -38,17 +38,6 @@ class MainController extends AbstractController
         return $this->render('main/mention_legale.html.twig');
     }
 
-
-    /**
-    *@Route("/boutique", name="boutique")
-    */
-    public function boutique()
-    {
-        return $this->render('main/boutique.html.twig', [
-            'controller_name' => 'MainController',
-        ]);
-    }
-
     /**
     *@Route("/event", name="event")
     */
