@@ -16,8 +16,14 @@
           <h3 class="card-title">{{articles.name}}</h3>
           <h4>{{articles.price}} €</h4>
           <p class="card-text">{{articles.description}}</p>
-          
         </div>
+        {{ form_start(form) }}
+
+        {{ form_label(form.quantite)}}
+        {{ form_widget(form.quantite)}}
+        
+        {{ form_label(form.submit)}}
+        {{ form_widget(form.submit)}}
       </div>
     </div>
     {% endif %}
