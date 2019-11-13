@@ -2,10 +2,34 @@
 
 {% block title %}BDE CESI LILLE{% endblock %}
 {% block stylesheets %}
-
+<link href="inscription.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block body %}
-<h1>ben t sur boiteid </h1>
-
+<div id="formulaire">
+    <fieldset>
+        <h3>Proposer un événement</h3>
+        {{ form_start(formEvent) }}
+        <div class="form-group">
+            {{ form_label(formEvent.name)}}
+            {{ form_widget(formEvent.name)}}
+        </div><br>
+        <div class="form-group">
+            {{ form_label(formEvent.description)}}
+            {{ form_widget(formEvent.description)}}
+        </div><br>
+        <div class="form-group">
+            {{ form_label(formEvent.place)}}
+            {{ form_widget(formEvent.place)}}
+        </div><br>
+        <div class="form-group">
+            {{ form_label(formEvent.date)}}
+            {{ form_widget(formEvent.date)}}
+        </div><br>
+        <div class="form-group">
+            {{ form_label(formEvent.submit)}}
+            {{ form_widget(formEvent.submit)}}
+        </div><br>
+    </fieldset>
+</div>
 {% endblock %}

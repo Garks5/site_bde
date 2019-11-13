@@ -98,10 +98,25 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                           res.json({ connect: refused })
                                     }
                               })
+                  } else if(req.headers.authorization && table.name == "activities"){
+                        var mail = decodeToken(req.headers.authorization.split(' ')[1])
+                        bdd.verifUser(mail, req.body.role)
+                              .then(function (response) {
+                                    if (response) {
+                                          bdd.findID(mail).then(response => {
+                                                var id = response.dataValues.id
+                                                req.body.id = id
+                                          })
+                                          bdd.add(table, req.body, res)
+                                    } else {
+                                          res.json({ connect: refused })
+                                    }
+                              })
+                  
                   } else if (req.body.inscription == "true") { //inscription
                         console.log("bonjour " + table)
                         bdd.add(table, req.body, res)
-                  }
+                  } 
             }
       })
       //PUT

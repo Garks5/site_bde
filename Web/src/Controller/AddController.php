@@ -28,7 +28,7 @@ class AddController extends AbstractController
         //Elle permet de renvoyer le formulaire dans la vue 
         if($request->isMethod('GET')){
             return $this->render('main/inscription.html.twig', [
-                'form' => $form->createView(),
+                'form' => $form->createView()
             ]);
         }
         //Appeller lors de l'envoi des données

@@ -108,6 +108,10 @@ module.exports.verifRole = function (mail) {
     return connection.sequelize.query('SELECT `role`.`name` AS `role.name`, `users`.`name` AS `users.name` FROM `users` AS `users` LEFT OUTER JOIN `roles` AS `role` ON `users`.`roles_id` = `role`.`id` WHERE `users`.`mail` = "' + mail + '" LIMIT 1')
 }
 
+module.exports.findID = function (mail){
+    return table.table("users").findOne({ where: {mail : mail}})
+}
+
 module.exports.verifUser = function (mail, role) {
     var roleID
     switch (role) {
