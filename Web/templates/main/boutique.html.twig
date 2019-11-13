@@ -38,15 +38,19 @@
                 </a>
             </div>
            
-            <p>Type:
-            <form action="#" class="btn-group" id="type" label="type:">
-                <select class="btn btn-primary">
-                    <option value="1" > Vêtement </option>
-                    <option value="2"> Goodies</option>
-                </select>
-                <button class="btn btn-primary" type="submit">Ok</button>
-            </form>
-        </p>
+            <div id="formulaire">
+                    <fieldset> 
+                        {{ form_start(form) }}
+                        <div class="form-group">
+                       
+                        </div><br>
+                        <div class="form-group">
+                          
+                        </div><br><br>
+                        
+                        {{ form_end(form) }}
+                    </fieldset>
+                </div>
         
         {% if  articles is defined %}
         <div class="row article">
