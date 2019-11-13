@@ -6,6 +6,20 @@
 {% endblock %}
 
 {% block body %}
-<h1>ben t sur article </h1>
+
+{% if  articles is defined %}
+
+<div class="col-lg-9">
+    <div class="card mt-4">
+        <img class="card-img-top img-fluid" src="{{articles.picture}}" alt="">
+        <div class="card-body">
+          <h3 class="card-title">{{articles.name}}</h3>
+          <h4>{{articles.price}} €</h4>
+          <p class="card-text">{{articles.description}}</p>
+          
+        </div>
+      </div>
+    </div>
+    {% endif %}
 
 {% endblock %}
