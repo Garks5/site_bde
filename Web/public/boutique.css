@@ -1,7 +1,6 @@
 #boutique{
     text-align:center;
     margin:0 auto;
-  
 }
 .row{
     margin:0 auto;
@@ -66,12 +65,16 @@
     max-width: 50%;
 }
  }
-
  #type{
    margin:1%;
  }
-
  .btn {
- 
   background-color:#56ABE3;
 }
+.carousel-control-prev-icon,.carousel-control-next-icon {
+  color:black;
+  background-color: black;
+  border-radius:8px 8px 8px;
+}
+
+

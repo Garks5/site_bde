@@ -36,12 +36,13 @@ class BoutiqueController extends AbstractController
 
             //recupere le top 3 des articles les plus vendus envoyé par l'API
             $cht = curl_init();
-            curl_setopt($cht, CURLOPT_URL, 'localhost:3000/boutique');
+            curl_setopt($cht, CURLOPT_URL, 'localhost:3000/topboutique');
             curl_setopt($cht, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($cht, CURLOPT_CUSTOMREQUEST, "GET");
             $topreturn = curl_exec($cht);
             curl_close($cht);
             $topreturn = json_decode($topreturn, true);
+           // return var_dump($topreturn);
             $img1=$topreturn[0]['picture'];
             $img2=$topreturn[1]['picture'];
             $img3=$topreturn[2]['picture'];
@@ -70,7 +71,7 @@ class BoutiqueController extends AbstractController
                 $return = json_decode($return, true);
 
                 $cht = curl_init();
-                curl_setopt($cht, CURLOPT_URL, 'localhost:3000/boutique');
+                curl_setopt($cht, CURLOPT_URL, 'localhost:3000/topboutique');
                 curl_setopt($cht, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($cht, CURLOPT_CUSTOMREQUEST, "GET");
                 $topreturn = curl_exec($cht);

@@ -1,11 +1,9 @@
 <?php
 
 namespace App\Controller;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-
 //controlleur accueil et mentions légales
 
 class MainController extends AbstractController
@@ -28,7 +26,6 @@ class MainController extends AbstractController
             'controller_name' => 'MainController',
         ]);
     }
-
     /**
     * @Route("/mention_legale", name="mention_legale")
     */
@@ -37,6 +34,4 @@ class MainController extends AbstractController
         dump($request);
         return $this->render('main/mention_legale.html.twig');
     }
-
-    
 }

@@ -2,12 +2,12 @@
 
 {% block title %}BDE CESI LILLE{% endblock %}
 {% block stylesheets %}
-
+<link href="event.css" rel="stylesheet" >
 {% endblock %}
 
 {% block body %}
 {% if  event is defined %}
-
+            <br><br>
             <div class="card bg-primary col-lg-4 col-sm-4 mb-4" >
                    
                 <div class="card-header">{{event.date}}, {{event.place}}
@@ -16,6 +16,10 @@
                     <h4 class="card-title">{{event.name}}</h4>
                     <p class="card-text">{{event.description}}.</p>
                 </div>
+                {{ form_start(form) }}
+                        
+                {{ form_label(form.submit)}}
+                {{ form_widget(form.submit)}}
             </div><br>
    
     {% endif %}

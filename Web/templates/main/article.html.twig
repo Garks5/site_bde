@@ -2,21 +2,23 @@
 
 {% block title %}BDE CESI LILLE{% endblock %}
 {% block stylesheets %}
-
+<link href="boutique.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block body %}
 
 {% if  articles is defined %}
 
-<div class="col-lg-9">
+<div class="container">
+  <div class="col-lg-9">
     <div class="card mt-4">
-        <img class="card-img-top img-fluid" src="{{articles.picture}}" alt="">
-        <div class="card-body">
-          <h3 class="card-title">{{articles.name}}</h3>
-          <h4>{{articles.price}} €</h4>
-          <p class="card-text">{{articles.description}}</p>
-        </div>
+      <img class="card-img-top img-fluid" src="{{articles.picture}}" alt="">
+      <div class="card-body">
+        <h3 class="card-title">{{articles.name}}</h3>
+        <h4>{{articles.price}} €</h4>
+        <p class="card-text">{{articles.description}}</p>
+      </div>
+      <div class='btn'>
         {{ form_start(form) }}
 
         {{ form_label(form.quantite)}}
@@ -26,6 +28,8 @@
         {{ form_widget(form.submit)}}
       </div>
     </div>
-    {% endif %}
+  </div>
+</div>
+{% endif %}
 
 {% endblock %}
