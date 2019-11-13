@@ -52,24 +52,25 @@
         </p>
 
         {% if  articles is defined %}
-          
-            <div class="row article">
+          {% for article in articles %}
+           <div class="row article">
                 <div class="col-lg-4 col-sm-4 mb-4 article">
                     <div class="card h-100">
                         <a href="#"><img class="card-img-top" src="img/t-shirt.jpg" alt=""></a>
                         <div class="card-body">
                             <h4 class="card-title">
-                            <a href="#"> {{articles.name}}</a>
+                            <a href="#"> {{article.name}}</a>
                             </h4>
-                            <h5>{{articles.price}} €</h5>
-                            <p class="card-text">{{articles.description}}</p>
+                            <h5>{{article.price}} €</h5>
+                            <p class="card-text">{{article.description}}</p>
                         </div>
                     </div>
                 </div>
-               
+                
+               {% endfor %}
                
             {% endif %}
-
+                <!--
                 <div class="col-lg-4 col-sm-4 mb-4 article">
                     <div class="card h-100">
                         <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
@@ -82,6 +83,7 @@
                         </div>
                     </div>
                 </div>
+                -->
             </div>
         </div>
     </div>

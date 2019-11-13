@@ -19,9 +19,23 @@ class Activities
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     private $date;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $place;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $description;
 
     /**
      * @ORM\Column(type="boolean")
