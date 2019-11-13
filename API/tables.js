@@ -93,7 +93,11 @@ module.exports.Products = connection.sequelize.define('products', {
     },
     nb_vendu: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: true
+    },
+    picture: {
+        type: Sequelize.STRING,
+        allowNull: true
     }
 }, {
     timestamps: false
