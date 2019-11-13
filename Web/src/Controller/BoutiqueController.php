@@ -13,8 +13,8 @@ class BoutiqueController extends AbstractController
     */
     public function boutique()
     {
+        //récupere toutes les données produits envoyées par l'API
         $ch = curl_init();
-
         curl_setopt($ch, CURLOPT_URL, 'localhost:3000/boutique');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
@@ -25,7 +25,7 @@ class BoutiqueController extends AbstractController
         curl_close($ch);
         $return = json_decode($return, true);
        // return var_dump($return);
-      
+      //recupere le top 3 des articles les plus vendus envoyé par l'API
        $cht = curl_init();
        curl_setopt($cht, CURLOPT_URL, 'localhost:3000/boutique');
        curl_setopt($cht, CURLOPT_RETURNTRANSFER, true);
@@ -37,9 +37,7 @@ class BoutiqueController extends AbstractController
        $img2=$topreturn[1]['picture'];
        $img3=$topreturn[2]['picture'];
        // return var_dump($return);
-      
-         //return var_dump($img2);
-      
+    
         return $this->render('main/boutique.html.twig', [
             'controller_name' => 'BoutiqueController',
             'articles' =>$return, 
@@ -52,9 +50,22 @@ class BoutiqueController extends AbstractController
     /**
     *@Route("/boutique{id}", name="boutique{id}")
     */
-    public function boutique_id()
-    {
-        
+    public function boutique_id($id)
+    {   
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'localhost:3000/boutique');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        $return = curl_exec($ch);
+        curl_close($ch);
+        $return = json_decode($return, true);
+        $id=$id-1;
+        $article=$return[$id];
+        //return var_dump($article);
+        return $this->render('main/article.html.twig', [
+            'controller_name' => 'BoutiqueController',
+            'articles' =>$article
+            ]);
     }
 
     
