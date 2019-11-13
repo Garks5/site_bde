@@ -123,9 +123,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
 // Nous demandons à l'application d'utiliser notre routeur
 app.use(myRouter);
 // Démarrer le serveur 
-app.listen(port, hostname, function () {
-      console.log("Mon serveur fonctionne sur http://" + hostname + ":" + port);
-});
+app.listen(port, hostname, () => {console.log("Mon serveur fonctionne sur http://" + hostname + ":" + port);});
 
 
 function connect(req, res) {
