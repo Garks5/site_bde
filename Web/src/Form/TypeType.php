@@ -13,9 +13,9 @@ class TypeType extends AbstractType
     {
         $builder
         //ajout d'une zone de text qui correspondra au mail : EmailType
-        ->add('Type', ChoiceType::class, array('label'=> 'Type:', 'required' => true,'choices' => ['1' => 'Vetements', '2' => 'Goodies',
-        ], 'attr' => array('class'=>'form-group')))  
-        ->add('submit', SubmitType::class, array('label'=>"Trier", 'attr' => array('class'=>'btn')))
+        ->add('type', ChoiceType::class, array('label'=> 'Type:', 'required' => true,'choices' => ['Vêtements' => '1', 'Goodies' => '2',
+        ], 'attr' => array('class'=>'btn btn-primary')))  
+        ->add('submit', SubmitType::class, array('label'=>"Trier", 'attr' => array('class'=>'btn btn-primary')))
         ;
     }
 }
