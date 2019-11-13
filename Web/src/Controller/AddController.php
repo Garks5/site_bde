@@ -63,22 +63,10 @@ class AddController extends AbstractController
 
                     return $this->redirectToRoute('connect'); 
                 } else {
-                    echo "<script language='Javascript'>
-
-                    document.getElementById('MAJ').style.display='block';
-
-                   window.alert('tm');
-                    
-                    </script>";
-                    return $this->redirectToRoute('inscriptions');   
-
-                    echo "<script language='Javascript'>
-
-                    document.getElementById('MAJ').style.display='block';
-
-                   window.alert('tm');
-                    
-                    </script>";
+                    return $this->render('main/inscription.html.twig', [
+                        'form' => $form->createView(),
+                        'erreur'=>'Votre mot de passe ne respecte pas les conditions'
+                    ]);
                 }                               
             }
         } 

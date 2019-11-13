@@ -55,3 +55,8 @@ h4{
 #MAJ{
     display:none;
 }
+
+#erreur{
+    color:red;
+    margin:0 6% 0 8%;  
+}

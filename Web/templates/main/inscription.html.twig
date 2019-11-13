@@ -33,8 +33,12 @@
         <div class="form-group">
             {{ form_label(form.mdp)}}
             {{ form_widget(form.mdp)}}
-        <div id="MAJ">Votre mot de passe ne respecte pas les conditions</div>
+       {% if erreur is defined %}
+            <div id="erreur"> 
+                {{erreur}}
+            </div>
             <small id="password" class="form-text text-muted">6 caractères dont au moins 1 majuscule et un chiffre</small>
+        {% endif %}
         </div>
         <div class="form-group">
             {{ form_label(form.localisation)}}
