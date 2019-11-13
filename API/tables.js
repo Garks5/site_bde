@@ -204,7 +204,7 @@ module.exports.Pictures = connection.sequelize.define('pictures', {
         type: Sequelize.INTEGER,
         allowNull: true,
     },
-    activties_id: {
+    activities_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
     },
@@ -214,6 +214,8 @@ module.exports.Pictures = connection.sequelize.define('pictures', {
     description: {
         type: Sequelize.STRING,
     }
+}, {
+    timestamps: false
 })
 
 module.exports.Types = connection.sequelize.define('types', {
