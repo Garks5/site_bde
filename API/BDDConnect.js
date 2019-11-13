@@ -13,12 +13,10 @@ connection.sequelize.authenticate()
 
 module.exports.select = function (table, id) {
     if (!id) {
-        return table.findAll({
-        })
+        return table.findAll({})
     } else {
         return table.findOne({ where: { id: id } })
     }
-
 }
 
 

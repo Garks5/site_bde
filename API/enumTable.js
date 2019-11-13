@@ -15,5 +15,7 @@ module.exports.table = function (table) {
             return tables.Activities
         case "commentaries":
             return tables.Commentaries
+        case "pictures":
+            return tables.Pictures
     }
 }

@@ -17,7 +17,7 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 // FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
-myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/activities', '/commentaries'])
+myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/activities', '/commentaries', '/pictures'])
       // GET
       .get(function (req, res) {
             var uri = req.path.split('/')
@@ -25,24 +25,33 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var table = enumTable.table(table)
             var id = uri[2]
             var array = []
-            if (uri[1] == "boutique" || uri[1] == "activities") {
+            if (uri[1] == "boutique" || uri[1] == "activities" || uri[1] == "pictures") {
                   bdd.select(table)
                         .then(response => {
+                              //console.log(response[0].dataValues)
+                              //console.log(response[1].dataValues)
+                              console.log(response.lenght)
                               if (response.lenght) {
+                                    console.log(response)
                                     status = 200
                                     for (let i = 0; i < response.lenght; i++) {
                                           array.push(response[i].dataValues)
                                     }
-                              } else if(response){
+                              } else if (response) {
                                     status = 200
                                     array.push(response[0].dataValues)
-                              }else{
+                              } else {
                                     status = 400
                               }
                               res.status(status).json(array)
                         })
             } else {
-                  if (req.body.token) {
+                  token2 = req.headers.authorization
+                  token2 = token2.split(' ')
+                  console.log(token2[1])
+                  //token = token['input'].match('(?!Bearer )([a-zA-Z0-9-.])')
+                  console.log(token2)
+                  if (req.headers.authorization) {
                         bdd.select(table, id)
                               .then(response => {
                                     if (response.lenght) {
@@ -100,7 +109,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var uri = req.path.split('/')
             var table = uri[1]
             var table = enumTable.table(table)
-            if(req.body.role == "BDE" && (table.name == "commentaries" || table.name == "pictures")){
+            if (req.body.role == "BDE" && (table.name == "commentaries" || table.name == "pictures")) {
                   bdd.delete(table, req.body)
             }
       });
