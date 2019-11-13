@@ -120,7 +120,7 @@ module.exports.Activities = connection.sequelize.define('activities', {
     available: {
         type: Sequelize.BOOLEAN,
     },
-    place:{
+    /*place:{
         type : Sequelize.STRING,
     },
     name:{
@@ -128,7 +128,7 @@ module.exports.Activities = connection.sequelize.define('activities', {
     },
     description:{
         type : Sequelize.STRING,
-    }
+    }*/
 }, {
     timestamps: false
 })

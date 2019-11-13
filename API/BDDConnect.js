@@ -28,10 +28,10 @@ module.exports.selectTri = function () {
     })
 }
 
-module.exports.selectID = function (id){
+module.exports.selectID = function (id) {
     console.log(id)
     return table.table("boutique").findAll({
-        where: {types_id : id}
+        where: { types_id: id }
     })
 }
 
@@ -54,8 +54,8 @@ module.exports.add = function (table, jsonData, res) {
                 })
             break
         case "activities":
-                table.create({ users_id: jsonData.id, date: jsonData.date.date, available: jsonData.available, place:jsonData.place, name:jsonData.name, description:jsonData.description})
-                res.status(200).json({ add: "succeed" })
+            table.create({ users_id: jsonData.id, date: jsonData.date.date, available: jsonData.available, place: jsonData.place, name: jsonData.name, description: jsonData.description })
+            res.status(200).json({ add: "succeed" })
             break
         case "products":
             if (jsonData.role == "BDE") {
@@ -74,21 +74,23 @@ module.exports.add = function (table, jsonData, res) {
             res.status(200).json({ add: "succeed" })
             break
         case "pictures":
-            table.create({users_id:jsonData.users_id, activities_id:jsonData.activities_id, url:jsonData.url, description:jsonData.description})
+            table.create({ users_id: jsonData.users_id, activities_id: jsonData.activities_id, url: jsonData.url, description: jsonData.description })
             res.status(200).json({ add: "succeed" })
     }
 }
 
-module.exports.modify = function (table, jsonData) {
+module.exports.modify = function (table, jsonData, res) {
     var obj = Object.keys(jsonData)
     console.log(obj)
     if (jsonData.id) {
-        table.findOne(Sequelize.literal('WHERE id=' + jsonData.id))
+        table.findOne({ where: { id: jsonData.id } })
             .then(function (user) {
                 for (var i = 1; i < obj.length; i++) {
                     user[obj[i]] = jsonData[obj[i]]
                 }
                 user.save().then(function () {
+                }).catch(err => {
+                    res.status(400).json({error: err})
                 });
             });
     } else {
@@ -104,8 +106,8 @@ module.exports.verifRole = function (mail) {
     return connection.sequelize.query('SELECT `role`.`name` AS `role.name`, `users`.`name` AS `users.name` FROM `users` AS `users` LEFT OUTER JOIN `roles` AS `role` ON `users`.`roles_id` = `role`.`id` WHERE `users`.`mail` = "' + mail + '" LIMIT 1')
 }
 
-module.exports.findID = function (mail){
-    return table.table("users").findOne({ where: {mail : mail}})
+module.exports.findID = function (mail) {
+    return table.table("users").findOne({ where: { mail: mail } })
 }
 
 module.exports.verifUser = function (mail, role) {
