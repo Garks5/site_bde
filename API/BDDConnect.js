@@ -54,12 +54,8 @@ module.exports.add = function (table, jsonData, res) {
                 })
             break
         case "activities":
-            if (jsonData.role == "BDE") {
-                table.create({ users_id: jsonData.id, date: jsonData.date, available: jsonData.available, place:jsonData.place, name:jsonData.name, description:jsonData.description})
+                table.create({ users_id: jsonData.id, date: jsonData.date.date, available: jsonData.available, place:jsonData.place, name:jsonData.name, description:jsonData.description})
                 res.status(200).json({ add: "succeed" })
-            } else {
-                res.status(400).json({ authorization: "Not authorized" })
-            }
             break
         case "products":
             if (jsonData.role == "BDE") {

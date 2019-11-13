@@ -95,7 +95,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                           req.body.id = response.dataValues.id
                                           bdd.add(table, req.body, res)
                                     } else {
-                                          res.json({ connect: refused })
+                                          res.json({ connect: "refused"})
                                     }
                               })
                   } else if(req.headers.authorization && table.name == "activities"){
@@ -103,13 +103,14 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                         bdd.verifUser(mail, req.body.role)
                               .then(function (response) {
                                     if (response) {
+                                          console.log(req.body.date.date)
                                           bdd.findID(mail).then(response => {
                                                 var id = response.dataValues.id
                                                 req.body.id = id
+                                                bdd.add(table, req.body, res)
                                           })
-                                          bdd.add(table, req.body, res)
                                     } else {
-                                          res.json({ connect: refused })
+                                          res.status(400).json({ connect: "refused" })
                                     }
                               })
                   

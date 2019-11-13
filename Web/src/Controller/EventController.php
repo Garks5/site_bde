@@ -50,22 +50,31 @@ class EventController extends AbstractController
             if($form->isSubmitted()) {
                 $data = $form->getData();
                 $data['available'] = 0;
-                $data['users_id'] = 1;
+                $data['role'] = "Étudiant";
+                //token a changé
+                $token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoibHVjYXMuZHVsZXVAdmlhY2VzaS5mciIsImp0aSI6ImIzNDNlZjBkLWVhZDYtNDM5Mi04Y2U5LWVhMTFkOWY4YzFmOCIsImlhdCI6MTU3MzY1Nzg3NywiZXhwIjoxNTczNjYxNDc3fQ.ppPkR2AHmZc6hU_xx26Tvn2U14MMWBElLj7UTajLAEA";
+                $json_data = json_encode($data);
+                $header = array(
+                    'Accept: application/json',
+                    'Content-Type: application/json',
+                    'Authorization: Bearer ' .$token ,
+                    'Content-Length: ' . strlen($json_data)   
+                    );
+                
+
 
                 $ch = curl_init();
 
                     curl_setopt($ch, CURLOPT_URL, 'localhost:3000/activities');
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-                        'Content-Type: application/json',                                                                                
-                        'Content-Length: ' . strlen($json_data))                                                              
-                    );
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
 
                     $return = curl_exec($ch);
                     curl_close($ch);
 
+                    
                     return $this->redirectToRoute('connect'); 
             }
         }
