@@ -48,7 +48,7 @@ module.exports.add = function (table, jsonData, res) {
             break
         case "activities":
             if (jsonData.role == "BDE") {
-                table.create({ users_id: jsonData.id, date: jsonData.date, available: jsonData.available })
+                table.create({ users_id: jsonData.id, date: jsonData.date, available: jsonData.available, place:jsonData.place, name:jsonData.name, description:jsonData.description})
                 res.status(200).json({ add: "succeed" })
             } else {
                 res.status(400).json({ authorization: "Not authorized" })
@@ -99,16 +99,6 @@ module.exports.delete = function (table, jsonData) {
 
 module.exports.verifRole = function (mail) {
     return connection.sequelize.query('SELECT `role`.`name` AS `role.name`, `users`.`name` AS `users.name` FROM `users` AS `users` LEFT OUTER JOIN `roles` AS `role` ON `users`.`roles_id` = `role`.`id` WHERE `users`.`mail` = "' + mail + '" LIMIT 1')
-    /*table.table('users').belongsTo(table.table('roles'))
-    return table.table('roles').findOne({
-        include: [{
-            model: table.table('users'),
-            where: {mail: mail}
-        }]
-    })
-    .then( response => {
-        console.log(response)
-    })*/
 }
 
 module.exports.verifUser = function (mail, role) {
