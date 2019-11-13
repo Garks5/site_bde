@@ -49,5 +49,13 @@ class BoutiqueController extends AbstractController
         ]);
     }
 
+    /**
+    *@Route("/boutique{id}", name="boutique{id}")
+    */
+    public function boutique_id()
+    {
+        
+    }
+
     
 }

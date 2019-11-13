@@ -12,15 +12,15 @@
 
     {% if  events is defined %}
         {% for event in events %}
-            <div class="card bg-primary" >
+            <div class="card bg-primary col-lg-4 col-sm-4 mb-4" >
                 <!--Ajouter balise a-->
-                <div class="card-header">{{event.date}}, lieu
+                <div class="card-header">{{event.date}}, {{event.place}}
                 </div>
                 <div class="card-body">
-                    <h4 class="card-title">Titre de l'activité</h4>
-                    <p class="card-text">Quelques exemples de texte rapides à construire sur le titre de la carte et constituant la majeure partie du contenu de la carte.</p>
+                    <h4 class="card-title">{{event.name}}</h4>
+                    <p class="card-text">{{event.description}}.</p>
                 </div>
-            </div>
+            </div><br>
         {% endfor %}
     {% endif %}
         </br><a href="{{ path('boiteid') }}"><button class="btn btn-primary">Proposer une activité</button></a>
