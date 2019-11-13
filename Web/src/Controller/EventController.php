@@ -25,8 +25,18 @@ class EventController extends AbstractController
         $return = json_decode($return, true);
         //return var_dump($return);
         return $this->render('main/event.html.twig', [
-            'controller_name' => 'BoutiqueController',
+            'controller_name' => 'EventController',
             'events' =>$return
+        ]);
+    }
+
+    /**
+    *@Route("/boiteid", name="boiteid")
+    */
+    public function boiteid()
+    {
+        return $this->render('main/boiteid.html.twig', [
+            'controller_name' => 'EventController'
         ]);
     }
 
