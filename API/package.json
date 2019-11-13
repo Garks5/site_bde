@@ -4,7 +4,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "Fabien Paugois",
+    "author": "Rodrigue Taccoen & Lucas Duleu",
     "license": "ISC",
     "dependencies": {
         "body-parser": "^1.19.0",

@@ -37,9 +37,6 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                     for (let i = 0; i < response.length; i++) {
                                           array.push(response[i].dataValues)
                                     }
-                              } else if (response) {
-                                    status = 200
-                                    array.push(response[0].dataValues)
                               } else {
                                     status = 400
                               }
