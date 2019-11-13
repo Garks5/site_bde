@@ -17,7 +17,7 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 // FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
-myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/activities', '/commentaries', '/pictures'])
+myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/activities', '/commentaries', '/pictures', '/topboutique'])
       // GET
       .get(function (req, res) {
             var uri = req.path.split('/')
@@ -28,9 +28,6 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             if (uri[1] == "boutique" || uri[1] == "activities" || uri[1] == "pictures") {
                   bdd.select(table)
                         .then(response => {
-                              //console.log(response[0].dataValues)
-                              //console.log(response[1].dataValues)
-                              console.log(response.length)
                               if (response.length) {
                                     console.log(response)
                                     status = 200
@@ -41,6 +38,16 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                     status = 400
                               }
                               res.status(status).json(array)
+                        })
+            }
+            else if (uri[1] == "topboutique") {
+                  bdd.selectTri()
+                        .then(response => {
+                              console.log(response)
+                              for (let i = 0; i < response.length; i++) {
+                                    array.push(response[i].dataValues)
+                              }
+                              res.status(200).json(array)
                         })
             } else {
                   token2 = req.headers.authorization

@@ -19,6 +19,15 @@ module.exports.select = function (table, id) {
     }
 }
 
+module.exports.selectTri = function () {
+    return table.table("boutique").findAll({
+        order: [
+            ['nb_vendu', 'DESC']
+        ],
+        limit: 3
+    })
+}
+
 
 module.exports.connect = function (table, jsonData) {
     console.log(jsonData.mail)
@@ -47,7 +56,7 @@ module.exports.add = function (table, jsonData, res) {
             break
         case "products":
             if (jsonData.role == "BDE") {
-                table.create({ types_id: jsonData.types_id, name: jsonData.name, price: jsonData.price, description: jsonData.description, nb_vendu: jsonData.nb_vendu })
+                table.create({ types_id: jsonData.types_id, name: jsonData.name, price: jsonData.price, description: jsonData.description, picture: jsonData.picture, nb_vendu: jsonData.nb_vendu })
                 res.status(200).json({ add: "succeed" })
             } else {
                 res.status(400).json({ authorization: "Not authorized" })
