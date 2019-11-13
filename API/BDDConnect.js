@@ -28,6 +28,13 @@ module.exports.selectTri = function () {
     })
 }
 
+module.exports.selectID = function (id){
+    console.log(id)
+    return table.table("boutique").findAll({
+        where: {types_id : id}
+    })
+}
+
 
 module.exports.connect = function (table, jsonData) {
     console.log(jsonData.mail)
