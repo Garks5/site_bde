@@ -30,11 +30,11 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                         .then(response => {
                               //console.log(response[0].dataValues)
                               //console.log(response[1].dataValues)
-                              console.log(response.lenght)
-                              if (response.lenght) {
+                              console.log(response.length)
+                              if (response.length) {
                                     console.log(response)
                                     status = 200
-                                    for (let i = 0; i < response.lenght; i++) {
+                                    for (let i = 0; i < response.length; i++) {
                                           array.push(response[i].dataValues)
                                     }
                               } else if (response) {
@@ -54,8 +54,8 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                   if (req.headers.authorization) {
                         bdd.select(table, id)
                               .then(response => {
-                                    if (response.lenght) {
-                                          for (let i = 0; i < response.lenght; i++) {
+                                    if (response.length) {
+                                          for (let i = 0; i < response.length; i++) {
                                                 array.push(response[i].dataValues)
                                           }
                                     } else {
