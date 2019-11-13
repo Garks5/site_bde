@@ -13,7 +13,6 @@
     {% if  events is defined %}
         {% for event in events %}
             <div class="card bg-primary col-lg-4 col-sm-4 mb-4" >
-                <!--Ajouter balise a-->
                 <div class="card-header">{{event.date}}, {{event.place}}
                 </div>
                 <div class="card-body">
@@ -23,6 +22,6 @@
             </div><br>
         {% endfor %}
     {% endif %}
-        </br><a href="{{ path('boiteid') }}"><button class="btn btn-primary">Proposer une activité</button></a>
-</div>
+    </br><a href="{{ path('boiteid') }}"><button class="btn btn-primary">Proposer une activité</button></a>
+    </div>
 {% endblock %}

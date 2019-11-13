@@ -68,5 +68,4 @@ class BoutiqueController extends AbstractController
             ]);
     }
 
-    
 }
