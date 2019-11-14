@@ -76,7 +76,7 @@ module.exports.Products = connection.sequelize.define('products', {
         autoIncrement: true
     },
     types_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         foreignKey: true
     },
     name: {

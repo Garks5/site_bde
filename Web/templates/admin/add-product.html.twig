@@ -6,5 +6,18 @@
 
 {% block body %}
 <h1>ajouter un article dans la boutique </h1>
-
+{{ form_start(form) }}
+                     
+                {{ form_label(form.name)}}
+                {{ form_widget(form.name)}}
+                {{ form_label(form.description)}}
+                {{ form_widget(form.description)}}
+                {{ form_label(form.price)}}
+                {{ form_widget(form.price)}}
+                {{ form_label(form.types_id)}}
+                {{ form_widget(form.types_id)}}
+                {{ form_label(form.picture)}}
+                {{ form_widget(form.picture)}}
+                {{ form_label(form.submit)}}
+                {{ form_widget(form.submit)}}
 {% endblock %}
