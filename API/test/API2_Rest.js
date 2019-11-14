@@ -5,6 +5,7 @@ const express = require('express');
 const bodyparser = require('body-parser')
 const jsToken = require('njwt')
 const secret = "5[:8j£NQ4Vcj"
+const dateForm = require('date-and-time')
 
 // Nous définissons ici les paramètres du serveur.
 const hostname = 'localhost';
@@ -26,7 +27,8 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var array = []
             if (uri[1] == "boutique" || uri[1] == "activities" || uri[1] == "pictures") {
                   if (uri[1] == "activities") {
-                        var date = new Date()
+                        var date = dateForm.format(new Date(), 'YYYY-MM-DD')
+                        console.log(date)
                         var array_date = []
                         bdd.select(table)
                               .then(response => {
@@ -47,7 +49,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                                       bdd.modify(table, {id : array_date[i].id, available: 0}, res)
                                                 }
                                           }
-                                          res.status(200).json(array)
+                                          res.status(status).json(array)
                                     }
                               })
                   } else {

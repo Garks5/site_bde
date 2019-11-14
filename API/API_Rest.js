@@ -58,9 +58,6 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             } else {
                   token2 = req.headers.authorization
                   token2 = token2.split(' ')
-                  console.log(token2[1])
-                  //token = token['input'].match('(?!Bearer )([a-zA-Z0-9-.])')
-                  console.log(token2)
                   if (req.headers.authorization) {
                         bdd.select(table, id)
                               .then(response => {
@@ -88,7 +85,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                   connect(req, res)
             } else {
                   if (req.headers.authorization && req.body.role == "BDE") {
-                        var mail = decodeToken(req.headers.authorization.split(' ')[1])
+                        var mail = decodeToken(req.headers.authorization.split(' ')[1]).mail
                         bdd.verifUser(mail, req.body.role)
                               .then(function (response) {
                                     if (response) {
@@ -99,7 +96,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                     }
                               })
                   } else if (req.headers.authorization && table.name == "activities") {
-                        var mail = decodeToken(req.headers.authorization.split(' ')[1])
+                        var mail = decodeToken(req.headers.authorization.split(' ')[1]).mail
                         bdd.verifUser(mail, req.body.role)
                               .then(function (response) {
                                     if (response) {
@@ -179,7 +176,9 @@ function connect(req, res) {
 }
 // Pour l'instant on considère que le token se trouve dans le body
 function decodeToken(token) {
+      var decoded = {}
       var decodedToken = jsToken.verify(token, secret, "HS256")
-      decodedMail = decodedToken.body.mail
-      return decodedMail;
+      decoded.mail = decodedToken.body.mail
+      decoded.id = decodedToken.body.id
+      return decoded;
 }
