@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Form\BoiteID;
 use App\Form\eventType;
+use App\Form\VoteType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -109,6 +110,57 @@ class EventController extends AbstractController
                
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, 'localhost:3000/inscriptions');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+                $return=curl_exec($ch);
+                curl_close($ch);
+                return $this->redirectToRoute('event'); 
+            }
+        }
+    }
+
+
+    /**
+    *@Route("/show_boiteid", name="show_boiteid")
+    */
+    public function show_boiteid(Request $request)
+    {
+        //Création du formulaire présent dans la classe UsersType
+        $form = $this->createForm(VoteType::class);
+        if($request->isMethod('GET')){
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'localhost:3000/activities/0');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            $return = curl_exec($ch);
+            curl_close($ch);
+            $return = json_decode($return, true);
+            //return var_dump($return);
+             return $this->render('main/show_boiteid.html.twig', [
+                'events' =>$return,
+                'form'=>$form->createView()
+            ]);
+        }
+
+        else if($request->isMethod('POST')){
+            $form->handleRequest($request);
+            if($form->isSubmitted()) {
+                $data = $form->getData();
+                $data['role'] = "Étudiant";
+                $data['users_id'] = 4;
+                $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoibHVjYXMuZHVsZXVAdmlhY2VzaS5mciIsImlkIjo0LCJqdGkiOiJlMWIyYTNmOC1kZDI4LTQ1M2YtOGQ2NC01NjEyMzJmYzA4YWMiLCJpYXQiOjE1NzM3NDAyMTEsImV4cCI6MTU3Mzc0MzgxMX0.NKPwKifXbCLgKoff3YG1N8GKpMPSUt8ENbHM4WEjbus";
+                $json_data = json_encode($data);
+                $header = array(
+                    'Accept: application/json',
+                    'Content-Type: application/json',
+                    'Authorization: Bearer ' .$token ,
+                    'Content-Length: ' . strlen($json_data)   
+                );
+               
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, 'localhost:3000/votes');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                 curl_setopt($ch, CURLOPT_HTTPHEADER, $header);

@@ -83,7 +83,11 @@ module.exports.add = function (table, jsonData, res) {
         case "pictures":
             table.create({ users_id: jsonData.users_id, activities_id: jsonData.activities_id, url: jsonData.url, description: jsonData.description })
             res.status(200).json({ add: "succeed" })
-    }
+            break
+        case "votes":
+            table.create({users_id:jsonData.users_id, activities_id:jsonData.activities_id})
+            res.status(200).json({ add : "succeed "})
+        }
 }
 
 module.exports.modify = function (table, jsonData, res) {

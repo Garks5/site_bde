@@ -2,27 +2,29 @@
 
 {% block title %}BDE CESI LILLE{% endblock %}
 {% block stylesheets %}
-<link href="event.css" rel="stylesheet" >
+<link href="event.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
 <div class="event">
     <h1>Envie de vous amuser ? </h1><br>
     <a href="{{ path('boiteid') }}"><button class="btn btn-primary">Proposer une activité</button></a><br>
+    <br>
+    <a href="{{ path('show_boiteid') }}"><button class="btn btn-primary">Voir les activitées proposées</button></a><br>
     {% if  events is defined %}
-        {% for event in events %}
-        <a href="event{{event.id}}"><img class="card-img-top" >
-            <div class="card bg-primary col-lg-4 col-sm-4 mb-4" >
-                <div class="card-header">{{event.date}}, {{event.place}}
-                </div>
-                <div class="card-body">
-                    <h4 class="card-title">{{event.name}}</h4>
-                    <p class="card-text">{{event.description}}.</p>
-                </div>
-            </div><br>
-        </a>
-        {% endfor %}
+    {% for event in events %}
+    <a href="event{{event.id}}"><img class="card-img-top">
+        <div class="card bg-primary col-lg-4 col-sm-4 mb-4">
+            <div class="card-header">{{event.date}}, {{event.place}}
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">{{event.name}}</h4>
+                <p class="card-text">{{event.description}}.</p>
+            </div>
+        </div><br>
+    </a>
+    {% endfor %}
     {% endif %}
     </br>
-    </div>
+</div>
 {% endblock %}

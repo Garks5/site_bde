@@ -17,7 +17,7 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 // FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
-myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/boutique/[0-9]+', '/activities', '/activities/[0-9]+', '/commentaries', '/pictures', '/topboutique'])
+myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/boutique/[0-9]+', '/activities', '/activities/[0-9]+', '/commentaries', '/pictures', '/topboutique', '/votes'])
       // GET
       .get(function (req, res) {
             var uri = req.path.split('/')
@@ -90,7 +90,6 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var table = uri[1]
             var table = enumTable.table(table)
             if (req.query.connect == "true") { //connection
-                  console.log(req.body.mail)
                   connect(req, res)
             } else {
                   if (req.headers.authorization && req.body.role == "BDE") {
@@ -107,7 +106,6 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                   } else if (req.headers.authorization && table.name == "activities") {
                         var mail = decodeToken(req.headers.authorization.split(' ')[1]).mail
                         var id = decodeToken(req.headers.authorization.split(' ')[1]).id
-                        console.log(id)
                         bdd.verifUser(mail, req.body.role)
                               .then(function (response) {
                                     if (response) {
@@ -118,7 +116,8 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                     }
                               })
                   
-                  } else if (req.headers.authorization && table.name == "inscriptions") {
+                  } else if (req.headers.authorization && (table.name == "inscriptions" || table.name == "votes" || table.name == "pictures" )) {
+                        console.log(req.body)
                         var mail = decodeToken(req.headers.authorization.split(' ')[1]).mail
                         bdd.verifUser(mail, req.body.role)
                               .then(function (response) {
@@ -129,14 +128,12 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                     }
                               })
                   } else if (req.body.inscription == "true") { //inscription
-                        console.log("bonjour " + table)
                         bdd.add(table, req.body, res)
                   }
             }
       })
       //PUT
       .put(function (req, res) {
-            console.log("bonjour")
             var uri = req.path.split('/')
             var table = uri[1]
             var table = enumTable.table(table)
@@ -150,9 +147,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var uri = req.path.split('/')
             var table = uri[1]
             var table = enumTable.table(table)
-            console.log(table.name)
             if (req.body.role == "BDE" && (table.name == "commentaries" || table.name == "pictures" || table.name == "products" || table.name == "activities")) {
-                  console.log("bonjour")
                   bdd.delete(table, req.body, res)
             }
       });

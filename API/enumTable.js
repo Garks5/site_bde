@@ -17,5 +17,7 @@ module.exports.table = function (table) {
             return tables.Commentaries
         case "pictures":
             return tables.Pictures
+        case "votes":
+            return tables.Votes
     }
 }

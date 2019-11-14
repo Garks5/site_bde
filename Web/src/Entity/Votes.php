@@ -21,6 +21,11 @@ class Votes
      */
     private $Users;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Activities", inversedBy="votes")
+     */
+    private $Activities;
+
     public function getId(): ?int
     {
         return $this->id;
