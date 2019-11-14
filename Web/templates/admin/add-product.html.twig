@@ -2,22 +2,38 @@
 
 {% block title %}BDE CESI LILLE{% endblock %}
 {% block stylesheets %}
+<link href="inscription.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block body %}
 <h1>ajouter un article dans la boutique </h1>
-{{ form_start(form) }}
-                     
+<div id="formulaire">
+    <fieldset>
+    {{ form_start(form) }}
+            <div class="form-group">    
                 {{ form_label(form.name)}}
                 {{ form_widget(form.name)}}
+            </div><br>
+                <div class="form-group">
                 {{ form_label(form.description)}}
                 {{ form_widget(form.description)}}
+            </div><br>
+                <div class="form-group">
                 {{ form_label(form.price)}}
                 {{ form_widget(form.price)}}
+            </div><br>
+                <div class="form-group">
                 {{ form_label(form.types_id)}}
                 {{ form_widget(form.types_id)}}
+            </div><br>
+                <div class="form-group">
                 {{ form_label(form.picture)}}
                 {{ form_widget(form.picture)}}
+            </div><br
+                <div class="form-group">
                 {{ form_label(form.submit)}}
                 {{ form_widget(form.submit)}}
+            </div> 
+    </fieldset>
+</div> 
 {% endblock %}

@@ -123,7 +123,7 @@ class BoutiqueController extends AbstractController
     }
 
     public function searchBar(){
-        $form = $this->createFormBuilder(null)
+        $form2 = $this->createFormBuilder(null)
         ->add('query', TextType::class)
         ->add('search', SubmitType::class, [
             'attr' => [
@@ -133,7 +133,7 @@ class BoutiqueController extends AbstractController
         ->getForm();
 
         return $this->render('search/searchBar.html.twig', [
-            'form' => $form->createView()
+            'form2' => $form2->createView()
         ]);
     }
 }
