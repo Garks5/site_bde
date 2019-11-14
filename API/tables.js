@@ -248,5 +248,10 @@ module.exports.Votes = connection.sequelize.define('votes', {
     users_id: {
         type: Sequelize.INTEGER,
         allowNull: true
+    },
+    activities_id: {
+        type: Sequelize.INTEGER,
     }
+}, {
+    timestamps: false
 })

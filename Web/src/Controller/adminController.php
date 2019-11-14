@@ -87,9 +87,8 @@ class adminController extends AbstractController
             $form->handleRequest($request);
             if($form->isSubmitted()) {
                 $data = $form->getData();
-                $data['role'] = "BDE";
-                $data['available'] = 1;
-                //return var_dump($data);
+                $data['role'] = "Étudiant";
+                $data['users_id'] = 4;
                 $json_data = json_encode($data);
                 $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoiY2RAY2QuY2RyIiwiaWQiOjcsImp0aSI6IjViYTAxYzcyLWZlMDgtNDVjMC04MTg0LTgwYzA5YzQ3NmUwOCIsImlhdCI6MTU3MzczNDU4NSwiZXhwIjoxNTczNzM4MTg1fQ.x3nMQSrqcl3Ho3wpYirQTcFAJ_ExqYVxtYVwWdCSnoY";
                 $header = array(
