@@ -35,6 +35,12 @@ module.exports.selectID = function (id) {
     })
 }
 
+module.exports.selectAvailable = function (available) {
+    console.log(available)
+    return table.table("activities").findAll({
+        where: { available: available }
+    })
+}
 
 module.exports.connect = function (table, jsonData) {
     console.log(jsonData.mail)

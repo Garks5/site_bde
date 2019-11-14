@@ -17,7 +17,7 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 // FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
-myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/boutique/[0-9]+', '/activities', '/commentaries', '/pictures', '/topboutique'])
+myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/boutique/[0-9]+', '/activities', '/activities/[0-9]+', '/commentaries', '/pictures', '/topboutique'])
       // GET
       .get(function (req, res) {
             var uri = req.path.split('/')
@@ -25,7 +25,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var table = enumTable.table(table)
             var id = uri[2]
             var array = []
-            if ((uri[1] == "boutique" && uri[2] == null) || uri[1] == "activities" || uri[1] == "pictures") {
+            if ((uri[1] == "boutique" && uri[2] == null) || (uri[1] == "activities" && uri[2] == null) || uri[1] == "pictures") {
                   bdd.select(table)
                         .then(response => {
                               if (response.length) {
@@ -47,8 +47,17 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                               }
                               res.status(200).json(array)
                         })
-            } else if (uri[1] == "boutique" && uri[2] != null) {
+            } else if ((uri[1] == "boutique" && uri[2] != null)) {
                   bdd.selectID(uri[2])
+                        .then(response => {
+                              for (let i = 0; i < response.length; i++) {
+                                    array.push(response[i].dataValues)
+                              }
+                              res.status(200).json(array)
+                        })
+            } else if ((uri[1] == "activities" && uri[2] != null)) {
+                  console.log(uri[2])
+                  bdd.selectAvailable(uri[2])
                         .then(response => {
                               for (let i = 0; i < response.length; i++) {
                                     array.push(response[i].dataValues)
@@ -131,7 +140,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var uri = req.path.split('/')
             var table = uri[1]
             var table = enumTable.table(table)
-            if (req.body.role == "BDE" && (table.name == "commentaries" || table.name == "pictures")) {
+            if (req.body.role == "BDE" && (table.name == "commentaries" || table.name == "pictures" || table.name == "boutique" || table.name == activities)) {
                   bdd.delete(table, req.body)
             }
       });
