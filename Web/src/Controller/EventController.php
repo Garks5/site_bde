@@ -49,7 +49,7 @@ class EventController extends AbstractController
                 //token a changé pour lucas
                // $token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoibHVjYXMuZHVsZXVAdmlhY2VzaS5mciIsImp0aSI6ImIzNDNlZjBkLWVhZDYtNDM5Mi04Y2U5LWVhMTFkOWY4YzFmOCIsImlhdCI6MTU3MzY1Nzg3NywiZXhwIjoxNTczNjYxNDc3fQ.ppPkR2AHmZc6hU_xx26Tvn2U14MMWBElLj7UTajLAEA";
                 //pauline
-               $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoiY2RAY2QuY2RyIiwianRpIjoiMmIwODNkMTUtYmUwZi00YzE5LTkyNWYtYWI5MmY1ZmFiYTlmIiwiaWF0IjoxNTczNjcxMDA4LCJleHAiOjE1NzM2NzQ2MDh9.c-8bvB_u4SHgemq9EOlGdIyopGTGglZ-A4LHDec9vZA";
+               $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoiY2RAY2QuY2RyIiwianRpIjoiZTI2ZDY5NWMtYThlMi00YWNkLWIyM2ItYjRiNjk3YzUxMDNmIiwiaWF0IjoxNTczNzE4NjQzLCJleHAiOjE1NzM3MjIyNDN9.6jIkPHV6Zeza8pD6JfxxC3Axkw9t6jolTNl7E-afzUI";
                 $json_data = json_encode($data);
                 $header = array(
                     'Accept: application/json',
