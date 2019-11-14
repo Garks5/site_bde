@@ -105,8 +105,9 @@ module.exports.modify = function (table, jsonData, res) {
     }
 }
 
-module.exports.delete = function (table, jsonData) {
+module.exports.delete = function (table, jsonData, res) {
     table.destroy({ where: { id: jsonData.id } })
+    res.status(200).json({delete: "succeed"})
 }
 
 module.exports.verifRole = function (mail) {

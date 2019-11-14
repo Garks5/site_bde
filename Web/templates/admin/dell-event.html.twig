@@ -2,10 +2,40 @@
 
 {% block title %}BDE CESI LILLE{% endblock %}
 {% block stylesheets %}
+<link href="admin.css" rel="stylesheet" >
+<link href="event.css" rel="stylesheet" >
 {% endblock %}
 
 {% block body %}
-<h1>supprimer un evenement </h1>
+<h1>Supprimer un evenement </h1><br>
 
+{% if  events is defined %}
+<div id="formulaire" class="event">
+        <fieldset> 
+            {{ form_start(form) }}
+                
+            {{ form_label(form.id)}}
+            {{ form_widget(form.id)}}
+                
+            {{ form_label(form.submit)}}
+            {{ form_widget(form.submit)}}
+          
+        </fieldset>
+    </div> <br>
+        {% for event in events %}
+        <div class="event">
+        <img class="card-img-top" >
+            <div class="card bg-primary col-lg-4 col-sm-4 mb-4" >
+                <div class="card-header">{{event.date}}, {{event.place}}
+                </div>
+                <div class="card-body">
+                    <p>ID:{{event.id}}</p>
+                    <h4 class="card-title">{{event.name}}</h4>
+                    <p class="card-text">{{event.description}}.</p>
+                </div>
+            </div><br>
+            </div>
+        {% endfor %}
+    {% endif %}
 
 {% endblock %}

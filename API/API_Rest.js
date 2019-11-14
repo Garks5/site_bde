@@ -143,7 +143,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             console.log(table.name)
             if (req.body.role == "BDE" && (table.name == "commentaries" || table.name == "pictures" || table.name == "products" || table.name == "activities")) {
                   console.log("bonjour")
-                  bdd.delete(table, req.body)
+                  bdd.delete(table, req.body, res)
             }
       });
 

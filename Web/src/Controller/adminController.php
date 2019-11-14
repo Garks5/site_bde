@@ -65,7 +65,7 @@ class adminController extends AbstractController
     /**
      *@Route("/admin-show-idea", name="show-idea")
      */
-    public function show_idea()
+    public function show_idea(Request $request)
     {
         return $this->render('admin/show-idea.html.twig'
         );
@@ -74,10 +74,50 @@ class adminController extends AbstractController
     /**
      *@Route("/admin-dell-event", name="dell-event")
      */
-    public function dell_event()
+    public function dell_event(Request $request)
     {
-        return $this->render('admin/dell-event.html.twig'
-        );
+        $form = $this->createForm(DelType::class);
+        if($request->isMethod('GET')){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'localhost:3000/activities/1');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        $return = curl_exec($ch);
+        curl_close($ch);
+        $return = json_decode($return, true);
+        //return var_dump($return);
+        return $this->render('admin/dell-event.html.twig', [
+            'events' =>$return,
+            'form'=> $form->createView()
+        ]);
+        }
+        else if($request->isMethod('POST')){
+            $form->handleRequest($request);
+            if($form->isSubmitted()) {
+                $data = $form->getData();
+                $data['role']="BDE";
+                //return var_dump($data);
+                $json_data = json_encode($data);
+                $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoiY2RAY2QuY2RyIiwiaWQiOjcsImp0aSI6ImRjYzkyMjQyLWY2NWEtNDg4OC1iOWZlLWVkMmJmNzg4Mjg3ZCIsImlhdCI6MTU3MzczMzA3NSwiZXhwIjoxNTczNzM2Njc1fQ.MJbfnRK60fc2qR_s6bFSGUgB6-CHxBJQhl43WVqQo-o";
+                $header = array(
+                    'Accept: application/json',
+                    'Content-Type: application/json',
+                    'Authorization: Bearer ' .$token ,
+                    'Content-Length: ' . strlen($json_data)   
+                );
+                //Intégrer les données dans la bdd via l'API
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, 'localhost:3000/activities');
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+                    $return = curl_exec($ch);
+                    //return var_dump($return);
+                    curl_close($ch);
+                    return $this->redirectToRoute('admin'); 
+                }                               
+            }
     }
 
     /**
@@ -148,14 +188,14 @@ class adminController extends AbstractController
                 'form' => $form->createView()
             ]);
         }
-        if($request->isMethod('POST')){
+        else if($request->isMethod('POST')){
             $form->handleRequest($request);
             if($form->isSubmitted()) {
                 $data = $form->getData();
                 $data['role']="BDE";
                 //return var_dump($data);
                 $json_data = json_encode($data);
-                $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoiY2RAY2QuY2RyIiwiaWQiOjcsImp0aSI6IjA0NjBhZWVhLTcxOTEtNDBiNS04N2UxLTYyOTE2ZDZlMDYwZCIsImlhdCI6MTU3MzcyNzgzMSwiZXhwIjoxNTczNzMxNDMxfQ.DaNcNlpCOszzqoCm1Rimu5E5DkIKF8kZeCy1sMLCXj8";
+                $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoiY2RAY2QuY2RyIiwiaWQiOjcsImp0aSI6IjI4ZDRhNDRkLThhOGUtNDExMi05NTJjLWJkMGYwZTJmODA3MiIsImlhdCI6MTU3MzcyOTMwOCwiZXhwIjoxNTczNzMyOTA4fQ.CZkHocONEzYNu9S6eJsTSRsgYyBkSbOI33MhFyjtLC0";
                 $header = array(
                     'Accept: application/json',
                     'Content-Type: application/json',
@@ -166,11 +206,12 @@ class adminController extends AbstractController
                 //Intégrer les données dans la bdd via l'API
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, 'localhost:3000/boutique');
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
                     curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
                     $return = curl_exec($ch);
+                    //return var_dump($return);
                     curl_close($ch);
                     return $this->redirectToRoute('admin'); 
                  
