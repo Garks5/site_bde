@@ -50,7 +50,11 @@
                   
                 </fieldset>
             </div>  <br>
-        
+            <div class="container">
+            {{ render(controller(
+                'App\\Controller\\BoutiqueController::searchBar'
+            ))}}
+            </div>
         {% if  articles is defined %}
         <div class="row article">
           {% for article in articles %}
