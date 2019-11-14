@@ -25,7 +25,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var table = enumTable.table(table)
             var id = uri[2]
             var array = []
-            if ((uri[1] == "boutique" && uri[2] == null) || (uri[1] == "activities" && uri[2] == null) || uri[1] == "pictures") {
+            if ((uri[1] == "boutique" && uri[2] == null) || (uri[1] == "activities" && uri[2] == null) || uri[1] == "pictures" || uri[1] == "commentaries" ) {
                   bdd.select(table)
                         .then(response => {
                               if (response.length) {
@@ -116,7 +116,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                     }
                               })
                   
-                  } else if (req.headers.authorization && (table.name == "inscriptions" || table.name == "votes" || table.name == "pictures" )) {
+                  } else if (req.headers.authorization && (table.name == "inscriptions" || table.name == "votes" || table.name == "pictures" || table.name == "commentaries")) {
                         console.log(req.body)
                         var mail = decodeToken(req.headers.authorization.split(' ')[1]).mail
                         bdd.verifUser(mail, req.body.role)

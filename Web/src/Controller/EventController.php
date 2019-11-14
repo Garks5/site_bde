@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Form\BoiteID;
 use App\Form\eventType;
 use App\Form\VoteType;
+use App\Form\CommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -74,7 +75,7 @@ class EventController extends AbstractController
     public function event_id($id, Request $request)
     {   
         $form = $this->createForm(eventType::class);
-
+        $form2 = $this->createForm(CommentType::class);
         if($request->isMethod('GET')){
             $id_Activity=$id - 1;
             $ch = curl_init();
@@ -84,12 +85,23 @@ class EventController extends AbstractController
             $return = curl_exec($ch);
             curl_close($ch);
             $return = json_decode($return, true);
+            /*$ch2 = curl_init();
+            curl_setopt($ch2, CURLOPT_URL, 'localhost:3000/commentaries');
+            curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch2, CURLOPT_CUSTOMREQUEST, "GET");
+            $return2 = curl_exec($ch2);
+            curl_close($ch2);
+            $return2 = json_decode($return2, true);
             $event=$return[$id_Activity];
-            //return var_dump($article);
+            return var_dump($return2);
+            $commentaire=$return2['commentary'];
+            return var_dump($commentaire); */
             return $this->render('main/activity.html.twig', [
                 'event' =>$event, 
-                'form'=>$form->createView()
-            ]);  
+                //'commentaire'=>$commentaire,
+                'form'=>$form->createView(),
+                'form2'=>$form2->createView()
+            ]); 
         }
 
         else if($request->isMethod('POST')){
@@ -110,6 +122,31 @@ class EventController extends AbstractController
                
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, 'localhost:3000/inscriptions');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+                $return=curl_exec($ch);
+                curl_close($ch);
+                return $this->redirectToRoute('event'); 
+            }
+            $form2->handleRequest($request);
+            if($form2->isSubmitted()) {
+                $data2 = $form2->getData();
+                $data2['role'] = "Étudiant";
+                $data2['users_id'] = "4";
+                $data2['activities_id'] = $id;
+                $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoibHVjYXMuZHVsZXVAdmlhY2VzaS5mciIsImlkIjo0LCJqdGkiOiJkN2NmY2EzNi03ZTI4LTQ3YTAtOWYyNy02MmU2OGI0NmFlYmIiLCJpYXQiOjE1NzM3NDQzOTMsImV4cCI6MTU3Mzc0Nzk5M30.KEUxDjiPhJcs2drD9lVWqzL69ubrVpVYaWQCfbFafTo";
+                $json_data = json_encode($data2);
+                $header = array(
+                    'Accept: application/json',
+                    'Content-Type: application/json',
+                    'Authorization: Bearer ' .$token ,
+                    'Content-Length: ' . strlen($json_data)   
+                );
+               
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, 'localhost:3000/commentaries');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                 curl_setopt($ch, CURLOPT_HTTPHEADER, $header);

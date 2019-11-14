@@ -21,7 +21,16 @@
                 {{ form_label(form.submit)}}
                 {{ form_widget(form.submit)}}
             </div><br>
-   
+            <div>
+                {{ form_start(form2) }}
+
+                {{ form_label(form2.commentary)}}
+                {{ form_widget(form2.commentary)}}
+
+                {{ form_label(form2.submit)}}
+                {{ form_widget(form2.submit)}}
+            </div>
+            
     {% endif %}
 
 {% endblock %}
