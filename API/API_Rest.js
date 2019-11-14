@@ -117,7 +117,17 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                           res.status(400).json({ connect: "refused" })
                                     }
                               })
-
+                  
+                  } else if (req.headers.authorization && table.name == "inscriptions") {
+                        var mail = decodeToken(req.headers.authorization.split(' ')[1]).mail
+                        bdd.verifUser(mail, req.body.role)
+                              .then(function (response) {
+                                    if (response) {
+                                          bdd.add(table, req.body, res)
+                                    } else {
+                                          res.json({ connect: "refused" })
+                                    }
+                              })
                   } else if (req.body.inscription == "true") { //inscription
                         console.log("bonjour " + table)
                         bdd.add(table, req.body, res)

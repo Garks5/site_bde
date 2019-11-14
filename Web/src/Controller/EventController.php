@@ -70,23 +70,53 @@ class EventController extends AbstractController
     /**
     *@Route("/event{id}", name="event{id}")
     */
-    public function event_id($id)
+    public function event_id($id, Request $request)
     {   
         $form = $this->createForm(eventType::class);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'localhost:3000/activities');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-        $return = curl_exec($ch);
-        curl_close($ch);
-        $return = json_decode($return, true);
-        $id=$id-1;
-        $event=$return[$id];
-        //return var_dump($article);
-        return $this->render('main/activity.html.twig', [
-            'event' =>$event, 
-            'form'=>$form->createView()
-        ]);  
+        if($request->isMethod('GET')){
+            $id_Activity=$id - 1;
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'localhost:3000/activities');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            $return = curl_exec($ch);
+            curl_close($ch);
+            $return = json_decode($return, true);
+            $event=$return[$id_Activity];
+            //return var_dump($article);
+            return $this->render('main/activity.html.twig', [
+                'event' =>$event, 
+                'form'=>$form->createView()
+            ]);  
+        }
+
+        else if($request->isMethod('POST')){
+            $form->handleRequest($request);
+            if($form->isSubmitted()) {
+                $data = $form->getData();
+                $data['role'] = "Étudiant";
+                $data['users_id'] = "4";
+                $data['activities_id'] = $id;
+                $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoibHVjYXMuZHVsZXVAdmlhY2VzaS5mciIsImlkIjo0LCJqdGkiOiI5NDQwYWI5Yy1lZWM5LTRkMTktYmUyZS01MzNhZDU0MDA5NmMiLCJpYXQiOjE1NzM3MzcyNTUsImV4cCI6MTU3Mzc0MDg1NX0.4eh0dnpF6T7FAS-Wu6WUoZTxRYqU8fY5JgSgvNyTHXE";
+                $json_data = json_encode($data);
+                $header = array(
+                    'Accept: application/json',
+                    'Content-Type: application/json',
+                    'Authorization: Bearer ' .$token ,
+                    'Content-Length: ' . strlen($json_data)   
+                );
+               
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, 'localhost:3000/inscriptions');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+                $return=curl_exec($ch);
+                curl_close($ch);
+                return $this->redirectToRoute('event'); 
+            }
+        }
     }
 }
