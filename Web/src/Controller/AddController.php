@@ -126,10 +126,20 @@ class AddController extends AbstractController
                 $sess->set( 'role', $role);
 
                 //return var_dump($return);
-                return $this->redirectToRoute('boutique'); 
+                return $this->redirectToRoute('accueil'); 
                }
                //return $this->redirectToRoute('inscriptions');
             }
         }
+    }
+
+    /**
+    * @Route("/logout", name="logout")
+    */
+    public function logout(Request $request)
+    {
+        $sess = $request->getSession();
+        $sess->clear();
+        return $this->redirectToRoute('accueil');
     }
 }

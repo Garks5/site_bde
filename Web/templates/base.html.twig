@@ -31,10 +31,19 @@
               <a class="nav-link" href="{{ path('event') }}">Événement</a>
             </li>
           </ul>
+          {% if app.session.get('name') == NULL %}
           <div class="form-inline my-2 my-lg-0">
-            <a class="nav-link" href="{{ path('connect') }}">Connexion</a>
+            <a class="nav-link" href="{{ path('connect') }}">Connexion {{ app.session.get('name') }}</a>
             <a class="nav-link" href="{{ path('inscriptions') }}">Inscription</a>
           </div>
+          {% endif %}
+          {% if app.session.get('name') != NULL %}
+          <div class="form-inline my-2 my-lg-0"></div>
+          <a class="nav-link">Connecté en tant que {{ app.session.get('name') }}</a>
+          <a class="nav-link" href="{{ path('logout') }}">Deconnexion</a>
+          </div>
+          {% endif %}
+
 
         </div>
       </nav>
