@@ -17,8 +17,11 @@
  
 <?php
  
- $nom = md5(uniqid("produit_", true));
-  
+ $nom = crypt($_FILES['monficher']['name']);
+ $uploaddir = '/Users/rodriguetaccoen/Desktop/photo/';
+ $uploadfile = $uploaddir . basename($_FILES['monfichier']['name']);
+ echo $uploadfile;
+ echo $_FILES['monfichier']['tmp_name'];
 // Testons si le fichier a bien été envoyé et s'il n'y a pas d'erreur
 if (isset($_FILES['monfichier']) AND $_FILES['monfichier']['error'] == 0)
 {
@@ -28,26 +31,30 @@ if (isset($_FILES['monfichier']) AND $_FILES['monfichier']['error'] == 0)
                 // Testons si l'extension est autorisée
                 $infosfichier = pathinfo($_FILES['monfichier']['name']);
                 $extension_upload = $infosfichier['extension'];
-                $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
+                $extensions_autorisees = array('jpg', 'jpeg', 'png');
                 if (in_array($extension_upload, $extensions_autorisees))
                 {
-                        // On peut valider le fichier et le stocker définitivement
-                        $resultat = move_uploaded_file($_FILES['monfichier']['tmp_name'],$nom);
-if ($resultat) echo "Transfert réussi"; else { echo 'echec transfert';}
-                         
- 
+                    // On peut valider le fichier et le stocker définitivement
+                    $resultat = move_uploaded_file($_FILES['monfichier']['tmp_name'], $uploadfile);
+                    if ($resultat){
+                        echo "Transfert réussi";
+                        rename($uploadfile, $uploaddir . $nom . '.png');
+                    }else { 
+                        echo 'echec transfert';
+                    }
                 }
         }
 }
 if(isset($_FILES['monfichier'])){
-$data = array("users_id" => 1, "activities_id" => 1, "url" => $nom, "description" => "pull CESI", "role" => "BDE");
+$data = array("users_id" => 1, "activities_id" => 1, "url" => $uploaddir . $nom . '.png', "description" => "pull CESI", "role" => "BDE");
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, "http://localhost:3000/pictures");
-$token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoibHVjYXMuZHVsZXVAdmlhY2VzaS5mciIsImp0aSI6ImNmNjdlNjBhLTQxYTUtNGQ0NS1hZGU5LTM3NmNlNGE2NjljNiIsImlhdCI6MTU3MzY0MDk1MCwiZXhwIjoxNTczNjQ0NTUwfQ.PNASc9mtbdTQdlhH_HFdqTntRxhBtolk4Yh01sdpf-o";
+$token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoicGF1bGluZS5sZWdyb3V4QHZpYWNlc2kuZnIiLCJpZCI6MTEsImp0aSI6Ijc3MjA5OWEwLTEzZjYtNDBmZS04NjI5LTM5NjkwYTU4NDJkYiIsImlhdCI6MTU3Mzc0MDYwMCwiZXhwIjoxNTczNzQ0MjAwfQ.YlR7VePHX5ajUwy2vEBZgz9z7JvptCXg7gPYpJfZWGY";
 $header = array(
     'Accept: application/json',
     'Content-Type: application/json',
-    'Authorization: Bearer ' .$token
+    'Authorization: Bearer ' .$token,
+    'Content-Length' . strlen($data)
     );
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -55,8 +62,9 @@ $header = array(
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 $result = curl_exec($ch);
 $result = json_decode($result, true);
-echo $nom;
-echo $result['add'];
+if($result){
+    echo 'bonjour';
+}
 }
 /*try
 {
