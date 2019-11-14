@@ -115,5 +115,25 @@ class BoutiqueController extends AbstractController
                 ]);
         }
     }
+    public function index()
+    {
+        return $this->render('search/index', [
+            'controller_name' => 'BoutiqueController',
+        ]);
+    }
 
+    public function searchBar(){
+        $form = $this->createFormBuilder(null)
+        ->add('query', TextType::class)
+        ->add('search', SubmitType::class, [
+            'attr' => [
+                'class' => 'btn btn-primary'
+            ]
+        ])
+        ->getForm();
+
+        return $this->render('search/searchBar.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 }
