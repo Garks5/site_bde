@@ -15,7 +15,7 @@ class CommentType extends AbstractType
         $builder
         //ajout d'une zone de text qui correspondra au nom : TextType
         //elle ne peut pas être vide
-        ->add('commentary', TextType::class, array('label'=> 'Commentaire:', 'required' => true, 'attr' => array('class'=>'btn btn-primary')))   
+        ->add('commentary', TextType::class, array('label'=> 'Ajouter un commentaire:', 'required' => true, 'attr' => array('class'=>'btn btn-primary zone_text')))   
         ->add('submit', SubmitType::class, array('label'=>"Ajouter le commentaire", 'attr' => array('class'=>'btn btn-primary')))
         ;
     }

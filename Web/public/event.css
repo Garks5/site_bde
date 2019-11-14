@@ -3,16 +3,42 @@
     color:white;
     margin:0 auto;
     color:white;
+    text-align:center;
 }
-
 .card-header, .card-body{
     vertical-align: inherit;
     color:white;
-    
 }
-
 .event{
     text-align:center;
+}
+.card-header{
+    background-color:#56ABE3;
+}
+.text{
+    text-align:justify;
+    text-align: center;
+    margin:0 6% 0 6%;   
+}
+h1 {
+    text-align:center; 
+    padding-top:2%;
+}
+.submit{
+    background-color:#56ABE3 ;
+    border-color:#56ABE3 ;
+}
+.comment{
+    background-color:#E5E5E5;
+    border:thick double lightslategrey;
+}
+.commentaire{
+    margin: 0 auto;
+}
+.zone_text{
+    max-width: 400px;
+    width:90%;
+    background-color: white;
 }
 
 

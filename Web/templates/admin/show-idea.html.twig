@@ -10,6 +10,8 @@
 <h1>Voici la boîte à idée </h1>
 {% if  events is defined %}
 <div id="formulaire" class="event">
+    <br>
+    <h6 class="text">Pour rendre une idée d'activité en réelle activité, inserez son identifiant dans la zone prévu à cet effet puis valider.</h6><br>
         <fieldset> 
             {{ form_start(form) }}
                 
@@ -28,7 +30,7 @@
                 <div class="card-header">{{event.date}}, {{event.place}}
                 </div>
                 <div class="card-body">
-                    <p>ID:{{event.id}}</p>
+                    <p>Identifiant: {{event.id}}</p>
                     <h4 class="card-title">{{event.name}}</h4>
                     <p class="card-text">{{event.description}}.</p>
                 </div>

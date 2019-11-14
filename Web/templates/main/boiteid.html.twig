@@ -8,7 +8,9 @@
 {% block body %}
 <div id="formulaire">
     <fieldset>
-        <h3>Proposer un événement</h3>
+        <h3>Proposer un événement</h3><br>
+        <p class="text">Chaque évènement restera dans la boîte à idée jusqu'à sa validation par les membres du BDE.
+            On ne peut ni s'inscrire, ni commenter une activité de la boite à idée. </p><br>
         {{ form_start(formEvent) }}
         <div class="form-group">
             {{ form_label(formEvent.name)}}

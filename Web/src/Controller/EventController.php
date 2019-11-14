@@ -85,20 +85,21 @@ class EventController extends AbstractController
             $return = curl_exec($ch);
             curl_close($ch);
             $return = json_decode($return, true);
-            /*$ch2 = curl_init();
-            curl_setopt($ch2, CURLOPT_URL, 'localhost:3000/commentaries');
-            curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch2, CURLOPT_CUSTOMREQUEST, "GET");
-            $return2 = curl_exec($ch2);
-            curl_close($ch2);
-            $return2 = json_decode($return2, true);
+            
+            $cht = curl_init();
+            curl_setopt($cht, CURLOPT_URL, 'localhost:3000/commentaries');
+            curl_setopt($cht, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($cht, CURLOPT_CUSTOMREQUEST, "GET");
+            $return_comm = curl_exec($cht);
+            curl_close($cht);
+            $return_comm = json_decode($return_comm, true);
             $event=$return[$id_Activity];
-            return var_dump($return2);
-            $commentaire=$return2['commentary'];
-            return var_dump($commentaire); */
+            //return var_dump($return_comm);
+            //$commentaire=$return_comm['commentary'];
+           // return var_dump($commentaire); 
             return $this->render('main/activity.html.twig', [
                 'event' =>$event, 
-                //'commentaire'=>$commentaire,
+                'commentaire'=>$return_comm,
                 'form'=>$form->createView(),
                 'form2'=>$form2->createView()
             ]); 

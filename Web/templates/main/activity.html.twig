@@ -6,30 +6,39 @@
 {% endblock %}
 
 {% block body %}
-{% if  event is defined %}
-            <br><br>
-            <div class="card bg-primary col-lg-4 col-sm-4 mb-4" >
-                   
-                <div class="card-header">{{event.date}}, {{event.place}}
-                </div>
-                <div class="card-body">
-                    <h4 class="card-title">{{event.name}}</h4>
-                    <p class="card-text">{{event.description}}.</p>
-                </div>
-                {{ form_start(form) }}
-                        
-                {{ form_label(form.submit)}}
-                {{ form_widget(form.submit)}}
-            </div><br>
-            <div>
-                {{ form_start(form2) }}
+    {% if  event is defined %}
+    <br><br>
+    <div class="card bg-primary col-lg-4 col-sm-4 mb-4" > 
+        <div class="card-header">{{event.date}}, {{event.place}}
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">{{event.name}}</h4>
+            <p class="card-text">{{event.description}}.</p>
+        </div>
+        {{ form_start(form) }} 
+        {{ form_label(form.submit)}}
+        {{ form_widget(form.submit)}}      
+    </div><br>
 
-                {{ form_label(form2.commentary)}}
-                {{ form_widget(form2.commentary)}}
+    <div  class="col-lg-4 col-sm-4 mb-4 commentaire">
+        <h6><strong>Commentaire:</strong></h6>       
+        {% if  commentaire is defined %}
+        {% for comment in commentaire %}
+        <div class="comment"><br>
+        <p class="text">{{ comment.commentary}}</p><br>
+        </div><br>
+        {% endfor %}
+        {% endif %}    
+    </div>   
 
-                {{ form_label(form2.submit)}}
-                {{ form_widget(form2.submit)}}
-            </div>
+    <div class="col-lg-4 col-sm-4 mb-4 commentaire">
+        {{ form_start(form2) }}
+        {{ form_label(form2.commentary)}}
+        {{ form_widget(form2.commentary)}}<br><br>
+        {{ form_label(form2.submit)}}
+        {{ form_widget(form2.submit)}}
+    </div>
+                
             
     {% endif %}
 

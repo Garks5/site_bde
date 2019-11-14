@@ -14,7 +14,7 @@ class eventType extends AbstractType
         $builder
         //ajout d'une zone de text qui correspondra au nom : TextType
         //elle ne peut pas être vide
-            ->add('submit', SubmitType::class, array('label'=>"S'inscrire", 'attr' => array('class'=>'btn btn-primary')))
+            ->add('submit', SubmitType::class, array('label'=>"S'inscrire", 'attr' => array('class'=>'submit')))
         ;
     }
 }

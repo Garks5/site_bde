@@ -6,22 +6,20 @@
 {% endblock %}
 
 {% block body %}
-<h1> Boîte à idée </h1>
-
+<h1> Boîte à idée </h1><br>
+<h6 class="text">Vous pouvez voter pour des activité proposer par les étudiants. Un grand nombre de vote encouragera la validation de l'activité par les membres du BDE.</h6>
+<br>
 {% if  events is defined %}
-
-<div id="formulaire" class="event">
-    <fieldset> 
-        {{ form_start(form) }}
-            
-        {{ form_label(form.activities_id)}}
-        {{ form_widget(form.activities_id)}}
-            
-        {{ form_label(form.submit)}}
-        {{ form_widget(form.submit)}}
-      
-    </fieldset>
-</div> <br>
+    <div id="formulaire" class="event">
+        <fieldset> 
+            {{ form_start(form) }} 
+            {{ form_label(form.activities_id)}}
+            {{ form_widget(form.activities_id)}} 
+            {{ form_label(form.submit)}}
+            {{ form_widget(form.submit)}}
+        
+        </fieldset>
+    </div> <br>
 
 {% for event in events %}
 <div class="event">
