@@ -97,16 +97,13 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                               })
                   } else if (req.headers.authorization && table.name == "activities") {
                         var mail = decodeToken(req.headers.authorization.split(' ')[1]).mail
+                        var id = decodeToken(req.headers.authorization.split(' ')[1]).id
+                        console.log(id)
                         bdd.verifUser(mail, req.body.role)
                               .then(function (response) {
                                     if (response) {
-                                          console.log(req.body.date.date)
-                                          bdd.findID(mail)
-                                                .then(response => {
-                                                      var id = response.dataValues.id
-                                                      req.body.id = id
-                                                      bdd.add(table, req.body, res)
-                                                })
+                                          req.body.id = id
+                                          bdd.add(table, req.body, res)
                                     } else {
                                           res.status(400).json({ connect: "refused" })
                                     }
@@ -156,7 +153,7 @@ function connect(req, res) {
                   if (response) {
                         status = 200
 
-                        const payload = { "mail": response.dataValues.mail }
+                        const payload = { "mail": response.dataValues.mail, "id": response.dataValues.id }
                         var token = jsToken.create(payload, secret, "HS256")
                         bdd.verifRole(response.dataValues.mail)
                               .then(response => {

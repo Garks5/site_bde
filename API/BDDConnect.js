@@ -54,6 +54,7 @@ module.exports.add = function (table, jsonData, res) {
                 })
             break
         case "activities":
+            console.log(jsonData)
             table.create({ users_id: jsonData.id, date: jsonData.date.date, available: jsonData.available, place: jsonData.place, name: jsonData.name, description: jsonData.description })
             res.status(200).json({ add: "succeed" })
             break
