@@ -8,23 +8,35 @@
 <h1>supprimer un article de la boutique</h1>
 
 {% if  articles is defined %}
-        <div class="row article">
-          {% for article in articles %}
-         
-          <div class="col-lg-4 col-sm-4 mb-4 article">
-          <div class="card h-100">
-                        <a href="boutique{{article.id}}"><img class="card-img-top" src="{{article.picture}}" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                            <a href="#"> {{article.name}}</a>
-                            </h4>
-                            <h5>{{article.price}} €</h5>
-                            <p class="card-text">{{article.description}}</p>
-                        </div>
-                    </div>
-                </div>
-               {% endfor %}
-            </div>
-            {% endif %}
+<div id="formulaire">
+    <fieldset> 
+        {{ form_start(form) }}
+            
+        {{ form_label(form.id)}}
+        {{ form_widget(form.id)}}
+            
+        {{ form_label(form.submit)}}
+        {{ form_widget(form.submit)}}
+      
+    </fieldset>
+</div> <br>
 
+    <div class="row article">
+        {% for article in articles %}
+        <div class="col-lg-4 col-sm-4 mb-4 article">
+        <div class="card h-100">
+            <img class="card-img-top" src="{{article.picture}}" alt="">
+                <div class="card-body">
+                    <h4 class="card-title">
+                       {{article.name}}
+                    </h4>
+                    <p>ID: {{article.id}}</p>
+                    <h5>{{article.price}} €</h5>
+                    <p class="card-text">{{article.description}}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endif %}
 {% endblock %}

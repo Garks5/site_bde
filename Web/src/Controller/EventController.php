@@ -15,7 +15,7 @@ class EventController extends AbstractController
     public function event()
     {
        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'localhost:3000/activities');
+        curl_setopt($ch, CURLOPT_URL, 'localhost:3000/activities/1');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
         $return = curl_exec($ch);
