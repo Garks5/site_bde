@@ -46,9 +46,6 @@ class EventController extends AbstractController
                 $data = $form->getData();
                 $data['available'] = 0;
                 $data['role'] = "Étudiant";
-                //token a changé pour lucas
-                // $token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoibHVjYXMuZHVsZXVAdmlhY2VzaS5mciIsImp0aSI6ImIzNDNlZjBkLWVhZDYtNDM5Mi04Y2U5LWVhMTFkOWY4YzFmOCIsImlhdCI6MTU3MzY1Nzg3NywiZXhwIjoxNTczNjYxNDc3fQ.ppPkR2AHmZc6hU_xx26Tvn2U14MMWBElLj7UTajLAEA";
-                //pauline
                 $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoibHVjYXMuZHVsZXVAdmlhY2VzaS5mciIsImlkIjo0LCJqdGkiOiI3Y2IzNGM4My05ZmY1LTQ5ZDgtYjI2NS1lZGY4YWM3MGI2NTIiLCJpYXQiOjE1NzM3MjI1MzAsImV4cCI6MTU3MzcyNjEzMH0.Vdg3STQhP08wKGgVlFjK0-mS0b_IwqUxY9y-6ORFVcs";
                 $json_data = json_encode($data);
                 $header = array(

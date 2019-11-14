@@ -67,8 +67,50 @@ class adminController extends AbstractController
      */
     public function show_idea(Request $request)
     {
-        return $this->render('admin/show-idea.html.twig'
-        );
+        $form = $this->createForm(DelType::class);
+        if($request->isMethod('GET')){
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'localhost:3000/activities/0');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            $return = curl_exec($ch);
+            curl_close($ch);
+            $return = json_decode($return, true);
+            //return var_dump($return);
+            return $this->render('admin/show-idea.html.twig', [
+                'controller_name' => 'EventController',
+                'events' =>$return,
+                'form'=> $form->createView()
+            ]);
+        }
+        else if($request->isMethod('POST')){
+            $form->handleRequest($request);
+            if($form->isSubmitted()) {
+                $data = $form->getData();
+                $data['role'] = "BDE";
+                $data['available'] = 1;
+                //return var_dump($data);
+                $json_data = json_encode($data);
+                $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoiY2RAY2QuY2RyIiwiaWQiOjcsImp0aSI6IjViYTAxYzcyLWZlMDgtNDVjMC04MTg0LTgwYzA5YzQ3NmUwOCIsImlhdCI6MTU3MzczNDU4NSwiZXhwIjoxNTczNzM4MTg1fQ.x3nMQSrqcl3Ho3wpYirQTcFAJ_ExqYVxtYVwWdCSnoY";
+                $header = array(
+                    'Accept: application/json',
+                    'Content-Type: application/json',
+                    'Authorization: Bearer ' .$token ,
+                    'Content-Length: ' . strlen($json_data)   
+                );
+                //Intégrer les données dans la bdd via l'API
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, 'localhost:3000/activities');
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+                    $return = curl_exec($ch);
+          
+                    curl_close($ch);
+                    return $this->redirectToRoute('admin'); 
+                }                               
+            }
     }
 
     /**

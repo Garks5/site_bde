@@ -92,10 +92,11 @@ module.exports.modify = function (table, jsonData, res) {
     if (jsonData.id) {
         table.findOne({ where: { id: jsonData.id } })
             .then(function (user) {
-                for (var i = 1; i < obj.length; i++) {
+                for (var i = 2; i < obj.length; i++) {
                     user[obj[i]] = jsonData[obj[i]]
                 }
                 user.save().then(function () {
+                    res.status(200).json({modif: "succeed"})
                 }).catch(err => {
                     res.status(400).json({error: err})
                 });
