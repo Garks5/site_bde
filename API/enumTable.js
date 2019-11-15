@@ -1,6 +1,6 @@
 const tables = require('./tables')
 
-
+//pour renvoyer la bonne table
 module.exports.table = function (table) {
     switch (table) {
         case "users":
