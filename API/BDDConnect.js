@@ -87,6 +87,15 @@ module.exports.add = function (table, jsonData, res) {
         case "votes":
             table.create({ users_id: jsonData.users_id, activities_id: jsonData.activities_id })
             res.status(200).json({ add: "succeed " })
+            break
+        case "orders":
+            table.create({ users_id: jsonData.users_id, available: jsonData.available })
+            res.status(200).json({ add: "succeed " })
+            break
+        case "components":
+            table.create({ products_id: jsonData.products_id, quantity: jsonData.quantity })
+            res.status(200).json({ add: "succeed " })
+            break
     }
 }
 

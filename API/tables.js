@@ -161,7 +161,7 @@ module.exports.Components = connection.sequelize.define('components', {
         primaryKey: true,
         autoIncrement: true,
     },
-    users_id: {
+    products_id: {
         type: Sequelize.INTEGER,
         foreignKey: true,
         allowNull: true,
@@ -199,6 +199,9 @@ module.exports.Orders = connection.sequelize.define('orders', {
         foreignKey: true,
         allowNull: true,
     },
+    available: {
+        type: Sequelize.INTEGER,
+    }
 }, {
     timestamps: false
 })

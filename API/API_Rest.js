@@ -16,7 +16,7 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 // FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
-myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/boutique/[0-9]+', '/activities', '/activities/[0-9]+', '/commentaries', '/pictures', '/topboutique', '/votes'])
+myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/boutique/[0-9]+', '/activities', '/activities/[0-9]+', '/commentaries', '/pictures', '/topboutique', '/votes', '/orders', '/components'])
       // GET
       .get(function (req, res) {
             var uri = req.path.split('/')
@@ -130,12 +130,13 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                     }
                               })
 
-                  } else if (req.headers.authorization && (table.name == "inscriptions" || table.name == "votes" || table.name == "pictures" || table.name == "commentaries")) {
+                  } else if (req.headers.authorization && (table.name == "inscriptions" || table.name == "votes" || table.name == "pictures" || table.name == "commentaries" || table.name == "orders" || table.name == "components")) {
                         console.log(req.body)
                         var mail = decodeToken(req.headers.authorization.split(' ')[1]).mail
                         bdd.verifUser(mail, req.body.role)
                               .then(function (response) {
                                     if (response) {
+                                          console.log("hello")
                                           bdd.add(table, req.body, res)
                                     } else {
                                           res.json({ connect: "refused" })
