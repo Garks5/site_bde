@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Response;
 
 class BoutiqueController extends AbstractController
 {
@@ -114,6 +116,13 @@ class BoutiqueController extends AbstractController
                 'form' => $form->createView()
                 ]);
         }
+
+        if($request->isMethod('POST')){
+            $form->handleRequest($request);
+            
+            return $this->render('main/panier.html.twig');
+
+            }
     }
     public function index()
     {
