@@ -16,7 +16,7 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 // FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
-myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/boutique/[0-9]+', '/activities', '/activities/[0-9]+', '/commentaries', '/pictures', '/topboutique', '/votes', '/orders', '/components'])
+myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/boutique/[0-9]+', '/activities', '/activities/[0-9]+', '/commentaries', '/pictures', '/topboutique', '/votes', '/orders', '/components', 'products/[0-9]+'])
       // GET
       .get(function (req, res) {
             var uri = req.path.split('/')
@@ -24,6 +24,8 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var table = enumTable.table(table)
             var id = uri[2]
             var array = []
+
+            //renvoi les données lorsequ'on est pas connecté (statut visiteur)
             if (((uri[1] == "boutique" && uri[2] == null) || (uri[1] == "activities" && uri[2] == null) || uri[1] == "pictures" || uri[1] == "commentaries") && !req.headers.authorization) {
                   console.log('fonction1')
                   bdd.select(table)
@@ -38,7 +40,9 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                               }
                               res.status(status).json(array)
                         })
-            } else if (uri[1] == "topboutique") {
+            } 
+            //renvoie les données des 3 meilleures ventes
+            else if (uri[1] == "topboutique") {
                   bdd.selectTri()
                         .then(response => {
                               for (let i = 0; i < response.length; i++) {
@@ -46,15 +50,19 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                               }
                               res.status(200).json(array)
                         })
-            } else if ((uri[1] == "boutique" && uri[2] != null)) {
-                  bdd.selectID(uri[2])
+            } 
+            //renvoie les données des produits en fonction de leur types (tri)
+            else if ((uri[1] == "boutique" && uri[2] != null)) {
+                  bdd.selectType(uri[2])
                         .then(response => {
                               for (let i = 0; i < response.length; i++) {
                                     array.push(response[i].dataValues)
                               }
                               res.status(200).json(array)
                         })
-            } else if ((uri[1] == "activities" && uri[2] != null)) {
+            } 
+            //renvoie les données pour soit les activités validées par le BDE (quand uri[1]=1) soit pour les données non validées (quand uri[1]=0)
+            else if (uri[1] == "activities" && uri[2] != null) {
                   console.log(uri[2])
                   bdd.selectAvailable(uri[2])
                         .then(response => {
@@ -63,7 +71,17 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                               }
                               res.status(200).json(array)
                         })
-            } else if (uri[1].split('?')[0] == "activities" && req.query.hasOwnProperty('id') && req.query.download == 'true') {
+            } 
+
+            else if(uri[1] == "products" && uri[2] != null){
+                  bdd.selectID(uri[2])
+                        .then(response => {
+                              res.status(200).json(array)
+                        })
+            }
+
+            //renvoie les données des participants d'une activité pour génération de csv 
+            else if (uri[1].split('?')[0] == "activities" && req.query.hasOwnProperty('id') && req.query.download == 'true') {
                   console.log('csv')
                   var token = req.headers.authorization.split(' ')[1]
                   if (req.headers.authorization) {
@@ -78,7 +96,9 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                     }
                               })
                   }
-            } else {
+            } 
+            //renvoie les doonées sans condition particulières || mis en commentaire car grosse faille de sécurité (possibilté d'accéder aux données de certaines tables de notre BDD)
+            /*else {
                   token2 = req.headers.authorization
                   token2 = token2.split(' ')
                   if (req.headers.authorization) {
@@ -96,16 +116,18 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                   } else {
                         res.json({ message: false })
                   }
-            }
+            }*/
       })
       //POST
       .post(function (req, res) {
             var uri = req.path.split('/')
             var table = uri[1]
             var table = enumTable.table(table)
-            if (req.query.connect == "true") { //connection
+            //connection
+            if (req.query.connect == "true") { 
                   connect(req, res)
             } else {
+                  //permet d'ajouter des données aux membres du BDE
                   if (req.headers.authorization && req.body.role == "BDE") {
                         var mail = decodeToken(req.headers.authorization.split(' ')[1]).mail
                         bdd.verifUser(mail, req.body.role)
@@ -117,7 +139,9 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                           res.json({ connect: "refused" })
                                     }
                               })
-                  } else if (req.headers.authorization && table.name == "activities") {
+                  } 
+                  //permet d'ajouter une activité (non vérifiée)
+                  else if (req.headers.authorization && table.name == "activities") {
                         var mail = decodeToken(req.headers.authorization.split(' ')[1]).mail
                         var id = decodeToken(req.headers.authorization.split(' ')[1]).id
                         bdd.verifUser(mail, req.body.role)
@@ -130,19 +154,22 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                     }
                               })
 
-                  } else if (req.headers.authorization && (table.name == "inscriptions" || table.name == "votes" || table.name == "pictures" || table.name == "commentaries" || table.name == "orders" || table.name == "components")) {
+                  } 
+                  //pour ajouter à notre base de données une inscriptions, un vote, une photo, un commentaire, une paiment et l'objet vendu dans la boutique, un panier
+                  else if (req.headers.authorization && (table.name == "inscriptions" || table.name == "votes" || table.name == "pictures" || table.name == "commentaries" || table.name == "orders" || table.name == "components")) {
                         console.log(req.body)
                         var mail = decodeToken(req.headers.authorization.split(' ')[1]).mail
                         bdd.verifUser(mail, req.body.role)
                               .then(function (response) {
                                     if (response) {
-                                          console.log("hello")
                                           bdd.add(table, req.body, res)
                                     } else {
                                           res.json({ connect: "refused" })
                                     }
                               })
-                  } else if (req.body.inscription == "true") { //inscription
+                  } 
+                  //inscription
+                  else if (req.body.inscription == "true") { //inscription
                         bdd.add(table, req.body, res)
                   }
             }
@@ -152,16 +179,17 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var uri = req.path.split('/')
             var table = uri[1]
             var table = enumTable.table(table)
+            //pour faire passer une activité non vérifiée à une activité vérifiée (seulement pour le BDE)
             if (req.headers.authorization && req.body.role == "BDE" && table.name == 'activities') {
                   bdd.modify(table, req.body, res)
             }
-            //bdd.modify(enumTable.table(req.path.split('/')[1]), req.body, res)
       })
       //DELETE
       .delete(function (req, res) {
             var uri = req.path.split('/')
             var table = uri[1]
             var table = enumTable.table(table)
+            //pour supprimer des données dans une table (seulement pour le BDE)
             if (req.body.role == "BDE" && (table.name == "commentaries" || table.name == "pictures" || table.name == "products" || table.name == "activities")) {
                   bdd.delete(table, req.body, res)
             }
@@ -176,15 +204,15 @@ app.listen(port, hostname, () => {
       console.log("Mon serveur fonctionne sur http://" + hostname + ":" + port);
 });
 
-
+//fonction permettant la connexion
 function connect(req, res) {
       var result = {}
       bdd.connect(enumTable.table(req.path.split('/')[1]), req.body)
             .then(function (user) {
                   if (user) {
                         status = 200
-
-                        const payload = { "mail": user.dataValues.mail, "id": user.dataValues.id }
+                        result.id = user.dataValues.id
+                        const payload = {"mail": user.dataValues.mail}
                         var token = jsToken.create(payload, secret, "HS256")
                         bdd.verifRole(user.dataValues.mail)
                               .then(response => {
@@ -202,7 +230,8 @@ function connect(req, res) {
                   }
             })
 }
-// Pour l'instant on considère que le token se trouve dans le body
+
+//Permet de décoder un token pour retrouver l'adresse mail et l'id de l'utilisateur connecté
 function decodeToken(token) {
       var decoded = {}
       var decodedToken = jsToken.verify(token, secret, "HS256")

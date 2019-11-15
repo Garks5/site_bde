@@ -2,7 +2,7 @@ const connection = require('./config.js')
 const table = require('./enumTable')
 const Sequelize = require('sequelize')
 
-
+//connection à la BDD
 connection.sequelize.authenticate()
     .then(() => {
         console.log('Connection has been established successfully   ')
@@ -11,6 +11,7 @@ connection.sequelize.authenticate()
         console.error('Unable to connect to the database', err)
     })
 
+//pour réaliser un SELECT soit pour toute une table, soit avec une condition sur l'id
 module.exports.select = function (table, id) {
     if (!id) {
         return table.findAll({})
@@ -19,6 +20,7 @@ module.exports.select = function (table, id) {
     }
 }
 
+//pour réaliser un SELECT dans la table products, dans l'ordre décroissant du nombre de vente (carrousel top vente)
 module.exports.selectTri = function () {
     return table.table("boutique").findAll({
         order: [
@@ -28,13 +30,23 @@ module.exports.selectTri = function () {
     })
 }
 
-module.exports.selectID = function (id) {
+module.exports.selectID = function (id){
+    return table.table("boutique").findOne({
+        where: {id: id}
+    })
+}
+
+
+
+//pour réaliser un SELECT avec une condition sur le type des produits de la table products (tri par catégorie de produit)
+module.exports.selectType = function (id) {
     console.log(id)
     return table.table("boutique").findAll({
         where: { types_id: id }
     })
 }
 
+//pour réaliser un SELECT quand une activité soit certifiée soit non certifiée
 module.exports.selectAvailable = function (available) {
     console.log(available)
     return table.table("activities").findAll({
@@ -42,10 +54,12 @@ module.exports.selectAvailable = function (available) {
     })
 }
 
+//vérification de connexion
 module.exports.connect = function (table, jsonData) {
     return table.findOne({ where: { mail: jsonData.mail, mdp: jsonData.mdp } })
 }
 
+//pour ajouter des données dans une table
 module.exports.add = function (table, jsonData, res) {
     switch (table.name) {
         case "users":
@@ -99,6 +113,7 @@ module.exports.add = function (table, jsonData, res) {
     }
 }
 
+//pour modifier les données d'une table
 module.exports.modify = function (table, jsonData, res) {
     var obj = Object.keys(jsonData)
     console.log(obj)
@@ -119,19 +134,23 @@ module.exports.modify = function (table, jsonData, res) {
     }
 }
 
+//pour supprimer les activités d'une table
 module.exports.delete = function (table, jsonData, res) {
     table.destroy({ where: { id: jsonData.id } })
     res.status(200).json({ delete: "succeed" })
 }
 
+//pour vérifier qu'un utilisateur ne triche pas sur son role
 module.exports.verifRole = function (mail) {
     return connection.sequelize.query('SELECT `role`.`name` AS `role.name`, `users`.`name` AS `users.name` FROM `users` AS `users` LEFT OUTER JOIN `roles` AS `role` ON `users`.`roles_id` = `role`.`id` WHERE `users`.`mail` = "' + mail + '" LIMIT 1')
 }
 
+//pour retrouver l'id d'un utilsateur via son mail
 module.exports.findID = function (mail) {
     return table.table("users").findOne({ where: { mail: mail } })
 }
 
+//pour vérifier qu'un utilisateur ne triche pas sur son mail
 module.exports.verifUser = function (mail, role) {
     var roleID
     switch (role) {
@@ -148,6 +167,7 @@ module.exports.verifUser = function (mail, role) {
     return table.table("users").findOne({ where: { mail: mail, roles_id: roleID } })
 }
 
+//pour renvoyer les utilisateurs inscrit à une certaine activité
 module.exports.userActivity = function (id) {
     return connection.sequelize.query("SELECT users.name, users.firstname, users.mail, users.localisation FROM `users` INNER JOIN inscriptions ON users.id = inscriptions.users_id WHERE inscriptions.activities_id =" + id)
 }
