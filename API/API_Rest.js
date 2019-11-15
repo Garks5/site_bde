@@ -1,4 +1,3 @@
-
 const enumTable = require('./enumTable');
 const bdd = require('./BDDConnect')
 const express = require('express');
@@ -25,7 +24,8 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var table = enumTable.table(table)
             var id = uri[2]
             var array = []
-            if ((uri[1] == "boutique" && uri[2] == null) || (uri[1] == "activities" && uri[2] == null) || uri[1] == "pictures" || uri[1] == "commentaries" ) {
+            if (((uri[1] == "boutique" && uri[2] == null) || (uri[1] == "activities" && uri[2] == null) || uri[1] == "pictures" || uri[1] == "commentaries") && !req.headers.authorization) {
+                  console.log('fonction1')
                   bdd.select(table)
                         .then(response => {
                               if (response.length) {
@@ -38,8 +38,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                               }
                               res.status(status).json(array)
                         })
-            }
-            else if (uri[1] == "topboutique") {
+            } else if (uri[1] == "topboutique") {
                   bdd.selectTri()
                         .then(response => {
                               for (let i = 0; i < response.length; i++) {
@@ -64,6 +63,21 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                               }
                               res.status(200).json(array)
                         })
+            } else if (uri[1].split('?')[0] == "activities" && req.query.hasOwnProperty('id') && req.query.download == 'true') {
+                  console.log('csv')
+                  var token = req.headers.authorization.split(' ')[1]
+                  if (req.headers.authorization) {
+                        mail = decodeToken(token).mail
+                        bdd.userActivity(req.query.id)
+                              .then(response => {
+                                    if (response) {
+                                          for (let i = 0; i < response[0].length; i++) {
+                                                array.push(response[0][i])
+                                          }
+                                          res.status(200).json(array)
+                                    }
+                              })
+                  }
             } else {
                   token2 = req.headers.authorization
                   token2 = token2.split(' ')
@@ -115,7 +129,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                           res.status(400).json({ connect: "refused" })
                                     }
                               })
-                  
+
                   } else if (req.headers.authorization && (table.name == "inscriptions" || table.name == "votes" || table.name == "pictures" || table.name == "commentaries")) {
                         console.log(req.body)
                         var mail = decodeToken(req.headers.authorization.split(' ')[1]).mail
@@ -165,18 +179,18 @@ app.listen(port, hostname, () => {
 function connect(req, res) {
       var result = {}
       bdd.connect(enumTable.table(req.path.split('/')[1]), req.body)
-            .then(function (response) {
-                  if (response) {
+            .then(function (user) {
+                  if (user) {
                         status = 200
 
-                        const payload = { "mail": response.dataValues.mail, "id": response.dataValues.id }
+                        const payload = { "mail": user.dataValues.mail, "id": user.dataValues.id }
                         var token = jsToken.create(payload, secret, "HS256")
-                        bdd.verifRole(response.dataValues.mail)
+                        bdd.verifRole(user.dataValues.mail)
                               .then(response => {
                                     token = token.compact()
                                     result.token = token
                                     result.role = response[0][0]['role.name']
-                                    result.name = response[0][0]['users.name']
+                                    result.firstname = user.dataValues['firstname']
                                     result.status = status
                                     res.status(status).json(result)
                               })

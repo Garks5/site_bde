@@ -47,6 +47,7 @@ if (isset($_FILES['monfichier']) AND $_FILES['monfichier']['error'] == 0)
 }
 if(isset($_FILES['monfichier'])){
 $data = array("users_id" => 1, "activities_id" => 1, "url" => $uploaddir . $nom . '.png', "description" => "pull CESI", "role" => "BDE");
+$data = json_encode($data);
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, "http://localhost:3000/pictures");
 $token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoicGF1bGluZS5sZWdyb3V4QHZpYWNlc2kuZnIiLCJpZCI6MTEsImp0aSI6Ijc3MjA5OWEwLTEzZjYtNDBmZS04NjI5LTM5NjkwYTU4NDJkYiIsImlhdCI6MTU3Mzc0MDYwMCwiZXhwIjoxNTczNzQ0MjAwfQ.YlR7VePHX5ajUwy2vEBZgz9z7JvptCXg7gPYpJfZWGY";
