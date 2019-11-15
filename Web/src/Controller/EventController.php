@@ -108,7 +108,7 @@ class EventController extends AbstractController
             $picture = json_decode($picture, true);
             return $this->render('main/activity.html.twig', [
                 'event' =>$event,
-                'picture' => $picture[0],
+                'pictures' => $picture,
                 'commentaire'=>$return_comm,
                 'form'=>$form->createView(),
                 'form2'=>$form2->createView()

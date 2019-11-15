@@ -13,9 +13,11 @@
         <div class="card-body">
             <h4 class="card-title">{{event.name}}</h4>
             <p class="card-text">{{event.description}}.</p>
-            <p>{{picture.description}}</p>
-            
+            {% if  pictures is defined %}
+            {% for picture in pictures %}
             <img src="{{ picture.url }}" title="{{event.description}}">
+            {% endfor %}
+            {% endif %}    
         </div>
         {{ form_start(form) }} 
         {{ form_label(form.submit)}}
