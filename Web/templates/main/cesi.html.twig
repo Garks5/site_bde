@@ -9,7 +9,18 @@
 
 {% block body %}
 <h1>Bienvenue sur la page Admin</h1>
-<br>
-<a href="{{ path('personnel_cesi') }}"><button class="btn">Ajouter un évènement</button></a><br>
-
+{% if  events is defined %}
+    {% for event in events %}
+    <a href="activity_cesi{{event.id}}"><img class="card-img-top">
+        <div class="card bg-primary col-lg-4 col-sm-4 mb-4">
+            <div class="card-header">{{event.date}}, {{event.place}}
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">{{event.name}}</h4>
+                <p class="card-text">{{event.description}}.</p>
+            </div>
+        </div><br>
+    </a>
+    {% endfor %}
+    {% endif %}
 {% endblock %}

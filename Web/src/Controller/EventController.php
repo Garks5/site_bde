@@ -81,7 +81,6 @@ class EventController extends AbstractController
         $form = $this->createForm(eventType::class);
         $form2 = $this->createForm(CommentType::class);
         if($request->isMethod('GET')){
-            $this->setActivityId($id-1);
             $id_Activity = $id-1;
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, 'localhost:3000/activities');
@@ -219,6 +218,7 @@ class EventController extends AbstractController
     */
     public function picture_id($id, Request $request)
     {
+        $sess = $request->getSession();
         $form = $this->createForm(pictureType::class);
         if($request->isMethod('GET')){
              return $this->render('main/ajoutPicture.html.twig', [
@@ -244,8 +244,9 @@ class EventController extends AbstractController
                                 rename($uploadfile, $uploaddir . $name . '.' .$extension);
                                 $token = $sess->get('token');
                                 $data_picture['users_id'] = $sess->get('id');
-                                $data_picture['actvivities_id'] = $id;
-                                $data_picture['url'] = $uploadfile;
+                                $data_picture['activities_id'] = $id;
+                                $data_picture['url'] = $uploaddir . $name . '.' .$extension;
+                                $data_picture['role'] = $sess->get('role');
                                 $data_picture['description'] = "duzehfuezhbfuoez";
                                 $data_json = json_encode($data_picture);
                                 $header = array(
