@@ -98,8 +98,17 @@ class EventController extends AbstractController
             curl_close($cht);
             $return_comm = json_decode($return_comm, true);
             $event=$return[$id_Activity];
+            
+            $cht = curl_init();
+            curl_setopt($cht, CURLOPT_URL, 'localhost:3000/pictures');
+            curl_setopt($cht, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($cht, CURLOPT_CUSTOMREQUEST, "GET");
+            $picture = curl_exec($cht);
+            curl_close($cht);
+            $picture = json_decode($picture, true);
             return $this->render('main/activity.html.twig', [
-                'event' =>$event, 
+                'event' =>$event,
+                'picture' => $picture[2],
                 'commentaire'=>$return_comm,
                 'form'=>$form->createView(),
                 'form2'=>$form2->createView()
@@ -231,7 +240,7 @@ class EventController extends AbstractController
             if($form->isSubmitted()) {
                 $data = $form->getData();
                 $data = $data['picture'];
-                $uploaddir = '/Users/rodriguetaccoen/Desktop/photo/';
+                $uploaddir = '/Library/WebServer/Documents/site_bde/Web/public/img/';
                 $uploadfile = $uploaddir . basename($data->getClientOriginalName());
                 if($data->isValid() && $data->getError() == null){
                     if($data->getClientSize() < 3000000){
