@@ -108,7 +108,7 @@ class EventController extends AbstractController
             $picture = json_decode($picture, true);
             return $this->render('main/activity.html.twig', [
                 'event' =>$event,
-                'picture' => $picture[2],
+                'picture' => $picture[0],
                 'commentaire'=>$return_comm,
                 'form'=>$form->createView(),
                 'form2'=>$form2->createView()
@@ -240,7 +240,7 @@ class EventController extends AbstractController
             if($form->isSubmitted()) {
                 $data = $form->getData();
                 $data = $data['picture'];
-                $uploaddir = '/Library/WebServer/Documents/site_bde/Web/public/img/';
+                $uploaddir = 'img/';
                 $uploadfile = $uploaddir . basename($data->getClientOriginalName());
                 if($data->isValid() && $data->getError() == null){
                     if($data->getClientSize() < 3000000){
