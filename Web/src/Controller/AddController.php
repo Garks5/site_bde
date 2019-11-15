@@ -118,12 +118,14 @@ class AddController extends AbstractController
                }
                else {
                 $token = $return['token'];
-                $name=$return['name'];
+                $firstname=$return['firstname'];
                 $role=$return['role'];
+                $id = $return['id'];
                 $sess = $request->getSession();
-                $sess->set( 'name', $name);
+                $sess->set( 'firstname', $firstname);
                 $sess->set( 'token', $token);
                 $sess->set( 'role', $role);
+                $sess->set( 'id', $id);
 
                 //return var_dump($return);
                 return $this->redirectToRoute('accueil'); 

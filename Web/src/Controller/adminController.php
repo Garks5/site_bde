@@ -47,11 +47,8 @@ class adminController extends AbstractController
                 if($form->isSubmitted()) {
                     $data = $form->getData();
                     $data['available'] = 1;
-                    $data['role'] = "BDE";
-                    //token a changé pour lucas
-                // $token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoibHVjYXMuZHVsZXVAdmlhY2VzaS5mciIsImp0aSI6ImIzNDNlZjBkLWVhZDYtNDM5Mi04Y2U5LWVhMTFkOWY4YzFmOCIsImlhdCI6MTU3MzY1Nzg3NywiZXhwIjoxNTczNjYxNDc3fQ.ppPkR2AHmZc6hU_xx26Tvn2U14MMWBElLj7UTajLAEA";
-                    //pauline
-                    $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoiY2RAY2QuY2RyIiwianRpIjoiMmZhYTc3YjctODUzZC00ZTdiLWEyM2EtMmE4MjA5OTExNGY5IiwiaWF0IjoxNTczNzI0NDYwLCJleHAiOjE1NzM3MjgwNjB9.A0ij3ObSZj0eLXLFg0b9-uDajxLdPr2C0oM5HuxCxFo";
+                    $data['role'] = $sess->get('role');
+                    $token= $sess->get('token');
                     $json_data = json_encode($data);
                     $header = array(
                         'Accept: application/json',
@@ -65,7 +62,7 @@ class adminController extends AbstractController
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                     curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
-                    $retrun=curl_exec($ch);
+                    $return=curl_exec($ch);
                     curl_close($ch);
                     return $this->redirectToRoute('event'); 
                 }
@@ -102,11 +99,11 @@ class adminController extends AbstractController
                 $form->handleRequest($request);
                 if($form->isSubmitted()) {
                     $data = $form->getData();
-                    $data['role'] = "BDE";
+                    $data['role'] = $sess->get('role');
                     $data['available'] = 1;
                     //return var_dump($data);
                     $json_data = json_encode($data);
-                    $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoiY2RAY2QuY2RyIiwiaWQiOjcsImp0aSI6IjViYTAxYzcyLWZlMDgtNDVjMC04MTg0LTgwYzA5YzQ3NmUwOCIsImlhdCI6MTU3MzczNDU4NSwiZXhwIjoxNTczNzM4MTg1fQ.x3nMQSrqcl3Ho3wpYirQTcFAJ_ExqYVxtYVwWdCSnoY";
+                    $token= $sess->get('role');
                     $header = array(
                         'Accept: application/json',
                         'Content-Type: application/json',
@@ -158,10 +155,10 @@ class adminController extends AbstractController
                 $form->handleRequest($request);
                 if($form->isSubmitted()) {
                     $data = $form->getData();
-                    $data['role']="BDE";
+                    $data['role']= $sess->get('role');
                     //return var_dump($data);
                     $json_data = json_encode($data);
-                    $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoiY2RAY2QuY2RyIiwiaWQiOjcsImp0aSI6ImRjYzkyMjQyLWY2NWEtNDg4OC1iOWZlLWVkMmJmNzg4Mjg3ZCIsImlhdCI6MTU3MzczMzA3NSwiZXhwIjoxNTczNzM2Njc1fQ.MJbfnRK60fc2qR_s6bFSGUgB6-CHxBJQhl43WVqQo-o";
+                    $token= $sess->get('token');
                     $header = array(
                         'Accept: application/json',
                         'Content-Type: application/json',
@@ -212,9 +209,9 @@ class adminController extends AbstractController
                 if($form->isSubmitted()) {
                     $data = $form->getData();
                     $data['nb_vendu'] = "0";
-                    $data['role']="BDE";
+                    $data['role']= $sess->get('role');
                     $json_data = json_encode($data);
-                    $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoiY2RAY2QuY2RyIiwianRpIjoiM2I2NWVkNTgtODIyNC00NTEzLTk1OTctNDc2NWZiOTU2NGJkIiwiaWF0IjoxNTczNzIyMzY0LCJleHAiOjE1NzM3MjU5NjR9.oTZMZZB7Ta6q9ef6MoKal5jydFrhNBUdQy8I7wpshdU";
+                    $token=$sess->get('token');
                     $header = array(
                         'Accept: application/json',
                         'Content-Type: application/json',
@@ -267,10 +264,10 @@ class adminController extends AbstractController
                 $form->handleRequest($request);
                 if($form->isSubmitted()) {
                     $data = $form->getData();
-                    $data['role']="BDE";
+                    $data['role']= $sess->get('role');
                     //return var_dump($data);
                     $json_data = json_encode($data);
-                    $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoiY2RAY2QuY2RyIiwiaWQiOjcsImp0aSI6IjI4ZDRhNDRkLThhOGUtNDExMi05NTJjLWJkMGYwZTJmODA3MiIsImlhdCI6MTU3MzcyOTMwOCwiZXhwIjoxNTczNzMyOTA4fQ.CZkHocONEzYNu9S6eJsTSRsgYyBkSbOI33MhFyjtLC0";
+                    $token=$sess->get('token');
                     $header = array(
                         'Accept: application/json',
                         'Content-Type: application/json',

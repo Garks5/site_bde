@@ -36,6 +36,7 @@ class EventController extends AbstractController
     */
     public function boiteid(Request $request)
     {
+        $sess = $request->getSession();
         //Création du formulaire présent dans la classe UsersType
         $form = $this->createForm(BoiteID::class);
         if($request->isMethod('GET')){
@@ -48,8 +49,8 @@ class EventController extends AbstractController
             if($form->isSubmitted()) {
                 $data = $form->getData();
                 $data['available'] = 0;
-                $data['role'] = "Étudiant";
-                $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoibHVjYXMuZHVsZXVAdmlhY2VzaS5mciIsImlkIjo0LCJqdGkiOiI3Y2IzNGM4My05ZmY1LTQ5ZDgtYjI2NS1lZGY4YWM3MGI2NTIiLCJpYXQiOjE1NzM3MjI1MzAsImV4cCI6MTU3MzcyNjEzMH0.Vdg3STQhP08wKGgVlFjK0-mS0b_IwqUxY9y-6ORFVcs";
+                $data['role'] = $sess->get('role');
+                $token=$sess->get('token');
                 $json_data = json_encode($data);
                 $header = array(
                     'Accept: application/json',
@@ -75,6 +76,7 @@ class EventController extends AbstractController
     */
     public function event_id($id, Request $request)
     {   
+        $sess = $request->getSession();
         $form = $this->createForm(eventType::class);
         $form2 = $this->createForm(CommentType::class);
         $form_picture = $this->createForm(pictureType::class);
@@ -109,10 +111,10 @@ class EventController extends AbstractController
             $form->handleRequest($request);
             if($form->isSubmitted()) {
                 $data = $form->getData();
-                $data['role'] = "Étudiant";
-                $data['users_id'] = "4";
+                $data['role'] = $sess->get('role');
+                $data['users_id'] = $sess->get('id');;
                 $data['activities_id'] = $id;
-                $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoibHVjYXMuZHVsZXVAdmlhY2VzaS5mciIsImlkIjo0LCJqdGkiOiI5NDQwYWI5Yy1lZWM5LTRkMTktYmUyZS01MzNhZDU0MDA5NmMiLCJpYXQiOjE1NzM3MzcyNTUsImV4cCI6MTU3Mzc0MDg1NX0.4eh0dnpF6T7FAS-Wu6WUoZTxRYqU8fY5JgSgvNyTHXE";
+                $token=$sess->get('token');;
                 $json_data = json_encode($data);
                 $header = array(
                     'Accept: application/json',
