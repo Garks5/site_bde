@@ -183,8 +183,8 @@ function connect(req, res) {
             .then(function (user) {
                   if (user) {
                         status = 200
-
-                        const payload = { "mail": user.dataValues.mail, "id": user.dataValues.id }
+                        result.id = user.dataValues.id
+                        const payload = {"mail": user.dataValues.mail}
                         var token = jsToken.create(payload, secret, "HS256")
                         bdd.verifRole(user.dataValues.mail)
                               .then(response => {
