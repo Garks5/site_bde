@@ -43,9 +43,9 @@ module.exports.selectAvailable = function (available) {
 }
 
 module.exports.connect = function (table, jsonData) {
-    console.log(jsonData.mail)
     return table.findOne({ where: { mail: jsonData.mail, mdp: jsonData.mdp } })
 }
+
 module.exports.add = function (table, jsonData, res) {
     switch (table.name) {
         case "users":
@@ -85,9 +85,18 @@ module.exports.add = function (table, jsonData, res) {
             res.status(200).json({ add: "succeed" })
             break
         case "votes":
-            table.create({users_id:jsonData.users_id, activities_id:jsonData.activities_id})
-            res.status(200).json({ add : "succeed "})
-        }
+            table.create({ users_id: jsonData.users_id, activities_id: jsonData.activities_id })
+            res.status(200).json({ add: "succeed " })
+            break
+        case "orders":
+            table.create({ users_id: jsonData.users_id, available: jsonData.available })
+            res.status(200).json({ add: "succeed " })
+            break
+        case "components":
+            table.create({ products_id: jsonData.products_id, quantity: jsonData.quantity })
+            res.status(200).json({ add: "succeed " })
+            break
+    }
 }
 
 module.exports.modify = function (table, jsonData, res) {
@@ -100,9 +109,9 @@ module.exports.modify = function (table, jsonData, res) {
                     user[obj[i]] = jsonData[obj[i]]
                 }
                 user.save().then(function () {
-                    res.status(200).json({modif: "succeed"})
+                    res.status(200).json({ modif: "succeed" })
                 }).catch(err => {
-                    res.status(400).json({error: err})
+                    res.status(400).json({ error: err })
                 });
             });
     } else {
@@ -112,7 +121,7 @@ module.exports.modify = function (table, jsonData, res) {
 
 module.exports.delete = function (table, jsonData, res) {
     table.destroy({ where: { id: jsonData.id } })
-    res.status(200).json({delete: "succeed"})
+    res.status(200).json({ delete: "succeed" })
 }
 
 module.exports.verifRole = function (mail) {
@@ -137,4 +146,8 @@ module.exports.verifUser = function (mail, role) {
             break;
     }
     return table.table("users").findOne({ where: { mail: mail, roles_id: roleID } })
+}
+
+module.exports.userActivity = function (id) {
+    return connection.sequelize.query("SELECT users.name, users.firstname, users.mail, users.localisation FROM `users` INNER JOIN inscriptions ON users.id = inscriptions.users_id WHERE inscriptions.activities_id =" + id)
 }

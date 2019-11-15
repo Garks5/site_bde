@@ -19,5 +19,9 @@ module.exports.table = function (table) {
             return tables.Pictures
         case "votes":
             return tables.Votes
+        case "orders":
+            return tables.Orders
+        case "components":
+            return tables.Components
     }
 }
