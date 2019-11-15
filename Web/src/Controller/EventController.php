@@ -5,6 +5,7 @@ use App\Form\BoiteID;
 use App\Form\eventType;
 use App\Form\VoteType;
 use App\Form\CommentType;
+use App\Form\pictureType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -76,6 +77,7 @@ class EventController extends AbstractController
     {   
         $form = $this->createForm(eventType::class);
         $form2 = $this->createForm(CommentType::class);
+        $form_picture = $this->createForm(pictureType::class);
         if($request->isMethod('GET')){
             $id_Activity=$id - 1;
             $ch = curl_init();
@@ -94,14 +96,12 @@ class EventController extends AbstractController
             curl_close($cht);
             $return_comm = json_decode($return_comm, true);
             $event=$return[$id_Activity];
-            //return var_dump($return_comm);
-            //$commentaire=$return_comm['commentary'];
-           // return var_dump($commentaire); 
             return $this->render('main/activity.html.twig', [
                 'event' =>$event, 
                 'commentaire'=>$return_comm,
                 'form'=>$form->createView(),
-                'form2'=>$form2->createView()
+                'form2'=>$form2->createView(),
+                'picture'=>$form_picture->createView()
             ]); 
         }
 

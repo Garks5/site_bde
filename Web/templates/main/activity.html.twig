@@ -38,6 +38,14 @@
         {{ form_label(form2.submit)}}
         {{ form_widget(form2.submit)}}
     </div>
+
+    <div class="col-lg-4 col-sm-4 mb-4">
+        {{ form_start(picture) }}
+        {{ form_label(picture.picture)}}
+        {{ form_widget(picture.picture)}}<br><br>
+        {{ form_label(picture.submit)}}
+        {{ form_widget(picture.submit)}}
+    </div>
                 
             
     {% endif %}
