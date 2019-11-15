@@ -114,7 +114,7 @@ class EventController extends AbstractController
                 $data['role'] = $sess->get('role');
                 $data['users_id'] = $sess->get('id');;
                 $data['activities_id'] = $id;
-                $token=$sess->get('token');;
+                $token=$sess->get('token');
                 $json_data = json_encode($data);
                 $header = array(
                     'Accept: application/json',
