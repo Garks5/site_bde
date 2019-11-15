@@ -119,11 +119,38 @@ class BoutiqueController extends AbstractController
 
         if($request->isMethod('POST')){
             $form->handleRequest($request);
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "localhost:3000/boutique/$id");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            $return = curl_exec($ch);
+            curl_close($ch);
+            $return = json_decode($return, true);
+            $id=$id-1;
+            $article=$return[$id];
+
+
+            /*$cookieGuest = array(
+                'nom_article'  => $article,
+                'prix' => 'testval',
+                'description' => $
+                'time'  => time() + 3600 * 24 * 7
+            );
             
+            $cookie = new Cookie($cookieGuest['nom_article'], $cookieGuest['prix'], $cookieGuest['description'], $cookieGuest['time']);
+            
+            $response = new Response();
+            $response->headers->setCookie($cookie);
+            $response->send();
             return $this->render('main/panier.html.twig');
 
-            }
+            }*/
+
+            return var_dump($panier_name);
+        }
     }
+
     public function index()
     {
         return $this->render('search/index', [
