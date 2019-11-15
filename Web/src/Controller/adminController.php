@@ -7,7 +7,8 @@ use App\Form\DelType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-//controlleur accueil et mentions légales
+
+//controlleur pour les fonctions adminitrateurs
 
 class adminController extends AbstractController
 {
@@ -293,6 +294,21 @@ class adminController extends AbstractController
 
         else{
             return $this->redirectToRoute('accueil'); 
+        }
+    }
+
+    /**
+     *@Route("/personnel_cesi", name="personnel_cesi")
+     */
+    public function cesi(Request $request)
+    {
+        $sess = $request->getSession();
+        if ($sess->get('role') == "Personnel CESI"){
+            return $this->render('main/cesi.html.twig'
+            );
+        }
+        else{
+            return $this->redirectToRoute('accueil');
         }
     }
 }
