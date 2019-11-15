@@ -304,11 +304,48 @@ class adminController extends AbstractController
     {
         $sess = $request->getSession();
         if ($sess->get('role') == "Personnel CESI"){
-            return $this->render('main/cesi.html.twig'
-            );
+            $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'localhost:3000/activities/1');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        $return = curl_exec($ch);
+        curl_close($ch);
+        $return = json_decode($return, true);
+        //return var_dump($return);
+        return $this->render('main/cesi.html.twig', [
+            'controller_name' => 'EventController',
+            'events' =>$return
+        ]);
         }
         else{
             return $this->redirectToRoute('accueil');
         }
     }
+
+    /**
+    *@Route("/activity_cesi{id}", name="activity_cesi{id}")
+    */
+    public function event_cesi_id($id, Request $request)
+    {   
+        $sess = $request->getSession();
+        if($request->isMethod('GET')){
+            $id_Activity=$id;
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'localhost:3000/activities');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            $return = curl_exec($ch);
+            curl_close($ch);
+            $return = json_decode($return, true);
+            $event=$return[$id_Activity];
+            return $this->render('main/activity_cesi.html.twig', [
+                'event' =>$event
+            ]); 
+        }
+
+        else if($request->isMethod('POST')){
+           
+        return $this->redirectToRoute('event');
+    }
+}
 }
