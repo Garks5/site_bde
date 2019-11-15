@@ -182,8 +182,14 @@ class BoutiqueController extends AbstractController
         /**
     * @Route("/panier", name="panier")
     */
-    public function panier()
+    public function panier(Request $request)
     {
-        return $this->render('main/panier.html.twig');
+        $sess = $request->getSession();
+        if ($sess->get('firstname') != NULL){
+            return $this->render('main/panier.html.twig');
+        }
+        else{
+           return $this->redirectToRoute('connect');
+        }
     }
 }
