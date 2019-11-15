@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Pictures;
 use App\Form\BoiteID;
 use App\Form\eventType;
 use App\Form\VoteType;
@@ -76,10 +77,10 @@ class EventController extends AbstractController
     */
     public function event_id($id, Request $request)
     {   
+        $files = Request::createFromGlobals();
         $sess = $request->getSession();
         $form = $this->createForm(eventType::class);
         $form2 = $this->createForm(CommentType::class);
-        $form_picture = $this->createForm(pictureType::class);
         if($request->isMethod('GET')){
             $id_Activity=$id - 1;
             $ch = curl_init();
@@ -102,8 +103,7 @@ class EventController extends AbstractController
                 'event' =>$event, 
                 'commentaire'=>$return_comm,
                 'form'=>$form->createView(),
-                'form2'=>$form2->createView(),
-                'picture'=>$form_picture->createView()
+                'form2'=>$form2->createView()
             ]); 
         }
 
@@ -114,7 +114,7 @@ class EventController extends AbstractController
                 $data['role'] = $sess->get('role');
                 $data['users_id'] = $sess->get('id');;
                 $data['activities_id'] = $id;
-                $token=$sess->get('token');;
+                $token=$sess->get('token');
                 $json_data = json_encode($data);
                 $header = array(
                     'Accept: application/json',
@@ -135,30 +135,33 @@ class EventController extends AbstractController
             }
             $form2->handleRequest($request);
             if($form2->isSubmitted()) {
-                $data2 = $form2->getData();
-                $data2['role'] = "Étudiant";
-                $data2['users_id'] = "4";
-                $data2['activities_id'] = $id;
-                $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoibHVjYXMuZHVsZXVAdmlhY2VzaS5mciIsImlkIjo0LCJqdGkiOiJkN2NmY2EzNi03ZTI4LTQ3YTAtOWYyNy02MmU2OGI0NmFlYmIiLCJpYXQiOjE1NzM3NDQzOTMsImV4cCI6MTU3Mzc0Nzk5M30.KEUxDjiPhJcs2drD9lVWqzL69ubrVpVYaWQCfbFafTo";
-                $json_data = json_encode($data2);
-                $header = array(
-                    'Accept: application/json',
-                    'Content-Type: application/json',
-                    'Authorization: Bearer ' .$token ,
-                    'Content-Length: ' . strlen($json_data)   
-                );
-               
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, 'localhost:3000/commentaries');
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
-                $return=curl_exec($ch);
-                curl_close($ch);
-                return $this->redirectToRoute('event'); 
+                    if($form2->getData()['commentary'] != null){
+                    $data2 = $form2->getData();
+                    $data2['role'] = "Étudiant";
+                    $data2['users_id'] = "4";
+                    $data2['activities_id'] = $id;
+                    $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoibHVjYXMuZHVsZXVAdmlhY2VzaS5mciIsImlkIjo0LCJqdGkiOiJkN2NmY2EzNi03ZTI4LTQ3YTAtOWYyNy02MmU2OGI0NmFlYmIiLCJpYXQiOjE1NzM3NDQzOTMsImV4cCI6MTU3Mzc0Nzk5M30.KEUxDjiPhJcs2drD9lVWqzL69ubrVpVYaWQCfbFafTo";
+                    $json_data = json_encode($data2);
+                    $header = array(
+                        'Accept: application/json',
+                        'Content-Type: application/json',
+                        'Authorization: Bearer ' .$token ,
+                        'Content-Length: ' . strlen($json_data)   
+                    );
+                
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, 'localhost:3000/commentaries');
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+                    $return=curl_exec($ch);
+                    curl_close($ch);
+                    return $this->redirectToRoute('event'); 
+                }
             }
         }
+        return $this->redirectToRoute('event');
     }
 
 
@@ -208,6 +211,43 @@ class EventController extends AbstractController
                 $return=curl_exec($ch);
                 curl_close($ch);
                 return $this->redirectToRoute('event'); 
+            }
+        }
+    }
+    /**
+    *@Route("/picture", name="picture")
+    */
+    public function picture($id, Request $request)
+    {
+        return var_dump($id);
+        $form = $this->createForm(pictureType::class);
+        if($request->isMethod('GET')){
+             return $this->render('main/ajoutPicture.html.twig', [
+                'form'=>$form->createView()
+            ]);
+        }
+
+        else if($request->isMethod('POST')){
+            $form->handleRequest($request);
+            if($form->isSubmitted()) {
+                $data = $form->getData();
+                $data = $data['picture'];
+                $uploaddir = '/Users/rodriguetaccoen/Desktop/photo/';
+                $uploadfile = $uploaddir . basename($data->getClientOriginalName());
+                if($data->isValid() && $data->getError() == null){
+                    if($data->getClientSize() < 3000000){
+                        $extension = $data->getClientOriginalExtension();
+                        $extension_authorized = array('jpg', 'jpeg', 'png', 'PNG');
+                        if(in_array($extension, $extension_authorized)){
+                            $name = uniqid('', true);
+                            $result = move_uploaded_file($data->getPathName(), $uploadfile);
+                            if($result){
+                                rename($uploadfile, $uploaddir . $name . '.' .$extension);
+                            }
+                        }
+                    }
+                }
+                return $this->render('main/event.html.twig');
             }
         }
     }

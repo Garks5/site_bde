@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}BDE CESI LILLE{% endblock %}
 {% block stylesheets %}
 <link href="event.css" rel="stylesheet" >
@@ -40,10 +39,7 @@
     </div>
 
     <div class="col-lg-4 col-sm-4 mb-4">
-        <form method="post" action="EventController.php">
-            <input type="file" name="monfichier"/></br>
-            <input type="submit" value="Envoyer votre Photo"/>
-        </form>
+        <a href="{{path('picture')}}"><input type="button" value="Ajouter photo"></a>
     </div>
                 
             
