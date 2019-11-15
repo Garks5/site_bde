@@ -37,6 +37,11 @@
               <a class="nav-link" href="{{ path('admin') }}">Administration</a>
             </li>
             {% endif %}
+            {% if app.session.get('role') == "Personnel CESI" %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ path('personnel_cesi') }}">Cesi</a>
+            </li>
+            {% endif %}
           </ul>
           {% if app.session.get('firstname') == NULL %}
           <div class="form-inline my-2 my-lg-0">

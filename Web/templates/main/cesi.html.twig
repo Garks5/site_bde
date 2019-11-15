@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BDE CESI LILLE{% endblock %}
+{% block stylesheets %}
+<link href="admin.css" rel="stylesheet" >
+<link href="inscription.css" rel="stylesheet" >
+
+{% endblock %}
+
+{% block body %}
+<h1>Bienvenue sur la page Admin</h1>
+<br>
+<a href="{{ path('personnel_cesi') }}"><button class="btn">Ajouter un évènement</button></a><br>
+
+{% endblock %}
