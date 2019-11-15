@@ -77,12 +77,12 @@ class EventController extends AbstractController
     */
     public function event_id($id, Request $request)
     {   
-        $files = Request::createFromGlobals();
         $sess = $request->getSession();
         $form = $this->createForm(eventType::class);
         $form2 = $this->createForm(CommentType::class);
         if($request->isMethod('GET')){
-            $id_Activity=$id - 1;
+            $this->setActivityId($id-1);
+            $id_Activity = $id-1;
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, 'localhost:3000/activities');
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -215,11 +215,10 @@ class EventController extends AbstractController
         }
     }
     /**
-    *@Route("/picture", name="picture")
+    *@Route("/picture{id}", name="picture{id}")
     */
-    public function picture($id, Request $request)
+    public function picture_id($id, Request $request)
     {
-        return var_dump($id);
         $form = $this->createForm(pictureType::class);
         if($request->isMethod('GET')){
              return $this->render('main/ajoutPicture.html.twig', [
@@ -243,6 +242,26 @@ class EventController extends AbstractController
                             $result = move_uploaded_file($data->getPathName(), $uploadfile);
                             if($result){
                                 rename($uploadfile, $uploaddir . $name . '.' .$extension);
+                                $token = $sess->get('token');
+                                $data_picture['users_id'] = $sess->get('id');
+                                $data_picture['actvivities_id'] = $id;
+                                $data_picture['url'] = $uploadfile;
+                                $data_picture['description'] = "duzehfuezhbfuoez";
+                                $data_json = json_encode($data_picture);
+                                $header = array(
+                                    'Accept: application/json',
+                                    'Content-Type: application/json',
+                                    'Authorization: Bearer ' .$token,
+                                    'Content-Length' . strlen($data)
+                                    );
+                                $ch = curl_init();
+                                curl_setopt($ch, CURLOPT_URL, 'localhost:3000/pictures');
+                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                                curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
+                                $return=curl_exec($ch);
+                                curl_close($ch);
                             }
                         }
                     }
