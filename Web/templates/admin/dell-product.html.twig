@@ -9,18 +9,17 @@
 <h1>Supprimer un article de la boutique</h1>
 
 {% if  articles is defined %}
-<div id="formulaire">
+<br>
+<div >
     <fieldset> 
-        {{ form_start(form) }}
-            
+        {{ form_start(form) }}   
         {{ form_label(form.id)}}
-        {{ form_widget(form.id)}}
-            
+        {{ form_widget(form.id)}}   
         {{ form_label(form.submit)}}
         {{ form_widget(form.submit)}}
       
     </fieldset>
-</div> <br>
+</div> <br><br>
 
     <div class="row article">
         {% for article in articles %}
