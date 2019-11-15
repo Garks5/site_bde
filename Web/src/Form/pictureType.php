@@ -13,7 +13,7 @@ class pictureType extends AbstractType
     {
         $builder
         //ajout d'une zone de texte qui correspondra à un fbouton qui permet d'ajouter des fichiers : FileType
-        ->add('picture', FileType::class, array('label'=> 'Ajouter une photo', 'required' => true,'attr' => array('class'=>'btn btn-primary')))  
+        ->add('picture', FileType::class, array('label'=> 'Ajouter une photo', 'required' => false,'attr' => array('class'=>'btn btn-primary')))  
         ->add('submit', SubmitType::class, array('label'=>"Valider", 'attr' => array('class'=>'btn btn-primary')))
         ;
     }

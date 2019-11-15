@@ -40,11 +40,10 @@
     </div>
 
     <div class="col-lg-4 col-sm-4 mb-4">
-        {{ form_start(picture) }}
-        {{ form_label(picture.picture)}}
-        {{ form_widget(picture.picture)}}<br><br>
-        {{ form_label(picture.submit)}}
-        {{ form_widget(picture.submit)}}
+        <form method="post" action="EventController.php">
+            <input type="file" name="monfichier"/></br>
+            <input type="submit" value="Envoyer votre Photo"/>
+        </form>
     </div>
                 
             
