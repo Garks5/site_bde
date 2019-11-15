@@ -7,5 +7,7 @@
 
 {% block body %}
 <h1>Le panier</h1>
-
+{{ app.request.cookies.get('Nom') }} <br>
+{{ app.request.cookies.get('Prix') }} <br>
+{{ app.request.cookies.get('Description') }}
 {% endblock %}
