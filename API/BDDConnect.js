@@ -30,8 +30,16 @@ module.exports.selectTri = function () {
     })
 }
 
+module.exports.selectID = function (id){
+    return table.table("boutique").findOne({
+        where: {id: id}
+    })
+}
+
+
+
 //pour réaliser un SELECT avec une condition sur le type des produits de la table products (tri par catégorie de produit)
-module.exports.selectID = function (id) {
+module.exports.selectType = function (id) {
     console.log(id)
     return table.table("boutique").findAll({
         where: { types_id: id }

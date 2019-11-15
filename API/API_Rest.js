@@ -16,7 +16,7 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 // FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
-myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/boutique/[0-9]+', '/activities', '/activities/[0-9]+', '/commentaries', '/pictures', '/topboutique', '/votes', '/orders', '/components'])
+myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/boutique/[0-9]+', '/activities', '/activities/[0-9]+', '/commentaries', '/pictures', '/topboutique', '/votes', '/orders', '/components', 'products/[0-9]+'])
       // GET
       .get(function (req, res) {
             var uri = req.path.split('/')
@@ -53,7 +53,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             } 
             //renvoie les données des produits en fonction de leur types (tri)
             else if ((uri[1] == "boutique" && uri[2] != null)) {
-                  bdd.selectID(uri[2])
+                  bdd.selectType(uri[2])
                         .then(response => {
                               for (let i = 0; i < response.length; i++) {
                                     array.push(response[i].dataValues)
@@ -62,7 +62,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                         })
             } 
             //renvoie les données pour soit les activités validées par le BDE (quand uri[1]=1) soit pour les données non validées (quand uri[1]=0)
-            else if ((uri[1] == "activities" && uri[2] != null)) {
+            else if (uri[1] == "activities" && uri[2] != null) {
                   console.log(uri[2])
                   bdd.selectAvailable(uri[2])
                         .then(response => {
@@ -72,6 +72,14 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                               res.status(200).json(array)
                         })
             } 
+
+            else if(uri[1] == "products" && uri[2] != null){
+                  bdd.selectID(uri[2])
+                        .then(response => {
+                              res.status(200).json(array)
+                        })
+            }
+
             //renvoie les données des participants d'une activité pour génération de csv 
             else if (uri[1].split('?')[0] == "activities" && req.query.hasOwnProperty('id') && req.query.download == 'true') {
                   console.log('csv')
