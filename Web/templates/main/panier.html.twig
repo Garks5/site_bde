@@ -1,17 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}BDE CESI LILLE{% endblock %}
+{% block title %}BDE CESI LILLE
+{% endblock %}
 {% block stylesheets %}
-<link href="style.css" rel="stylesheet" >
+	<link href="style.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
-<!--Affiche les éléments du panier sauvegardées en cookies-->
-<h1>Le panier</h1><br>
-<div class="panier">
-    {{ app.request.cookies.get('Nom') }} <br>
-    {{ app.request.cookies.get('Prix') }} <br>
-    {{ app.request.cookies.get('Description') }}<br>
-    <a href="{{path('valider_panier')}}">Valider le panier</a>
-</div>
+	<!--Affiche les éléments du panier sauvegardées en cookies-->
+	<h1>Le panier</h1><br>
+	<div class="panier">
+		<img src="{{ picture }}"><br>
+		{{ app.request.cookies.get('Nom') }}
+		<br>
+		{{ app.request.cookies.get('Prix') }}
+		<br>
+		{{ app.request.cookies.get('Description') }}<br>
+		<a href="{{path('valider_panier')}}">Valider le panier</a>
+	</div>
 {% endblock %}
