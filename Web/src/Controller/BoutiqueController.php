@@ -98,63 +98,67 @@ class BoutiqueController extends AbstractController
     */
     public function boutique_id($id, Request $request)
     {   
-        $form = $this->createForm(panierType::class);
-        if($request->isMethod('GET')){
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'localhost:3000/boutique');
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-            $return = curl_exec($ch);
-            curl_close($ch);
-            $return = json_decode($return, true);
-            $id=$id-1;
-            $article=$return[$id];
-            //return var_dump($article);
-            return $this->render('main/article.html.twig', [
-                'articles' =>$article,
-                'form' => $form->createView()
-                ]);
-        }
+            $form = $this->createForm(panierType::class);
+            if($request->isMethod('GET')){
 
-        if($request->isMethod('POST')){
-            $form->handleRequest($request);
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "localhost:3000/boutique");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-            $return = curl_exec($ch);
-            curl_close($ch);
-            $return = json_decode($return, true);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, 'localhost:3000/boutique');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                $return = curl_exec($ch);
+                curl_close($ch);
+                $return = json_decode($return, true);
                 $id=$id-1;
-            $article=$return[$id];
-
-            $addPanier_name = $return[$id]['name'];
-            $addPanier_price = $return[$id]['price'];
-            $addPanier_description = $return[$id]['description'];
-
-
-            $cookieGuest = array(
-                'nom_article'  => $addPanier_name,
-                'prix' => $addPanier_price,
-                'description' => $addPanier_description
-            );
-            
-            //$cookie = new Cookie($cookieGuest['nom_article'], $cookieGuest['prix'], $cookieGuest['description']);
-            //$cookie = new Cookie($cookieGuest['nom_article'], 'green', strtotime('tomorrow'), '/', 'somedomain.com', true, true);
-            //$cookie = Cookie::fromString('color = green; expires = Web, 4-May-2017 18:00:00 +0100; path=/; domain = somedomain.com; secure; httponly');
-            //$time = time() + (3600 * 24 * 7);
-            $response = new Response();
-            $response->headers->setCookie(Cookie::create('Nom', $cookieGuest['nom_article']));
-            $response->headers->setCookie(Cookie::create('Description', $cookieGuest['description']));
-            $response->headers->setCookie(Cookie::create('Prix', $cookieGuest['prix']));
-            $response->send();
-            return $this->redirectToRoute('panier');
-
+                $article=$return[$id];
+                //return var_dump($article);
+                return $this->render('main/article.html.twig', [
+                    'articles' =>$article,
+                    'form' => $form->createView()
+                    ]);
             }
 
-            return var_dump($return[$id]);
+            if($request->isMethod('POST')){
+                $form->handleRequest($request);
+                $data = $form->getData();
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "localhost:3000/boutique");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                $return = curl_exec($ch);
+                curl_close($ch);
+                $return = json_decode($return, true);
+                    $id=$id-1;
+                $article=$return[$id];
+
+                $addPanier_id = $return[$id]['id'];
+                $addPanier_quantity = $data['quantite'];
+                $addPanier_name = $return[$id]['name'];
+                $addPanier_price = $return[$id]['price'];
+                $addPanier_description = $return[$id]['description'];
+               // $addPanier_id = $return[$id]['id']
+
+
+                $cookieGuest = array(
+                    'id_article' => $addPanier_id,
+                    'quantity' => $addPanier_quantity,
+                    'nom_article'  => $addPanier_name,
+                    'prix' => $addPanier_price,
+                    'description' => $addPanier_description
+                );
+                
+                $response = new Response();
+                $response->headers->setCookie(Cookie::create('Id', $cookieGuest['id_article']));
+                $response->headers->setCookie(Cookie::create('Quantity', $cookieGuest['quantity']));
+                $response->headers->setCookie(Cookie::create('Nom', $cookieGuest['nom_article']));
+                $response->headers->setCookie(Cookie::create('Description', $cookieGuest['description']));
+                $response->headers->setCookie(Cookie::create('Prix', $cookieGuest['prix']));
+                $response->send();
+                return $this->redirectToRoute('panier');
+
+                }
+                
+                //return var_dump($return[$id]);
         }
 
     public function index()
@@ -179,7 +183,7 @@ class BoutiqueController extends AbstractController
         ]);
     }
 
-        /**
+    /**
     * @Route("/panier", name="panier")
     */
     public function panier(Request $request)
@@ -191,5 +195,46 @@ class BoutiqueController extends AbstractController
         else{
            return $this->redirectToRoute('connect');
         }
+    }
+
+    
+    /**
+    * @Route("/valider_panier", name="valider_panier")
+    */
+    public function valider_panier(Request $request)
+    {
+        $sess = $request->getSession();
+        $cookies_idArticle = $request->cookies->get('idArticle');
+        $cookies_quantityArticle = $request->cookies->get('quantityArticle');
+       
+           // $form->handleRequest($request);
+                $data['id'] = $cookies_idArticle;
+                $data['quantity'] = $cookies_quantityArticle;
+                $json_data = json_encode($data);
+                $token=$sess->get('token');
+                //préparation du header
+                $header = array(
+                    'Accept: application/json',
+                    'Content-Type: application/json',
+                    'Authorization: Bearer ' .$token ,
+                    'Content-Length: ' . strlen($json_data)   
+                );
+                //Intégrer les données dans la bdd via l'API
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, 'localhost:3000/components');
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+                    $return = curl_exec($ch);
+                    curl_close($ch);
+                    return $this->redirectToRoute('boutique'); 
+                
+                //return $this->redirectToRoute('admin'); 
+
+                return var_dump($cookies);
+            
+                                            
+            
     }
 }

@@ -9,8 +9,9 @@
 <!--Affiche les éléments du panier sauvegardées en cookies-->
 <h1>Le panier</h1><br>
 <div class="panier">
-    {{ app.request.cookies.get('Nom') }} <br><br>
-    {{ app.request.cookies.get('Prix') }} <br><br>
-    {{ app.request.cookies.get('Description') }}
+    {{ app.request.cookies.get('Nom') }} <br>
+    {{ app.request.cookies.get('Prix') }} <br>
+    {{ app.request.cookies.get('Description') }}<br>
+    <a href="{{path('valider_panier')}}">Valider le panier</a>
 </div>
 {% endblock %}
