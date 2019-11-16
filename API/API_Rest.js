@@ -159,9 +159,9 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                               })
 
                   }
-                  //pour ajouter à notre base de données une inscriptions, un vote, une photo, un commentaire, une paiment et l'objet vendu dans la boutique, un panier
-                  else if (req.headers.authorization && (table.name == "inscriptions" || table.name == "votes" || table.name == "pictures" || table.name == "commentaries" || table.name == "orders" || table.name == "components")) {
-                        console.log(req.body)
+                  //pour ajouter à notre base de données une inscriptions, un vote, une photo, un commentaire, un paiment et l'objet vendu dans la boutique, un panier
+                  else if (req.headers.authorization && (table.name == "inscriptions" || table.name == "votes" || table.name == "pictures" || table.name == "commentaries")) {
+                        console.log(req.body.role)
                         var mail = decodeToken(req.headers.authorization.split(' ')[1]).mail
                         bdd.verifUser(mail, req.body.role)
                               .then(function (response) {
@@ -171,6 +171,9 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                           res.json({ connect: "refused" })
                                     }
                               })
+                  } else if (req.headers.authorization && table.name == 'components') {
+                        var mail = decodeToken(req.headers.authorization.split(' ')[1]).mail
+                        bdd.buy(res, req.body, mail)
                   }
                   //inscription
                   else if (req.body.inscription == "true") { //inscription

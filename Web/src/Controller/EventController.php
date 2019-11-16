@@ -146,6 +146,7 @@ class EventController extends AbstractController
                     if($form2->getData()['commentary'] != null){
                     $data2 = $form2->getData();
                     $data['role']= $sess->get('role');
+                    return var_dump($data['role']);
                     $data['users_id'] = $sess->get('id');;
                     $data2['activities_id'] = $id;
                     $token=$sess->get('token');

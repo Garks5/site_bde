@@ -206,6 +206,7 @@ class BoutiqueController extends AbstractController
         $sess = $request->getSession();
         $cookies_idArticle = $request->cookies->get('idArticle');
         $cookies_quantityArticle = $request->cookies->get('quantityArticle');
+        return var_dump($cookies_quantityArticle);
        
            // $form->handleRequest($request);
                 $data['id'] = $cookies_idArticle;

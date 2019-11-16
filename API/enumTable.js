@@ -25,5 +25,7 @@ module.exports.table = function (table) {
             return tables.Components
         case "myactivities":
             return tables.Activities
+        case "components_orders":
+            return tables.Components_orders
     }
 }

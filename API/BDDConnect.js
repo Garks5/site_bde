@@ -59,6 +59,31 @@ module.exports.myActivities = function (mail, res) {
         })
 }
 
+module.exports.buy = function (res, jsonData, mail) {
+    connection.sequelize.transaction(t => {
+        table.table('components').create({ products_id: jsonData.id, quantity: jsonData.quantity })
+            .then(response => {
+                if (response) {
+                    var id_component = response.dataValues.id
+                    table.table('users').findOne({ where: { mail: mail } })
+                        .then(user => {
+                            table.table('orders').create({ users_id: response.dataValues.id, available: 1 })
+                                .then(response => {
+                                    if (response) {
+                                        var id_order = response.dataValues.id
+                                        table.table('components_orders').create({ components_id: id_component, orders_id: id_order })
+                                    }
+                                })
+                        })
+                }
+            })
+    }).then(result => {
+        res.status(200).json({ commande: "Validé" })
+    }).catch(err => {
+        res.status(400).json({ error: err })
+    })
+}
+
 //pour réaliser un SELECT avec une condition sur le type des produits de la table products (tri par catégorie de produit)
 module.exports.selectType = function (id) {
     console.log(id)
