@@ -11,6 +11,7 @@ class TypeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        //formulaire pour le tri par catégorie
         $builder
         //ajout d'une zone de text qui correspondra au mail : EmailType
         ->add('type', ChoiceType::class, array('label'=> 'Type:', 'required' => true,'choices' => ['Vêtements' => '1', 'Goodies' => '2',

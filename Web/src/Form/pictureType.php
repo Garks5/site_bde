@@ -11,6 +11,7 @@ class pictureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        //formulaire pour ajouter une images
         $builder
         //ajout d'une zone de texte qui correspondra à un fbouton qui permet d'ajouter des fichiers : FileType
         ->add('picture', FileType::class, array('label'=> 'Ajouter une photo', 'required' => false,'attr' => array('class'=>'btn btn-primary')))  

@@ -14,6 +14,9 @@
     <!--lien pour ajouter une idée d'évènements-->
     <a href="{{ path('boiteid') }}"><button class="btn btn-primary">Proposer une activité</button></a><br>
     <br>
+     <!--lien pour vous les évènements auxquels l'utilisateur est inscrit-->
+    <a href="{{ path('myEvent') }}"><button class="btn btn-primary">Mes évènements</button></a><br>
+    <br>
     <!--lien pour voir les propositions d'évènements-->
     <a href="{{ path('show_boiteid') }}"><button class="btn btn-primary">Voir les activitées proposées</button></a><br>
     {% if  events is defined %}

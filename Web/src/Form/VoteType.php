@@ -12,6 +12,7 @@ class VoteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        //formulaire pour voter pour une activité
         $builder
         //ajout d'une zone de text qui correspondra au nom : TextType
         //elle ne peut pas être vide

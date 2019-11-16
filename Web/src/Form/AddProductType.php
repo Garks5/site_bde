@@ -11,11 +11,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class AddProductType extends AbstractType
 {
+    //Formulaire d'inscription
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
         //ajout d'une zone de text qui correspondra au nom : TextType
         //elle ne peut pas être vide
+
             ->add('name', TextType::class, array('label'=> 'Nom', 'required' => true, 'attr' => array('class'=>'form-group', 'placeholder'=>'Entrez le nom ')))
             ->add('description', TextType::class, array('label'=> 'Description de l\'article', 'required' => true, 'attr' => array('class'=>'form-group ', 'placeholder'=>'Entrez la description de l\'article')))
             ->add('price', TextType::class, array('label'=> 'Prix', 'required' => true, 'attr' => array('class'=>'form-group ','placeholder'=>'Entrez le prix')))

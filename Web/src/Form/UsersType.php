@@ -16,6 +16,7 @@ class UsersType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        //formulaire d'inscription pour un  nouvel utilisateur
         $builder
         //ajout d'une zone de text qui correspondra au nom : TextType
         //elle ne peut pas être vide

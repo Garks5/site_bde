@@ -12,6 +12,7 @@ class panierType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        //formulaire du panier
         $builder
         //ajout d'une zone de text qui correspondra au nom : TextType
         //elle ne peut pas être vide

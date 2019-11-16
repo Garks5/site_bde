@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 
 class eventType extends AbstractType
-{
+{   //formulaire inscription à une activité
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder

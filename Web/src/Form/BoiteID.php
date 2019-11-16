@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class BoiteID extends AbstractType
 {
+    //formulaire pour ajouter une activité dans la boite à idée
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder

@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class ConnectType extends AbstractType
 {
+    //formualire de connexion
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder

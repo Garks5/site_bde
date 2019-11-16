@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class CommentType extends AbstractType
 {
+    //formualire pour ajouter un commentaire
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder

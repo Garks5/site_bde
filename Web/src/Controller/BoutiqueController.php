@@ -22,17 +22,17 @@ class BoutiqueController extends AbstractController
     */
     public function boutique(Request $request)
     {
+        //permet d'afficher la boutique
         $form = $this->createForm(TypeType::class);
+        //La méthode GET correspond au chargement de la page 
+        //Elle permet de renvoyer le formulaire dans la vue 
         if($request->isMethod('GET')){
             //récupere toutes les données produits envoyées par l'API
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, 'localhost:3000/boutique');
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-            
-
             $return = curl_exec($ch);
-        
             curl_close($ch);
             $return = json_decode($return, true);
 
@@ -44,11 +44,10 @@ class BoutiqueController extends AbstractController
             $topreturn = curl_exec($cht);
             curl_close($cht);
             $topreturn = json_decode($topreturn, true);
-           // return var_dump($topreturn);
             $img1=$topreturn[0]['picture'];
             $img2=$topreturn[1]['picture'];
             $img3=$topreturn[2]['picture'];
-        
+            //envoye les informations dans la vue 
             return $this->render('main/boutique.html.twig', [
                 'articles' =>$return, 
                 'form' => $form->createView(),
@@ -57,14 +56,15 @@ class BoutiqueController extends AbstractController
                 'top3'=>$img3
             ]);
         }
-
+        //La méthode POST correspond à la validation du formulaire dans la vue 
+        //Elle permet de renvoyer le formulaire dans l'API
         if($request->isMethod('POST')){
             $form->handleRequest($request);
             if($form->isSubmitted()) {
+                //afficher les produits selon leur catégorie
                 $data = $form->getData();
                 $type=$data['type'];
                 $ch = curl_init();
-
                 curl_setopt($ch, CURLOPT_URL, "localhost:3000/boutique/$type");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
@@ -72,6 +72,7 @@ class BoutiqueController extends AbstractController
                 curl_close($ch);
                 $return = json_decode($return, true);
 
+                //recupere le top 3 des articles les plus vendus envoyé par l'API
                 $cht = curl_init();
                 curl_setopt($cht, CURLOPT_URL, 'localhost:3000/topboutique');
                 curl_setopt($cht, CURLOPT_RETURNTRANSFER, true);
@@ -82,6 +83,7 @@ class BoutiqueController extends AbstractController
                 $img1=$topreturn[0]['picture'];
                 $img2=$topreturn[1]['picture'];
                 $img3=$topreturn[2]['picture'];
+                //envoye les informations dans la vue
                 return $this->render('main/boutique.html.twig', [
                     'articles' =>$return, 
                     'form' => $form->createView(),
@@ -98,10 +100,11 @@ class BoutiqueController extends AbstractController
     */
     public function boutique_id($id, Request $request)
     {   
-
+            //affiche un produit en particulier
             $form = $this->createForm(panierType::class);
+            //La méthode GET correspond au chargement de la page 
+            //Elle permet de renvoyer le formulaire dans la vue 
             if($request->isMethod('GET')){
-
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, 'localhost:3000/boutique');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -110,14 +113,15 @@ class BoutiqueController extends AbstractController
                 curl_close($ch);
                 $return = json_decode($return, true);
                 $id=$id-1;
+                //selection de l'article dont l'ID est demandé
                 $article=$return[$id];
-                //return var_dump($article);
                 return $this->render('main/article.html.twig', [
                     'articles' =>$article,
                     'form' => $form->createView()
                     ]);
             }
-
+            //La méthode POST correspond à la validation du formulaire dans la vue 
+            //Elle permet de renvoyer le formulaire dans l'API
             if($request->isMethod('POST')){
                 $form->handleRequest($request);
                 $data = $form->getData();
@@ -128,14 +132,13 @@ class BoutiqueController extends AbstractController
                 $return = curl_exec($ch);
                 curl_close($ch);
                 $return = json_decode($return, true);
-                    $id=$id-1;
+                $id=$id-1;
                 $article=$return[$id];
                 $addPanier_id = $return[$id]['id'];
                 $addPanier_quantity = $data['quantite'];
                 $addPanier_name = $return[$id]['name'];
                 $addPanier_price = $return[$id]['price'];
                 $addPanier_description = $return[$id]['description'];
-
 
                 $cookieGuest = array(
                     'id_article' => $addPanier_id,
@@ -145,7 +148,7 @@ class BoutiqueController extends AbstractController
                     'prix' => $addPanier_price,
                     'description' => $addPanier_description
                 );
-                
+                //gestion des cookies
                 $response = new Response();
                 $response->headers->setCookie(Cookie::create('Id', $cookieGuest['id_article']));
                 $response->headers->setCookie(Cookie::create('Picture', $cookieGuest['article_picture']));
@@ -158,11 +161,9 @@ class BoutiqueController extends AbstractController
                 return $this->redirectToRoute('panier');
 
                 }
-                
-                //return var_dump($return[$id]);
         }
 
-    public function index()
+   /* public function index()
     {
         return $this->render('search/index', [
             'controller_name' => 'BoutiqueController',
@@ -182,7 +183,7 @@ class BoutiqueController extends AbstractController
         return $this->render('search/searchBar.html.twig', [
             'form2' => $form2->createView()
         ]);
-    }
+    }*/
 
     /**
     * @Route("/panier", name="panier")
