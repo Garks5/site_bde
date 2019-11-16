@@ -11,6 +11,7 @@
     <div class=" boutique">
         <div class="col-lg-9 boutique">  
             <h1 class="my-4">Bienvenue sur la boutique du BDE</h1>
+            <!--Code pour afficher un carrousel-->
             <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -19,6 +20,7 @@
                 </ol>
                 <div class="carousel-inner" role="listbox"> 
                    <div class="carousel-item active">
+                       <!--"top1" est renvoyé par le controller-->
                         <img class="d-block img-fluid" src="{{top1}}" alt="First slide">
                     </div>
                     <div class="carousel-item">
@@ -28,6 +30,7 @@
                         <img class="d-block img-fluid" src="{{top3}}" alt="Third slide">
                     </div>
                 </div>
+                <!--Bouton du carrousel-->
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
@@ -39,6 +42,7 @@
             </div>
          
             <div id="formulaire">
+                <!--Bouton pour le tri en fonction de la catégorie-->
                 <fieldset> 
                     {{ form_start(form) }}
                         
@@ -56,6 +60,7 @@
             ))}}
            
             </div>-->
+            <!--Si "articles" est renvoyé par le controller, on rentre dans la condition-->
         {% if  articles is defined %}
         <div class="row article">
           {% for article in articles %}

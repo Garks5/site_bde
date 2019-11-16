@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Symfony\Component\HttpFoundation\Session\Session;
+//Controller Inscription et connexion
 
 class AddController extends AbstractController
 {
@@ -48,7 +49,6 @@ class AddController extends AbstractController
                     //Intégrer les données dans la bdd via l'API
 
                     $ch = curl_init();
-
                     curl_setopt($ch, CURLOPT_URL, 'localhost:3000/users');
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -63,6 +63,7 @@ class AddController extends AbstractController
 
                     return $this->redirectToRoute('connect'); 
                 } else {
+                    //si le mot de passe ne corespond pas à la regex
                     return $this->render('main/inscription.html.twig', [
                         'form' => $form->createView(),
                         'erreur'=>'Votre mot de passe ne respecte pas les conditions'
@@ -79,13 +80,13 @@ class AddController extends AbstractController
     {
         //Création du formulaire présent dans la classe ConnectType
         $form_connect = $this->createForm(ConnectType::class);
-        
+        //affichage de la page
         if($request->isMethod('GET')){
             return $this->render('main/connect.html.twig', [
                 'form2' => $form_connect->createView(),
             ]);
         }
-
+        //récupération des données
        if($request->isMethod('POST')){
          $form_connect->handleRequest($request);
           if($form_connect->isSubmitted() && $form_connect->isValid()) {
@@ -99,7 +100,6 @@ class AddController extends AbstractController
                //Intégrer les données dans la bdd via l'API
 
                $ch = curl_init();
-
                curl_setopt($ch, CURLOPT_URL, 'localhost:3000/users?connect=true');
                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -108,15 +108,14 @@ class AddController extends AbstractController
                    'Content-Length: ' . strlen($json_data))                                                              
                );
                curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
-
                $return = curl_exec($ch);
                curl_close($ch);
                $return = json_decode($return, true);
-
                if (isset($return['connect'])){
                 return $this->redirectToRoute('event'); 
                }
                else {
+                //récupération des données de l'utilisateur
                 $token = $return['token'];
                 $firstname=$return['firstname'];
                 $role=$return['role'];
@@ -126,11 +125,8 @@ class AddController extends AbstractController
                 $sess->set( 'token', $token);
                 $sess->set( 'role', $role);
                 $sess->set( 'id', $id);
-
-                //return var_dump($id);
                 return $this->redirectToRoute('accueil'); 
                }
-               //return $this->redirectToRoute('inscriptions');
             }
         }
     }
@@ -140,6 +136,7 @@ class AddController extends AbstractController
     */
     public function logout(Request $request)
     {
+        //fonction pour la déconnexion 
         $sess = $request->getSession();
         $sess->clear();
         return $this->redirectToRoute('accueil');

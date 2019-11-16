@@ -11,10 +11,13 @@
     <h6>Pour chaque activité, vous pouvez vous inscrire ou y laisser un commentaire.<br>
     Vous pouvez également proposer une activité qui sera poster dans la boite à idée. Vous pourez ainsi voter pour cette activité et espérer sa validation par les membres du BDE.</h6>
     <br>  
+    <!--lien pour ajouter une idée d'évènements-->
     <a href="{{ path('boiteid') }}"><button class="btn btn-primary">Proposer une activité</button></a><br>
     <br>
+    <!--lien pour voir les propositions d'évènements-->
     <a href="{{ path('show_boiteid') }}"><button class="btn btn-primary">Voir les activitées proposées</button></a><br>
     {% if  events is defined %}
+    <!--Affiche tous les évènements-->
     {% for event in events %}
     <a href="event{{event.id}}"><img class="card-img-top">
         <div class="card bg-primary col-lg-4 col-sm-4 mb-4">

@@ -13,6 +13,6 @@ body, html{
 .color{
   color:white;
 }
-  .center{
+  .center, .panier{
     text-align:center;
   }

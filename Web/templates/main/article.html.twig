@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-
+<!-- Si "articles" est renvoyé par le controller, l'artcle s'affiche, un bouton quantité et submit sont présents pour pouvoir l'ajouter au panier -->
 {% if  articles is defined %}
 
 <div class="container">
@@ -20,10 +20,8 @@
       </div>
       <div class='btn'>
         {{ form_start(form) }}
-
         {{ form_label(form.quantite)}}
         {{ form_widget(form.quantite)}}
-        
         {{ form_label(form.submit)}}
         {{ form_widget(form.submit)}}
       </div>
@@ -31,5 +29,4 @@
   </div>
 </div>
 {% endif %}
-
 {% endblock %}

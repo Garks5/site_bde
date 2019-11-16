@@ -11,8 +11,12 @@
         <h3>Proposer un événement</h3><br>
         <p class="text">Chaque évènement restera dans la boîte à idée jusqu'à sa validation par les membres du BDE.
             On ne peut ni s'inscrire, ni commenter une activité de la boite à idée. </p><br>
+       <!--Formulaire pour ajouter un évènement dans la boîte à idée-->
         {{ form_start(formEvent) }}
         <div class="form-group">
+             <!--
+                On affiche le label de la zone nom puis la zone nom
+            -->
             {{ form_label(formEvent.name)}}
             {{ form_widget(formEvent.name)}}
         </div><br>

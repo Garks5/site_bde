@@ -8,7 +8,9 @@
 {% endblock %}
 
 {% block body %}
-<h1>Bienvenue sur la page Admin</h1>
+<!--Affiche tout les évènements -->
+<h1>Bienvenue sur la page Personnel CESI</h1>
+<p>En cliquant sur évènement, vous pourrez le masquer si vous trouvez que son contenu dégrade l'image de l'école.</p>
 {% if  events is defined %}
     {% for event in events %}
     <a href="activity_cesi{{event.id}}"><img class="card-img-top">
