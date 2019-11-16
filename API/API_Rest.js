@@ -16,7 +16,7 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 // FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
-myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/boutique/[0-9]+', '/activities', '/activities/[0-9]+', '/commentaries', '/pictures', '/topboutique', '/votes', '/orders', '/components', 'products/[0-9]+'])
+myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/boutique/[0-9]+', '/activities', '/activities/[0-9]+', '/commentaries', '/pictures', '/topboutique', '/votes', '/orders', '/components', 'products/[0-9]+', '/myactivities'])
       // GET
       .get(function (req, res) {
             var uri = req.path.split('/')
@@ -40,7 +40,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                               }
                               res.status(status).json(array)
                         })
-            } 
+            }
             //renvoie les données des 3 meilleures ventes
             else if (uri[1] == "topboutique") {
                   bdd.selectTri()
@@ -50,7 +50,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                               }
                               res.status(200).json(array)
                         })
-            } 
+            }
             //renvoie les données des produits en fonction de leur types (tri)
             else if ((uri[1] == "boutique" && uri[2] != null)) {
                   bdd.selectType(uri[2])
@@ -60,7 +60,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                               }
                               res.status(200).json(array)
                         })
-            } 
+            }
             //renvoie les données pour soit les activités validées par le BDE (quand uri[1]=1) soit pour les données non validées (quand uri[1]=0)
             else if (uri[1] == "activities" && uri[2] != null) {
                   console.log(uri[2])
@@ -71,9 +71,9 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                               }
                               res.status(200).json(array)
                         })
-            } 
+            }
 
-            else if(uri[1] == "products" && uri[2] != null){
+            else if (uri[1] == "products" && uri[2] != null) {
                   bdd.selectID(uri[2])
                         .then(response => {
                               res.status(200).json(array)
@@ -96,7 +96,11 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                     }
                               })
                   }
-            } 
+            } else if (req.headers.authorization && uri[1] == 'myactivities') {
+                  token = req.headers.authorization.split(' ')[1]
+                  mail = decodeToken(token).mail
+                  bdd.myActivities(mail, res)
+            }
             //renvoie les doonées sans condition particulières || mis en commentaire car grosse faille de sécurité (possibilté d'accéder aux données de certaines tables de notre BDD)
             /*else {
                   token2 = req.headers.authorization
@@ -124,7 +128,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var table = uri[1]
             var table = enumTable.table(table)
             //connection
-            if (req.query.connect == "true") { 
+            if (req.query.connect == "true") {
                   connect(req, res)
             } else {
                   //permet d'ajouter des données aux membres du BDE
@@ -139,7 +143,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                           res.json({ connect: "refused" })
                                     }
                               })
-                  } 
+                  }
                   //permet d'ajouter une activité (non vérifiée)
                   else if (req.headers.authorization && table.name == "activities") {
                         var mail = decodeToken(req.headers.authorization.split(' ')[1]).mail
@@ -154,7 +158,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                     }
                               })
 
-                  } 
+                  }
                   //pour ajouter à notre base de données une inscriptions, un vote, une photo, un commentaire, une paiment et l'objet vendu dans la boutique, un panier
                   else if (req.headers.authorization && (table.name == "inscriptions" || table.name == "votes" || table.name == "pictures" || table.name == "commentaries" || table.name == "orders" || table.name == "components")) {
                         console.log(req.body)
@@ -167,7 +171,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                           res.json({ connect: "refused" })
                                     }
                               })
-                  } 
+                  }
                   //inscription
                   else if (req.body.inscription == "true") { //inscription
                         bdd.add(table, req.body, res)
@@ -212,7 +216,7 @@ function connect(req, res) {
                   if (user) {
                         status = 200
                         result.id = user.dataValues.id
-                        const payload = {"mail": user.dataValues.mail}
+                        const payload = { "mail": user.dataValues.mail }
                         var token = jsToken.create(payload, secret, "HS256")
                         bdd.verifRole(user.dataValues.mail)
                               .then(response => {

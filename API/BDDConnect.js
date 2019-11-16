@@ -30,13 +30,31 @@ module.exports.selectTri = function () {
     })
 }
 
-module.exports.selectID = function (id){
+module.exports.selectID = function (id) {
     return table.table("boutique").findOne({
-        where: {id: id}
+        where: { id: id }
     })
 }
 
-
+module.exports.myActivities = function (mail, res) {
+    array = []
+    table.table('users').findOne({ where: { mail: mail } })
+        .then(response => {
+            if (response) {
+                connection.sequelize.query('SELECT *  FROM `activities` INNER JOIN `inscriptions` ON `inscriptions`.`activities_id` = `activities`.`id` WHERE `inscriptions`.`users_id` =' + response.dataValues.id + ' ORDER BY `activities`.`date`')
+                    .then(activities => {
+                        if (activities) {
+                            for (let i = 0; i < activities[0].length; i++) {
+                                array.push(activities[0][i])
+                            }
+                            res.status(200).json(array)
+                        } else {
+                            res.status(400).json({ status: "400" })
+                        }
+                    })
+            }
+        })
+}
 
 //pour réaliser un SELECT avec une condition sur le type des produits de la table products (tri par catégorie de produit)
 module.exports.selectType = function (id) {
