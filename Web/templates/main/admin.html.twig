@@ -10,6 +10,8 @@
 {% block body %}
 <h1>Bienvenue sur la page Admin</h1>
 <br>
+<!--page envoyant sur 5 autres pages en fonction de l'action voulu-->
+<!--Cette page n'est visible que par les membres du BDE-->
 <a href="{{ path('add-event') }}"><button class="btn">Ajouter un évènement</button></a><br>
 <a href="{{ path('show-idea') }}"><button class="btn">Voir la boite à idée</button></a><br>
 <a href="{{ path('dell-event') }}"><button class="btn">Supprimer évènement</button></a><br>

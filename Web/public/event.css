@@ -44,13 +44,13 @@ h1 {
     background-color: white;
 }
 .picture{
-text-align:center;
+    text-align:center;
 margin:0 auto;
 border:thick double lightslategrey;
 max-width: 400px;
 }
 
-.picture_button, #title{
+.picture_button, #title, .pic{
     text-align:center;
     margin:0 auto;
 }

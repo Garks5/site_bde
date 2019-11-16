@@ -11,6 +11,7 @@
 {% if  articles is defined %}
 <br>
 <div >
+    <!--Affichage d'un bouton Integer qui permet de choisir le produit à supprimer en fonction de son identifiant-->
     <fieldset> 
         {{ form_start(form) }}   
         {{ form_label(form.id)}}
@@ -20,7 +21,7 @@
       
     </fieldset>
 </div> <br><br>
-
+<!--Affichage de tous les articles avec leur Id-->
     <div class="row article">
         {% for article in articles %}
         <div class="col-lg-4 col-sm-4 mb-4 article">

@@ -42,10 +42,10 @@
 
 <!--Affiche les images si pictures est défini dans le controller-->
     <h6 id="title"><strong>Photo:</strong></h6> 
-    <div class="col-lg-4 col-sm-4 mb-4 picture">    
+    <div class="col-lg-4 col-sm-4 mb-4 pic">    
     {% if  pictures is defined %}
         {% for picture in pictures %}
-            <img src="{{ picture.url }}" title="{{event.description}}">
+            <img class="picture" src="{{ picture.url }}" title="{{event.description}}">
         {% endfor %}
     {% endif %}   
     </div>
