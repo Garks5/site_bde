@@ -204,9 +204,8 @@ class BoutiqueController extends AbstractController
     public function valider_panier(Request $request)
     {
         $sess = $request->getSession();
-        $cookies_idArticle = $request->cookies->get('idArticle');
-        $cookies_quantityArticle = $request->cookies->get('quantityArticle');
-        return var_dump($cookies_quantityArticle);
+        $cookies_idArticle = $request->cookies->get('Id');
+        $cookies_quantityArticle = $request->cookies->get('Quantity'); 
        
            // $form->handleRequest($request);
                 $data['id'] = $cookies_idArticle;
