@@ -399,4 +399,60 @@ class adminController extends AbstractController
             }                               
         }
     }
+    /**
+     * @Route("/EventPDF", name="EventPDF")
+     */
+    public function showEventPDF(Request $request)
+    {
+        if($request->isMethod('GET'))
+        {   
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'localhost:3000/activities');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            $return = curl_exec($ch);
+            curl_close($ch);
+            $return = json_decode($return, true);
+            return $this->render('admin/EventPDF.html.twig', [
+                'controller_name' => 'adminController',
+                'events' =>$return
+            ]);
+        }
+    }
+    /**
+     * @Route("/EventPDF{id}", name="EventPDF{id}")
+     */
+    public function EventPDF_id(Request $request, $id)
+    {
+        if($request->isMethod('GET'))
+        {   
+            $sess = $request->getSession();
+            $token = $sess->get('token');
+            $header = array(
+                'Authorization: Bearer ' .$token 
+            );
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "localhost:3000/activities?id=$id&download=true");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+            $return = curl_exec($ch);
+            curl_close($ch);
+            $return = json_decode($return, true);
+
+            $path = '/Users/rodriguetaccoen/Desktop/csv/';
+            $dl_file = 'activity' . $id . 'attendees.csv';
+            $fullpath = $path . $dl_file;
+            if($fd = fopen($fullpath, 'x+')){
+                for($i = 0; $i < count($return); $i++){
+                    foreach($return[$i] as $key => $value){
+                        
+                    }
+                }
+            }
+            return $this->render('main/admin.html.twig', [
+                'controller_name' => 'adminController'
+            ]);
+        }
+    }
 }

@@ -4,7 +4,10 @@ set_time_limit(0); // disable the time limit for this script
  
 $path = "/Users/rodriguetaccoen/Desktop/photo/"; // change the path to fit your websites document structure
  
-$dl_file = preg_replace("([^\w\s\d\-_~,;:\[\]\(\).]|[\.]{2,})", '', $_GET['download_file']); // simple file name validation
+$dl_file = preg_replace("([^\w\s\d\-_~,;:\[\]\(\).]|[\.]{2,})", '', $_GET['download_file']);
+$name_table = preg_replace('(.pdf)', '', $dl_file);
+echo $name_table;
+ // simple file name validation
 $dl_file = filter_var($dl_file, FILTER_SANITIZE_URL); // Remove (more) invalid characters
 $fullPath = $path.$dl_file;
  
