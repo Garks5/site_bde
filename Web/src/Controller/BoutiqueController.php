@@ -135,12 +135,11 @@ class BoutiqueController extends AbstractController
                 $addPanier_name = $return[$id]['name'];
                 $addPanier_price = $return[$id]['price'];
                 $addPanier_description = $return[$id]['description'];
-                $picture = $return[$id]['picture'];
-                // $addPanier_id = $return[$id]['id']
 
 
                 $cookieGuest = array(
                     'id_article' => $addPanier_id,
+                    'article_picture' => $return[$id]['picture'],
                     'quantity' => $addPanier_quantity,
                     'nom_article'  => $addPanier_name,
                     'prix' => $addPanier_price,
@@ -149,14 +148,14 @@ class BoutiqueController extends AbstractController
                 
                 $response = new Response();
                 $response->headers->setCookie(Cookie::create('Id', $cookieGuest['id_article']));
+                $response->headers->setCookie(Cookie::create('Picture', $cookieGuest['article_picture']));
                 $response->headers->setCookie(Cookie::create('Quantity', $cookieGuest['quantity']));
                 $response->headers->setCookie(Cookie::create('Nom', $cookieGuest['nom_article']));
                 $response->headers->setCookie(Cookie::create('Description', $cookieGuest['description']));
                 $response->headers->setCookie(Cookie::create('Prix', $cookieGuest['prix']));
                 $response->send();
-                return $this->render('main/panier.html.twig', [
-                    'picture' => $picture
-                ]);
+
+                return $this->redirectToRoute('panier');
 
                 }
                 
