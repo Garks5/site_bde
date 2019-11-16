@@ -18,6 +18,9 @@ h3 {
     display:block;
     margin-top:2%; 
 }
+.color{
+    color:white;
+  }
 .btn {
     display:block;
     margin:0 auto;

@@ -5,49 +5,55 @@
 {% endblock %}
 
 {% block body %}
+<!-- Si "event" est renvoyé par le controller, l'évènement s'affiche, un bouton submit est présent pour pouvoir s'y inscrire -->
     {% if  event is defined %}
     <br><br>
     <div class="card bg-primary col-lg-4 col-sm-4 mb-4" > 
-        <div class="card-header">{{event.date}}, {{event.place}}
-        </div>
+        <div class="card-header">{{event.date}}, {{event.place}}</div>
         <div class="card-body">
             <h4 class="card-title">{{event.name}}</h4>
-            <p class="card-text">{{event.description}}.</p>
-            {% if  pictures is defined %}
-            {% for picture in pictures %}
-            <img src="{{ picture.url }}" title="{{event.description}}">
-            {% endfor %}
-            {% endif %}    
+            <p class="card-text">{{event.description}}.</p> 
         </div>
         {{ form_start(form) }} 
         {{ form_label(form.submit)}}
         {{ form_widget(form.submit)}}      
     </div><br>
 
+<!-- Si "commentaire" est défini dans le controller, chaque "comment" s'affiche dans les zones prévu à cet effet.-->
     <div  class="col-lg-4 col-sm-4 mb-4 commentaire">
         <h6><strong>Commentaire:</strong></h6>       
         {% if  commentaire is defined %}
-        {% for comment in commentaire %}
-        <div class="comment"><br>
-        <p class="text">{{ comment.commentary}}</p><br>
-        </div><br>
-        {% endfor %}
+            {% for comment in commentaire %}
+            <div class="comment"><br>
+                <p class="text">{{ comment.commentary}}</p><br>
+            </div><br>
+            {% endfor %}
         {% endif %}    
-    </div>   
+    </div>  
 
+<!--affichage d'un bouton pour ajouter des commentaires-->
     <div class="col-lg-4 col-sm-4 mb-4 commentaire">
-        {{ form_start(form2) }}
+        {{ form_start(form2)}}
         {{ form_label(form2.commentary)}}
         {{ form_widget(form2.commentary)}}<br><br>
         {{ form_label(form2.submit)}}
         {{ form_widget(form2.submit)}}
     </div>
 
-    <div class="col-lg-4 col-sm-4 mb-4">
-        <a href="picture{{event.id}}"><input type="button" value="Ajouter photo"></a>
+<!--Affiche les images si pictures est défini dans le controller-->
+    <h6 id="title"><strong>Photo:</strong></h6> 
+    <div class="col-lg-4 col-sm-4 mb-4 picture">    
+    {% if  pictures is defined %}
+        {% for picture in pictures %}
+            <img src="{{ picture.url }}" title="{{event.description}}">
+        {% endfor %}
+    {% endif %}   
     </div>
-                
+
+<!--Affiche un bouton qui permet d'être rediriger vers une page où on pourra ajouter des images.-->
+    <div class="col-lg-4 col-sm-4 mb-4 picture_button">
+        <a href="picture{{event.id}}"><input type="button" value="Ajouter photo"></a>
+    </div>           
             
     {% endif %}
-
 {% endblock %}

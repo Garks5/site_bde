@@ -51,7 +51,7 @@
           {% endif %}
           {% if app.session.get('firstname') != NULL %}
           <div class="form-inline my-2 my-lg-0"></div>
-          <a class="nav-link">Connecté en tant que {{ app.session.get('firstname') }}</a>
+          <a class="nav-link"><span class="color">Connecté en tant que {{ app.session.get('firstname') }}</span></a>
           <a class="nav-link" href="{{ path('logout') }}">Deconnexion</a>
           </div>
           {% endif %}
