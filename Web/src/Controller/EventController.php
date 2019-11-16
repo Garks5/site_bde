@@ -188,7 +188,6 @@ class EventController extends AbstractController
             $return = curl_exec($ch);
             curl_close($ch);
             $return = json_decode($return, true);
-            //return var_dump($return);
              return $this->render('main/show_boiteid.html.twig', [
                 'events' =>$return,
                 'form'=>$form->createView()
@@ -279,5 +278,33 @@ class EventController extends AbstractController
                 return $this->render('main/event.html.twig');
             }
         }
+    }
+    /**
+     * @Route("/myEvent", name="myEvent")
+     */
+    public function myEvent(Request $request)
+    {
+        $sess = $request->getSession();
+        $date = date('Y-m-d');
+        $token = $sess->get('token');
+        $header = array(
+            'Accept: application/json',
+            'Content-Type: application/json',
+            'Authorization: Bearer ' .$token
+            );
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'localhost:3000/myactivities');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        $return = curl_exec($ch);
+        curl_close($ch);
+        $return = json_decode($return, true);
+        $longueur = count($return);
+        return $this->render('main/myactivity.html.twig', [
+            'events' => $return,
+            'date' => $date,
+            'longueur' => $longueur
+        ]);
     }
 }

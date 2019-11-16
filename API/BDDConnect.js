@@ -41,7 +41,7 @@ module.exports.myActivities = function (mail, res) {
     table.table('users').findOne({ where: { mail: mail } })
         .then(response => {
             if (response) {
-                connection.sequelize.query('SELECT *  FROM `activities` INNER JOIN `inscriptions` ON `inscriptions`.`activities_id` = `activities`.`id` WHERE `inscriptions`.`users_id` =' + response.dataValues.id + ' ORDER BY `activities`.`date`')
+                connection.sequelize.query('SELECT *  FROM `activities` INNER JOIN `inscriptions` ON `inscriptions`.`activities_id` = `activities`.`id` WHERE `inscriptions`.`users_id` =' + response.dataValues.id + ' ORDER BY `activities`.`date` DESC')
                     .then(activities => {
                         if (activities) {
                             for (let i = 0; i < activities[0].length; i++) {

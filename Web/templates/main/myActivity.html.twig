@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BDE CESI LILLE{% endblock %}
+{% block stylesheets %}
+<link href="event.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="event">
+    {% if  events is defined %}
+    {% if longueur > 1 %}
+    <h1>Voici les évènements auxquel vous participer :</h1><br>
+    <br>
+    {% else %}
+    <h1>Voici l'évènement auquel vous participer :</h1></br>
+    {% endif %}
+    <h5>Voici vos évènements à venir :</h5></br>
+    {% set bool = true %}
+    {% for event in events %}
+    {% if event.date < date and bool %}
+    {% set bool = false %}
+    <h5 class="card-title">Voici vos évènements passés : </h5>
+    {% endif %}
+    <a href="event{{event.id}}"><img class="card-img-top">
+        <div class="card bg-primary col-lg-4 col-sm-4 mb-4">
+            <div class="card-header">{{event.date}}, {{event.place}}
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">{{event.name}}</h4>
+                <p class="card-text">{{event.description}}.</p>
+            </div>
+        </div><br>
+    </a>
+    {% endfor %}
+    {% endif %}
+    </br>
+</div>
+{% endblock %}
