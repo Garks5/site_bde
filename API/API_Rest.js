@@ -187,7 +187,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
             var table = uri[1]
             var table = enumTable.table(table)
             //pour faire passer une activité non vérifiée à une activité vérifiée (seulement pour le BDE)
-            if (req.headers.authorization && req.body.role == "BDE" && table.name == 'activities') {
+            if (req.headers.authorization && (req.body.role == "BDE" || req.body.role == "Personnel CESI") && table.name == 'activities') {
                   bdd.modify(table, req.body, res)
             }
       })
