@@ -448,7 +448,6 @@ class adminController extends AbstractController
             try{
                 $fd = fopen($fullpath, 'x+');
             }catch(E_Warning $e){
-                return var_dump('bonjour');
             }
             if($fd){
                 for($i = 0; $i < count($return)+1; $i++){
@@ -469,14 +468,14 @@ class adminController extends AbstractController
                 }
                 $fsize = filesize($fullpath);
                 $path_part = pathinfo($fullpath);
-                header("Content-type: application/csv");
-                header("Content-Disposition: attachment; filename=\"".$path_part["basename"]."\"");
-                header("Content-length: $fsize");
-                header("Cache-control: private");
-                while(!feof($fd)){
-                    $buffer = fread($fd, 2048);
-                    echo $buffer;
-                }
+                header("Content-Type: application/force-download; name=\"" . $path_part['basename'] . "\"");
+                header("Content-Transfer-Encoding: binary");
+                header("Content-Length: $fsize");
+                header("Content-Disposition: attachment; filename=\"" . $path_part['basename'] . "\"");
+                header("Expires: 0");
+                header("Cache-Control: no-cache, must-revalidate");
+                header("Pragma: no-cache");
+                readfile("csv/" . $path_part['basename']);
                 fclose($fd);
             }
             return $this->render('main/admin.html.twig', [
