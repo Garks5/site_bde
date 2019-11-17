@@ -445,9 +445,11 @@ class adminController extends AbstractController
             $fullpath = $path . $dl_file;
             $key = true;
             $array_values= array();
-            try{
+            if(file_exists($fullpath)){
+                unlink($fullpath);
                 $fd = fopen($fullpath, 'x+');
-            }catch(E_Warning $e){
+            }else{
+                $fd = fopen($fullpath, 'x+');
             }
             if($fd){
                 for($i = 0; $i < count($return)+1; $i++){
