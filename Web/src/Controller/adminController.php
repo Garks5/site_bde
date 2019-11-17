@@ -440,15 +440,44 @@ class adminController extends AbstractController
             curl_close($ch);
             $return = json_decode($return, true);
 
-            $path = '/Users/rodriguetaccoen/Desktop/csv/';
+            $path = 'csv/';
             $dl_file = 'activity' . $id . 'attendees.csv';
             $fullpath = $path . $dl_file;
-            if($fd = fopen($fullpath, 'x+')){
-                for($i = 0; $i < count($return); $i++){
-                    foreach($return[$i] as $key => $value){
-                        
+            $key = true;
+            $array_values= array();
+            try{
+                $fd = fopen($fullpath, 'x+');
+            }catch(E_Warning $e){
+                return var_dump('bonjour');
+            }
+            if($fd){
+                for($i = 0; $i < count($return)+1; $i++){
+                    if($key){
+                        foreach($return[$i] as $keys => $values){
+                            $array_keys[] = $keys; 
+                        }
+                        $key = false;
+                        fputcsv($fd, $array_keys, ';');
+                    }else{
+                        $j = 0;
+                        foreach($return[$i - 1] as $keys => $values){
+                            $array_values[$j] = $values;
+                            $j++;
+                        }
+                        fputcsv($fd, $array_values, ';');
                     }
                 }
+                $fsize = filesize($fullpath);
+                $path_part = pathinfo($fullpath);
+                header("Content-type: application/csv");
+                header("Content-Disposition: attachment; filename=\"".$path_part["basename"]."\"");
+                header("Content-length: $fsize");
+                header("Cache-control: private");
+                while(!feof($fd)){
+                    $buffer = fread($fd, 2048);
+                    echo $buffer;
+                }
+                fclose($fd);
             }
             return $this->render('main/admin.html.twig', [
                 'controller_name' => 'adminController'
