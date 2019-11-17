@@ -5,6 +5,7 @@ use App\Form\AddProductType;
 use App\Form\BoiteID;
 use App\Form\DelType;
 use App\Form\CesiType;
+use App\Form\updateType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,7 +87,7 @@ class adminController extends AbstractController
         $sess = $request->getSession();
         //vérification du rôle
         if ($sess->get('role') == "BDE"){
-            $form = $this->createForm(DelType::class);
+            $form = $this->createForm(updateType::class);
             //La méthode GET correspond au chargement de la page 
             //Elle permet de renvoyer le formulaire dans la vue 
             if($request->isMethod('GET')){
