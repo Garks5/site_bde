@@ -7,9 +7,9 @@
     "author": "Rodrigue Taccoen & Lucas Duleu",
     "license": "ISC",
     "dependencies": {
-        "body-parser": "^1.19.0",
+        "body-parser": "^1.20.1",
         "date-and-time": "^0.10.0",
-        "express": "^4.17.1",
+        "express": "^4.18.2",
         "mysql": "^2.17.1",
         "mysql2": "^2.0.0",
         "njwt": "^1.0.0",
